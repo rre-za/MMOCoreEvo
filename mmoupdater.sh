@@ -472,15 +472,15 @@ fi
 cecho "Drop current WorldDB" $green
 mysql -u $USERNAME -p$PASSWORD $TRINITY_WORLD_REALM -e "show tables" | grep -v Tables_in | grep -v "+" | gawk '{print "drop table " $1 ";"}' | mysql -u $USERNAME -p$PASSWORD $TRINITY_WORLD_REALM
 
-cecho "Install YTDB" $green
-for file in $MAIN_PATH/$DATABASE_FOLDER/YTDB/world_full/*.sql ; do
+cecho "Install TDB" $green
+for file in $MAIN_PATH/$DATABASE_FOLDER/TDB/world_full/*.sql ; do
     cecho Import "$file" $green
 	mysql -h localhost -u $USERNAME -p$PASSWORD $TRINITY_WORLD_REALM <"$file"
 done
-for file in $MAIN_PATH/$DATABASE_FOLDER/YTDB/world_updates/*.sql ; do
-    cecho Import "$file" $green
-	mysql -h localhost -u $USERNAME -p$PASSWORD $TRINITY_WORLD_REALM <"$file"
-done
+#for file in $MAIN_PATH/$DATABASE_FOLDER/YTDB/world_updates/*.sql ; do
+#    cecho Import "$file" $green
+#	mysql -h localhost -u $USERNAME -p$PASSWORD $TRINITY_WORLD_REALM <"$file"
+#done
 
 #-------------------------------------------------------------------------------------------------------#
 #				Install German GTDB		 																#
