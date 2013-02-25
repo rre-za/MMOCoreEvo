@@ -3100,3 +3100,245 @@ MultiKill.Time.Between = 15
 
 #
 ###################################################################################################################
+
+###################################################################################################################
+# Elite/Premium Accounts
+#
+#	Description: Experience rates
+#                     1 - (Rate.XP.Kill.Premium)
+#                     1 - (Rate.XP.Quest.Premium)
+#                     1 - (Rate.XP.Explore.Premium)
+#
+###################################################################################################################
+
+Rate.XP.Kill.Premium    = 1
+Rate.XP.Quest.Premium   = 1
+Rate.XP.Explore.Premium = 1
+
+#
+###################################################################################################################
+
+###################################################################################################################
+#Fake.WHO.List
+#	Add fake players to fill in WHO LIST (who is online list, "O" button) if there is less then#
+#	49 real players online (need to set online=2 in some characters to make it work)
+#	Default: 0 (disabled)
+#			 1 (enabled)
+#
+###################################################################################################################
+
+Fake.Who.List = 0
+
+###################################################################################################################
+# AllInOne custom config options
+#
+#    pryds_allinone.OnlyGMs
+#        players are not allowed to use the NPC if this is enabled
+#        Default: 0 - disable
+#                 1 - enable
+#
+#    pryds_allinone.EnableAllInOneSmallBuff
+#        An option will be added to the gossip menu to Buff Players with SmallBuff
+#        Default: 1 - enable
+#                 0 - disable
+#
+#    pryds_allinone.EnableAllInOneGreatBuff
+#        An option will be added to the gossip menu to Buff Players with GreatBuff
+#        Default: 1 - enable
+#                 0 - disable
+#
+#    pryds_allinone.EnableAllInOneGMBuff
+#        An option will be added to the gossip menu to Buff GM whit GMBuff
+#        Default: 1 - enable
+#                 0 - disable
+#
+#    pryds_allinone.EnableTrainers
+#        An option will be added to the gossip menu for Trainers
+#        Default: 1 - enable
+#                 0 - disable
+#
+#    pryds_allinone.EnableMorph
+#        An option will be added to the gossip menu for Morph, 13 Famous and 13 Funny
+#        Default: 1 - enable
+#                 0 - disable
+#
+#    pryds_allinone.EnableBots CURRENTLY UNDER DEVELOPMENT NOT USED
+#        An option will be added to the gossip menu for the bot system
+#        Default: 1 - enable
+#                 0 - disable
+#
+#    pryds_allinone.EnableAllInOnePlayerTools
+#        An option will be added to the gossip menu for Player to give heal, food, mana gem
+#        Default: 1 - enable
+#                 0 - disable
+#
+#    pryds_allinone.EnableAllInOneGivemeGold
+#        An option will be added to the gossip menu for Player to get 5000g gold
+#        Default: 0 - disable
+#                 1 - enable
+#
+#    pryds_allinone.EnableAllInOneRemoveResSickness
+#        An option will be added to the gossip menu for removing resurrect sickness
+#        Default: 1 - enable
+#                 0 - disable
+#
+#    AllInOneBuffGoldCost
+#        An option will be added to the gossip menu for Buff Cost. Make sure to change the GoldCost whit the GoldCost you wanna pay.
+#        Default: 2 - GoldCost = 20000 Copper
+#
+#    pryds_allinone.EnableAllInOneProfessions
+#        An option will be added to the gossip menu to up your Professions
+#        Default: 1 - enable
+#                 0 - disable
+#
+#    pryds_allinone.EnableAllInOneSecondarySkills
+#        An option will be added to the gossip menu to up your SecondarySkills
+#        Default: 1 - enable
+#                 0 - disable
+#
+#
+#    pryds_allinone.EnableClassTrainers
+#        An option will be added to the gossip menu to up your ClassTrainers
+#        Default: 1 - enable
+#                 0 - disable
+#
+#    pryds_allinone.EnableProfessionsTrainers
+#        An option will be added to the gossip menu to up your ProfessionsTrainers
+#        Default: 1 - enable
+#                 0 - disable
+#
+#    pryds_AllInOneSkillPoints
+#        An option will be added to the gossip menu for SkillPoints you get from npc. Make sure to change the SkillPoints with the skillpoints you wanna get.
+#        Default: 5 - SkillPoints
+#
+#    pryds_AllInOneSkillGoldCost
+#        An option will be added to the gossip menu for SkillPoints Cost. Make sure to change the GoldCost whit the GoldCost you wanna pay.
+#        Default: 2 - GoldCost = 20000 Copper
+#
+###################################################################################################################
+
+#For GMs Only?
+pryds_allinone.OnlyGMs = 0
+
+#Main Menu Can be changed while server is online
+pryds_allinone.EnableBuffs = 1
+pryds_allinone.EnableProfessionsSkillUp = 1
+pryds_allinone.EnableTrainers = 1
+pryds_allinone.EnableMorph = 1
+pryds_allinone.EnableBots = 0 #CURRENTLY UNDER DEVELOPMENT NOT USED
+pryds_allinone.EnablePlayerTools = 1
+pryds_allinone.EnableRemoveResSickness = 1
+
+#Sub Menu Can be changed while server is online
+pryds_allinone.EnableSmallBuff = 1
+pryds_allinone.EnableGreatBuff = 1
+pryds_allinone.EnableGMBuff = 1
+
+#Sub Menu Can be changed while server is online
+pryds_allinone.EnableProfessions = 1
+pryds_allinone.EnableSecondarySkills = 1
+
+#Sub Menu Can be changed while server is online
+pryds_allinone.EnableClassTrainers = 1
+pryds_allinone.EnableProfessionsTrainers = 1
+
+#Sub Menu Can be changed while server is online
+pryds_allinone.EnableGivemeGold = 1
+
+#Cost Can be changed while server is online
+pryds_AllInOneBuffGoldCost = 20000
+pryds_AllInOneSkillGoldCost = 20000
+pryds_AllInOneSkillPoints = 5
+
+###################################################################################################################
+#     LevelNPC.OnlyGMs
+#        Only for GMs
+#        Default:     0 - (Disabled)
+#                     1 - (Enabled) 
+#                      
+#     LevelNPC.EnableLevel
+#        Description: Enable the selected level(s)
+#        Default:     0
+#
+#     LevelNPC.ItemEntryNum
+#        Description: Token ID
+#        Default:     99998
+#
+#     LevelNPC.UseTokens
+#        Description: Pay LevelNPC with Tokens
+#        Default:     0
+#     LevelNPC.SkillGoldCost
+#        Description: Skillcost Price in Gold
+#        Default:     100000
+#
+###################################################################################################################
+
+LevelNPC.OnlyGMs = 0
+LevelNPC.EnableLevel80  = 1
+LevelNPC.EnableLevel100 = 0
+LevelNPC.EnableLevel150 = 0
+LevelNPC.EnableLevel200 = 0
+LevelNPC.EnableLevel255 = 0
+LevelNPC.ItemEntryNum = 99998
+LevelNPC.UseTokens = 0
+LevelNPC.SkillGoldCost = 100000
+
+###################################################################################################################
+# Enable or Disable Primary Professions
+#         default = 1 (Enabled)
+#                   = 0 (Disabled)
+# Enable or Disable Secondary Professions
+#         default = 1 (Enabled)
+#                   = 0 (Disabled)
+# Number of Skill points
+#         default = 10
+# GM Only
+#         default = 0 (Anyone can use)
+#                   = 1 (GM only)
+# Cost of skill points (in copper)
+#         default = 10000 (10 gold)
+#
+###################################################################################################################
+
+ProfessionNPC.EnableProfessions = 1
+ProfessionNPC.EnableSecondarySkills = 1
+SkillPoints = 10
+ProfessionNPC.OnlyGMs = 0
+SkillGoldCost = 10000
+
+###################################################################################################################
+#     Lottery.Enable
+#        Description: Enables or disables the Lottery NPC activity.
+#        Default:     0 - (Disabled)
+#                     1 - (Enabled)                       
+#     Lottery.BetCost
+#        Description: Cost of 1 bet in lottery (in copper).
+#        Default:     500000
+#     Lottery.MaxNumber
+#        Description: Max lottery bet number.
+#        Default:     30
+#     Lottery.MinUserLVL
+#        Description: Players with lower level can't take part in lottery.
+#        Default:     60
+#
+###################################################################################################################
+
+Lottery.Enable = 0
+Lottery.BetCost = 500000
+Lottery.MaxNumber = 30
+Lottery.MinUserLVL = 60
+
+###################################################################################################################
+# Accounts.AutoDeleteIntervalEnable
+#
+# Enable Automatic deletion for inactive accounts
+# Default: 0 - Disable
+#          1 - Enable
+#
+# Value specifies MONTHs of inactivity
+# Default value: 6
+#
+###################################################################################################################
+
+Accounts.AutoDeleteIntervalEnable = 0
+Accounts.AutoDeleteIntervalMonths = 6

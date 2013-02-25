@@ -2554,6 +2554,11 @@ class Player : public Unit, public GridObject<Player>
 
         float GetAverageItemLevel();
         bool isDebugAreaTriggers;
+		
+		//MMO Custom start
+        bool IsSpectator() const { return m_spectator; }
+        void SetSpectator(bool bSpectator);	
+		//MMO Custom end		
 
         void ClearWhisperWhiteList() { WhisperList.clear(); }
         void AddWhisperWhiteList(uint64 guid) { WhisperList.push_back(guid); }
@@ -2944,6 +2949,9 @@ class Player : public Unit, public GridObject<Player>
         InstanceTimeMap _instanceResetTimes;
         uint32 _pendingBindId;
         uint32 _pendingBindTimer;
+		//MMO Custom start
+		bool m_spectator; // sets to true when player uses '.spectate' command
+		//MMO Custom end		
 
         uint32 _activeCheats;
 };

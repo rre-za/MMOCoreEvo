@@ -544,3 +544,54 @@ RBACPermission const* AccountMgr::GetRBACPermission(uint32 permission) const
 
     return NULL;
 }
+
+void DeleteInactiveAccounts()
+{
+   // Get information from config
+   int32 autoDeleteIntervalEnable = ConfigMgr::GetIntDefault("Accounts.AutoDeleteIntervalEnable", 0);   
+   int32 autoDeleteIntervalMonths = ConfigMgr::GetIntDefault("Accounts.AutoDeleteIntervalMonths", 6);
+
+   // Hard lock - value may never be <= 0
+   if (autoDeleteIntervalMonths <= 0)
+       autoDeleteIntervalMonths = 6;
+
+	if (autoDeleteIntervalEnable == 1) {
+   // Query database
+   QueryResult result = LoginDatabase.PQuery("SELECT id, username FROM account WHERE (UNIX_TIMESTAMP() - UNIX_TIMESTAMP(last_login)) > (%u * 31 * 24 * 3600)", autoDeleteIntervalMonths);
+
+   if (result)
+   {
+       do
+       {
+           // Initialize variables
+           uint32 accountId = 0;
+           std::string accountName = "";
+
+           // Try to get values from sql query
+           if (Field *fields = result->Fetch())
+           {
+               accountId = fields[0].GetUInt32();
+               accountName = fields[1].GetString();
+           }
+
+           // In error case, continue with next row
+           if (accountId == 0 || accountName == "")
+               continue;
+
+           // Output account deletion and delete
+           sLog->outInfo(LOG_FILTER_SERVER_LOADING, "Automatic account deletion: %s (%u)", accountName.c_str(), accountId);
+           AccountMgr::DeleteAccount(accountId);
+
+       } while (result->NextRow());
+   }
+   }
+   else {
+	sLog->outInfo(LOG_FILTER_SERVER_LOADING, "Automatic account deletion is disabled");
+   }
+}
+
+uint32 VipDaysLeft(uint32 accountId)
+{
+   QueryResult result = LoginDatabase.PQuery("SELECT DATEDIFF(FROM_UNIXTIME(unsetdate), NOW()) FROM account_premium WHERE id = %u AND active = 1", accountId);
+   return (result) ? (*result)[0].GetUInt32() : 0;
+}

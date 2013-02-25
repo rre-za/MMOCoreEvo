@@ -44,7 +44,43 @@ void AddSC_npc_mmr_reset();
 void AddSC_npc_shop();
 //Load MMO Commands
 void AddSC_mmowning_commandscript();
-
+//GuildhouseNPC
+void AddSC_guildmaster();	
+//TeleNPC2
+void AddSC_npc_teleport();
+//Custom Stone
+void AddSC_item_custom_stone();
+//Item Requester
+//void AddSC_ItemRequester();
+//Profession NPC
+void AddSC_professionnpc();
+//Pryds All-in-One
+void AddSC_pryds_allinone();
+//Mini Boss
+void AddSC_npcs_mini_boss();
+//Fake Players
+void AddSC_fake_commandscript();
+//Level Rewards
+void AddSC_level_rewards();
+//EventBoss und Quest
+void AddSC_npc_legion_master();
+//EventNPCs
+void AddSC_event_npc();
+//VIP NPC
+void AddSC_npc_vip();
+//Lottery
+//void AddSC_npc_lottery();
+//Level NPC
+void AddSC_levelnpc();
+// Killstreak PvP System
+//void AddSC_PVP_System();
+//NPC Customizer
+void AddSC_npc_customize();
+//Item Summon NPC
+void AddSC_npc_item_summon();	
+//Mount rent
+void AddSC_npc_mount();	
+	
 // spells
 void AddSC_deathknight_spell_scripts();
 void AddSC_druid_spell_scripts();
@@ -1362,5 +1398,43 @@ void AddCustomScripts()
     AddSC_npc_shop();
 	//Load MMO Commands
 	AddSC_mmowning_commandscript();	
+    //GuildhouseNPC
+    AddSC_guildmaster();
+    //TeleNPC2
+    AddSC_npc_teleport();
+	//Custom Stone
+	AddSC_item_custom_stone();
+	//Item Requester
+	//AddSC_ItemRequester();
+	//Profession NPC
+	AddSC_professionnpc();
+	//Pryds All-in-One
+	AddSC_pryds_allinone();
+	//Mini Boss
+	AddSC_npcs_mini_boss();
+	//Fake Players
+	AddSC_fake_commandscript();	
+	//Level Rewards
+    AddSC_level_rewards();
+	//EventBoss und Quest
+	AddSC_npc_legion_master();	
+	//EventNPCs
+	AddSC_event_npc();	
+	//VIP NPC
+	AddSC_npc_vip();	
+	//Lottery
+	//AddSC_npc_lottery();	
+	//Level NPC
+	AddSC_levelnpc();	
+	// Killstreak PvP System
+	//AddSC_PVP_System();
+	//NPC Customizer
+	AddSC_npc_customize();		
+	//Item Summon NPC
+	AddSC_npc_item_summon();	
+    // Mount rent
+    AddSC_npc_mount();		
+	
+	
 #endif
 }

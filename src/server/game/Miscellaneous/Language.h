@@ -1163,10 +1163,28 @@ enum TrinityStrings
     LANG_BG_SA_H_GY_EAST                    = 10073, //The Horde captured the East Graveyard!
 
     // Use for custom patches             11000-11999
-    LANG_AUTO_BROADCAST                 = 11000,
-    LANG_INVALID_REALMID                = 11001,
-    LANG_BAN_CHEATER                    = 11002,
+    LANG_AUTO_BROADCAST                 	= 11000,
+    LANG_INVALID_REALMID                	= 11001,
+    LANG_BAN_CHEATER                    	= 11002,
 
+	//MMO Custom start
+    LANG_FAKE_DND                       	= 12003,	
+    LANG_LOTTERY_ANNOUNCE                   = 11005,
+    LANG_LOTTERY_ANNOUNCE_JACKPOT           = 11006,
+    LANG_LOTTERY_ANNOUNCE_JACKPOT_M_PLAYERS = 11007,	
+    VIP_CANT_DO                         	= 11778,
+    VIP_CANT_DO_2                       	= 11779,	
+	VIP_DONT_HAVE                       	= 11780,
+	VIP_COMMANDS                        	= 11781,
+	
+    LANG_SPEC_FORBID                        = 11610,
+    LANG_SPEC_NOT_ON_ARENA                  = 11611,
+    LANG_SPEC_ON_ARENA_OR_BG                = 11612,
+    LANG_SPEC_ALREADY_SPECTATOR             = 11613,
+    LANG_SPEC_DISABLED                      = 11614,
+    LANG_SPEC_CAN_NOT_CHAT                  = 11615,		
+	//MMO Custom end	
+	
     // Admin, GameMaster and Guard Announce
     LANG_SYSTEMMESSAGE_ADMINISTRATOR    = 11666,
     LANG_SYSTEMMESSAGE_GAMEMASTER       = 11667,

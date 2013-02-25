@@ -747,6 +747,9 @@ int WorldSocket::HandleAuthSession(WorldPacket& recvPacket)
     LocaleConstant locale;
     std::string account;
     SHA1Hash sha;
+	//MMO Custom start
+	bool isPremium = false;	
+	//MMO Custom end	
     uint32 clientBuild;
     uint32 unk2, unk3, unk5, unk6, unk7;
     uint64 unk4;
@@ -876,6 +879,19 @@ int WorldSocket::HandleAuthSession(WorldPacket& recvPacket)
         return -1;
     }
 
+	//MMO Custom start
+    QueryResult premresult =
+       LoginDatabase.PQuery ("SELECT 1 "
+                               "FROM account_premium "
+                               "WHERE id = '%u' "
+                               "AND active = 1",
+                               id);
+   if (premresult) // if account premium
+   {
+       isPremium = true;
+   }
+	//MMO Custom end	
+	
     // Check locked state for server
     AccountTypes allowedAccountType = sWorld->GetPlayerSecurityLimit();
     sLog->outDebug(LOG_FILTER_NETWORKIO, "Allowed Level: %u Player Level %u", allowedAccountType, AccountTypes(security));
@@ -931,7 +947,7 @@ int WorldSocket::HandleAuthSession(WorldPacket& recvPacket)
     LoginDatabase.Execute(stmt);
 
     // NOTE ATM the socket is single-threaded, have this in mind ...
-    ACE_NEW_RETURN(m_Session, WorldSession(id, this, AccountTypes(security), expansion, mutetime, locale, recruiter, isRecruiter), -1);
+    ACE_NEW_RETURN (m_Session, WorldSession (id, this, AccountTypes(security), isPremium, expansion, mutetime, locale, recruiter, isRecruiter), -1);
 
     m_Crypt.Init(&k);
 

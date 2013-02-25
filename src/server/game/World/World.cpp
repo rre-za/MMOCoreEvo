@@ -464,6 +464,11 @@ void World::LoadConfigSettings(bool reload)
     rate_values[RATE_XP_KILL]     = ConfigMgr::GetFloatDefault("Rate.XP.Kill", 1.0f);
     rate_values[RATE_XP_QUEST]    = ConfigMgr::GetFloatDefault("Rate.XP.Quest", 1.0f);
     rate_values[RATE_XP_EXPLORE]  = ConfigMgr::GetFloatDefault("Rate.XP.Explore", 1.0f);
+	//MMO Custom start
+	rate_values[RATE_XP_KILL_PREMIUM]    = ConfigMgr::GetFloatDefault("Rate.XP.Kill.Premium", 1.0f);
+	rate_values[RATE_XP_QUEST_PREMIUM]   = ConfigMgr::GetFloatDefault("Rate.XP.Quest.Premium", 1.0f);
+	rate_values[RATE_XP_EXPLORE_PREMIUM] = ConfigMgr::GetFloatDefault("Rate.XP.Explore.Premium", 1.0f);
+	//MMO Custom end	
     rate_values[RATE_REPAIRCOST]  = ConfigMgr::GetFloatDefault("Rate.RepairCost", 1.0f);
     if (rate_values[RATE_REPAIRCOST] < 0.0f)
     {
@@ -592,6 +597,11 @@ void World::LoadConfigSettings(bool reload)
     m_int_configs[CONFIG_INTERVAL_SAVE] = ConfigMgr::GetIntDefault("PlayerSaveInterval", 15 * MINUTE * IN_MILLISECONDS);
     m_int_configs[CONFIG_INTERVAL_DISCONNECT_TOLERANCE] = ConfigMgr::GetIntDefault("DisconnectToleranceInterval", 0);
     m_bool_configs[CONFIG_STATS_SAVE_ONLY_ON_LOGOUT] = ConfigMgr::GetBoolDefault("PlayerSave.Stats.SaveOnlyOnLogout", true);
+	//MMO Custom start
+	m_bool_configs[CONFIG_ALLOW_PLAYER_COMMANDS] = ConfigMgr::GetBoolDefault("AllowPlayerCommands", 1);
+	m_bool_configs[CONFIG_DUEL_RESET_COOLDOWN] = ConfigMgr::GetBoolDefault("DuelResetCooldown", false);
+	m_bool_configs[CONFIG_PREVENT_PLAYERS_ACCESS_TO_GMISLAND] = ConfigMgr::GetBoolDefault("PreventPlayersAccessToGMIsland", false);
+	//MMO Custom end
 
     m_int_configs[CONFIG_MIN_LEVEL_STAT_SAVE] = ConfigMgr::GetIntDefault("PlayerSave.Stats.MinLevel", 0);
     if (m_int_configs[CONFIG_MIN_LEVEL_STAT_SAVE] > MAX_LEVEL)
@@ -671,6 +681,24 @@ void World::LoadConfigSettings(bool reload)
     m_int_configs[CONFIG_STRICT_PLAYER_NAMES]                 = ConfigMgr::GetIntDefault ("StrictPlayerNames",  0);
     m_int_configs[CONFIG_STRICT_CHARTER_NAMES]                = ConfigMgr::GetIntDefault ("StrictCharterNames", 0);
     m_int_configs[CONFIG_STRICT_PET_NAMES]                    = ConfigMgr::GetIntDefault ("StrictPetNames",     0);
+	//MMO Custom start
+    m_bool_configs[CONFIG_FAKE_WHO_LIST]                      = ConfigMgr::GetBoolDefault("Fake.WHO.List", false);	
+    // Lottery
+    m_bool_configs[CONFIG_LOTTERY_ENABLE]           = ConfigMgr::GetBoolDefault("Lottery.Enable", false);
+    m_int_configs[CONFIG_LOTTERY_MAXNUMBER]         = ConfigMgr::GetIntDefault("Lottery.MaxNubmer", 30);
+    m_int_configs[CONFIG_LOTTERY_BETCOST]           = ConfigMgr::GetIntDefault("Lottery.BetCost", 500000);
+    m_int_configs[CONFIG_LOTTERY_MINLVL]            = ConfigMgr::GetIntDefault("Lottery.MinUserLVL", 60);
+    // LevelNPC
+	m_bool_configs[CONFIG_LEVELNPC_ONLYGMS]			=	ConfigMgr::GetBoolDefault("LevelNPC.OnlyGMs", false);
+	m_bool_configs[CONFIG_LEVELNPC_ENABLELEVEL80]	=	ConfigMgr::GetBoolDefault("LevelNPC.EnableLevel80", true);
+	m_bool_configs[CONFIG_LEVELNPC_ENABLELEVEL100]	=	ConfigMgr::GetBoolDefault("LevelNPC.EnableLevel100", true);
+	m_bool_configs[CONFIG_LEVELNPC_ENABLELEVEL150]	=	ConfigMgr::GetBoolDefault("LevelNPC.EnableLevel150", true);
+	m_bool_configs[CONFIG_LEVELNPC_ENABLELEVEL200]	=   ConfigMgr::GetBoolDefault("LevelNPC.EnableLevel200", true);
+	m_bool_configs[CONFIG_LEVELNPC_ENABLELEVEL255]	=   ConfigMgr::GetBoolDefault("LevelNPC.EnableLevel255", true);
+	m_bool_configs[CONFIG_LEVELNPC_USETOKENS]		=	ConfigMgr::GetBoolDefault("LevelNPC.UseTokens", true);
+	m_int_configs[CONFIG_LEVELNPC_ITEMENTRYNUM]		=	ConfigMgr::GetIntDefault("LevelNPC.ItemEntryNum",0);
+	m_int_configs[CONFIG_LEVELNPC_SKILLGOLDCOST]	=	ConfigMgr::GetIntDefault("LevelNPC.SkillGoldCost",0);	
+	//MMO Custom end	
 
     m_int_configs[CONFIG_MIN_PLAYER_NAME]                     = ConfigMgr::GetIntDefault ("MinPlayerName",  2);
     if (m_int_configs[CONFIG_MIN_PLAYER_NAME] < 1 || m_int_configs[CONFIG_MIN_PLAYER_NAME] > MAX_PLAYER_NAME)
@@ -1048,6 +1076,10 @@ void World::LoadConfigSettings(bool reload)
     m_int_configs[CONFIG_ARENA_PROGRESSIVE_MMR_STEPSIZE]             = ConfigMgr::GetIntDefault ("Arena.ProgressiveMMRStepSize", 50);
     m_bool_configs[CONFIG_ARENA_SEASON_IN_PROGRESS]                  = ConfigMgr::GetBoolDefault("Arena.ArenaSeason.InProgress", true);
     m_bool_configs[CONFIG_ARENA_LOG_EXTENDED_INFO]                   = ConfigMgr::GetBoolDefault("ArenaLog.ExtendedInfo", false);
+	//MMO Custom start
+	m_bool_configs[CONFIG_ARENA_SPECTATORS_ENABLE]                   = ConfigMgr::GetBoolDefault("Arena.Spectators.Enable", false);
+	m_int_configs[CONFIG_INSTANT_LOGOUT] = ConfigMgr::GetIntDefault("InstantLogout", SEC_MODERATOR);
+	//MMO Custom end	
 
     m_bool_configs[CONFIG_OFFHAND_CHECK_AT_SPELL_UNLEARN]            = ConfigMgr::GetBoolDefault("OffhandCheckAtSpellUnlearn", true);
 
@@ -1180,6 +1212,10 @@ void World::LoadConfigSettings(bool reload)
     m_int_configs[CONFIG_MIN_LOG_UPDATE] = ConfigMgr::GetIntDefault("MinRecordUpdateTimeDiff", 100);
     m_int_configs[CONFIG_NUMTHREADS] = ConfigMgr::GetIntDefault("MapUpdate.Threads", 1);
     m_int_configs[CONFIG_MAX_RESULTS_LOOKUP_COMMANDS] = ConfigMgr::GetIntDefault("Command.LookupMaxResults", 0);
+	//MMO Custom start
+    m_bool_configs[CONFIG_SHOW_MUTE_IN_WORLD] =  ConfigMgr::GetBoolDefault("ShowMuteInWorld", false);
+    m_bool_configs[CONFIG_SHOW_BAN_IN_WORLD] =  ConfigMgr::GetBoolDefault("ShowBanInWorld", false);
+	//MMO Custom end	
 
     // chat logging
     m_bool_configs[CONFIG_CHATLOG_CHANNEL] = ConfigMgr::GetBoolDefault("ChatLogs.Channel", false);
@@ -1824,6 +1860,11 @@ void World::SetInitialWorldSettings()
     sLog->outInfo(LOG_FILTER_SERVER_LOADING, "Deleting expired bans...");
     LoginDatabase.Execute("DELETE FROM ip_banned WHERE unbandate <= UNIX_TIMESTAMP() AND unbandate<>bandate");      // One-time query
 
+	//MMO Custom start
+    sLog->outInfo(LOG_FILTER_SERVER_LOADING,"Delete inactive accounts...");
+    AccountMgr::DeleteInactiveAccounts();		
+	//MMO Custom end	
+	
     sLog->outInfo(LOG_FILTER_SERVER_LOADING, "Calculate next daily quest reset time...");
     InitDailyQuestResetTime();
 

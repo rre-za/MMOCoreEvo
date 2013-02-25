@@ -22,6 +22,25 @@ set(scripts_STAT_SRCS
   Custom/npc_maniek.cpp
   Custom/npc_mmr_reset.cpp
   Custom/npc_shop.cpp
+  Custom/npc_customize.cpp      
+  Custom/npc_mount.cpp 
+  Custom/npc_item_summon.cpp      
+  Custom/dalaran_squirrel.cpp
+  Custom/resetduel.cpp  
+  #Custom/killstreak_pvp_system.cpp  
+  Custom/item_custom_stone.cpp  
+  #Custom/item_requester.cpp
+  Custom/allinone.cpp
+  Custom/professionnpc.cpp
+  #Custom/npc_lottery.cpp
+  Custom/npcs_mini_boss.cpp  
+  Custom/guildhouse_npc.cpp    
+  Custom/cs_fake.cpp  
+  Custom/level_rewards.cpp  
+  Custom/npc_legion_master.cpp
+  Custom/event_npc.cpp
+  Custom/npc_vip.cpp  
+  Custom/levelnpc.cpp    
 )
 
 message("  -> Prepared: Custom")

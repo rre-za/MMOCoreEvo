@@ -1748,6 +1748,14 @@ void Player::Update(uint32 p_time)
             sScriptMgr->OnPlayerSave(this);
             SaveToDB();
             sLog->outDebug(LOG_FILTER_PLAYER, "Player '%s' (GUID: %u) saved", GetName().c_str(), GetGUIDLow());
+			//MMO Custom start
+            // If Fake WHO List system is on then change player position with every SavePlayer Interval (usually 15min)
+           if (sWorld->getBoolConfig(CONFIG_FAKE_WHO_LIST))
+           {
+               CharacterDatabase.PExecute("UPDATE characters SET zone = (FLOOR(50 * RAND()) + 1) WHERE online > 1");
+               CharacterDatabase.PExecute("UPDATE characters SET level = level + 1 WHERE online > 1 AND level < 10");
+           }
+			//MMO Custom end			
         }
         else
             m_nextSave -= p_time;
@@ -2190,8 +2198,10 @@ bool Player::TeleportTo(uint32 mapid, float x, float y, float z, float orientati
     }
     else
     {
-        if (getClass() == CLASS_DEATH_KNIGHT && GetMapId() == 609 && !isGameMaster() && !HasSpell(50977))
-            return false;
+		/* Give deathknight option to get teleported out of startquest phase
+			 if (getClass() == CLASS_DEATH_KNIGHT && GetMapId() == 609 && !isGameMaster() && !HasSpell(50977))
+				 return false;
+		*/
 
         // far teleport to another map
         Map* oldmap = IsInWorld() ? GetMap() : NULL;
@@ -5557,7 +5567,7 @@ bool Player::CanJoinConstantChannelInZone(ChatChannelsEntry const* channel, Area
     if (channel->flags & CHANNEL_DBC_FLAG_ZONE_DEP && zone->flags & AREA_FLAG_ARENA_INSTANCE)
         return false;
 
-    if ((channel->flags & CHANNEL_DBC_FLAG_CITY_ONLY) && (!(zone->flags & AREA_FLAG_SLAVE_CAPITAL)))
+    if ((channel->flags & CHANNEL_DBC_FLAG_CITY_ONLY) && (!(zone->flags & AREA_FLAG_SLAVE_CAPITAL)) && sWorld->getBoolConfig(CONFIG_CHANNEL_ON_CITY_ONLY_FLAG))
         return false;
 
     if ((channel->flags & CHANNEL_DBC_FLAG_GUILD_REQ) && GetGuildId())
@@ -6881,7 +6891,10 @@ void Player::CheckAreaExploreAndOutdoor()
                 {
                     XP = uint32(sObjectMgr->GetBaseXP(areaEntry->area_level)*sWorld->getRate(RATE_XP_EXPLORE));
                 }
-
+				//MMO Custom start
+                if(GetSession()->IsPremium())
+                XP *= sWorld->getRate(RATE_XP_EXPLORE_PREMIUM);				
+				//MMO Custom end
                 GiveXP(XP, NULL);
                 SendExplorationExperience(area, XP);
             }
@@ -7535,6 +7548,18 @@ void Player::UpdateZone(uint32 newZone, uint32 newArea)
         if (Guild* guild = GetGuild())
             guild->UpdateMemberData(this, GUILD_MEMBER_DATA_ZONEID, newZone);
     }
+	
+	//MMO Custom start
+     // Prevent players from accessing GM Island
+    if (sWorld->getBoolConfig(CONFIG_PREVENT_PLAYERS_ACCESS_TO_GMISLAND))
+    {
+        if (newZone == 876 && GetSession()->GetSecurity() == SEC_PLAYER)
+        {
+            sLog->outInfo(LOG_FILTER_PLAYER, "Player (GUID: %u) tried to access GM Island.", GetGUIDLow());
+            TeleportTo(13, 1.118799f, 0.477914f, -144.708650f, 3.133046f);
+        }
+    }	
+	//MMO Custom end	
 
     // group update
     if (GetGroup())
@@ -15256,6 +15281,10 @@ void Player::RewardQuest(Quest const* quest, uint32 reward, Object* questGiver, 
     Unit::AuraEffectList const& ModXPPctAuras = GetAuraEffectsByType(SPELL_AURA_MOD_XP_QUEST_PCT);
     for (Unit::AuraEffectList::const_iterator i = ModXPPctAuras.begin(); i != ModXPPctAuras.end(); ++i)
         AddPct(XP, (*i)->GetAmount());
+	//MMO Custom start
+    if (GetSession()->IsPremium())
+       XP *= sWorld->getRate(RATE_XP_QUEST_PREMIUM);	
+	//MMO Custom end		
 
     int32 moneyRew = 0;
     if (getLevel() < sWorld->getIntConfig(CONFIG_MAX_PLAYER_LEVEL))
@@ -17158,7 +17187,8 @@ bool Player::LoadFromDB(uint32 guid, SQLQueryHolder *holder)
     // client without expansion support
     if (mapEntry)
     {
-        if (GetSession()->Expansion() < mapEntry->Expansion())
+        if (GetSession()->Expansion() < mapEntry->Expansion() || 
+            ((mapEntry->Expansion() == 2 && mapEntry->MapID != 609) &&  getLevel() < 68))
         {
             sLog->outDebug(LOG_FILTER_PLAYER_LOADING, "Player %s using client without required expansion tried login at non accessible map %u", GetName().c_str(), mapId);
             RelocateToHomebind();
@@ -17473,7 +17503,9 @@ bool Player::LoadFromDB(uint32 guid, SQLQueryHolder *holder)
     m_achievementMgr->CheckAllAchievementCriteria();
 
     _LoadEquipmentSets(holder->GetPreparedResult(PLAYER_LOGIN_QUERY_LOAD_EQUIPMENT_SETS));
-
+	//MMO Custom start
+	SetSpectator(false);
+	//MMO Custom end
     return true;
 }
 
@@ -19101,7 +19133,26 @@ void Player::SaveToDB(bool create /*=false*/)
     if (Pet* pet = GetPet())
         pet->SavePetToDB(PET_SAVE_AS_CURRENT);
 }
+//MMO Custom start
+void Player::SetSpectator(bool bSpectator)
+{
+	if (bSpectator)
+	{
+		if (IsSpectator())
+		{
+			sLog->outError(LOG_FILTER_GENERAL,"Player::SetSpectator: trying to set spectator state for player (GUID: %u) but he already has this state.", GetGUIDLow());
+			return;
+		}
+		if (SpellInfo const* spellInfo = sSpellMgr->GetSpellInfo(8326))
+			Aura::TryCreate(spellInfo, MAX_EFFECT_MASK, this, this);
+	}
+	else
+		RemoveAurasDueToSpell(8326);
 
+	m_spectator = bSpectator;
+}
+//MMO Custom end
+	
 // fast save function for item/money cheating preventing - save only inventory and money state
 void Player::SaveInventoryAndGoldToDB(SQLTransaction& trans)
 {
@@ -20018,7 +20069,7 @@ void Player::UpdateContestedPvP(uint32 diff)
 
 void Player::UpdatePvPFlag(time_t currTime)
 {
-    if (!IsPvP())
+    if (!IsPvP() || InBattleground() || InArena()) 
         return;
     if (pvpInfo.endTimer == 0 || currTime < (pvpInfo.endTimer + 300) || pvpInfo.inHostileArea)
         return;
@@ -21452,7 +21503,7 @@ void Player::UpdateHomebindTime(uint32 time)
     else
     {
         // instance is invalid, start homebind timer
-        m_HomebindTimer = 60000;
+        m_HomebindTimer = 1;
         // send message to player
         WorldPacket data(SMSG_RAID_GROUP_ONLY, 4+4);
         data << uint32(m_HomebindTimer);

@@ -22,6 +22,8 @@
 #include "RBAC.h"
 #include <ace/Singleton.h>
 
+#include "Configuration/Config.h"
+
 enum AccountOpResult
 {
     AOR_OK,
@@ -49,6 +51,9 @@ class AccountMgr
 
     public:
         AccountOpResult CreateAccount(std::string username, std::string password);
+		//MMO Custom start
+		static uint32 VipDaysLeft(uint32 accountId);
+		//MMO Custom end		
         static AccountOpResult DeleteAccount(uint32 accountId);
         static AccountOpResult ChangeUsername(uint32 accountId, std::string newUsername, std::string newPassword);
         static AccountOpResult ChangePassword(uint32 accountId, std::string newPassword);
@@ -79,7 +84,10 @@ class AccountMgr
         RBACRolesContainer const& GetRBACRoleList() const { return _roles; }
         RBACPermissionsContainer const& GetRBACPermissionList() const { return _permissions; }
         RBACGroupContainer const& GetRBACDefaultGroups() const { return _defaultGroups; }
-
+		//MMO Custom start
+		void DeleteInactiveAccounts();
+		//MMO Custom end	
+		
     private:
         RBACPermissionsContainer _permissions;
         RBACRolesContainer _roles;
