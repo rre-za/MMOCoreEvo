@@ -3342,3 +3342,13 @@ Lottery.MinUserLVL = 60
 
 Accounts.AutoDeleteIntervalEnable = 0
 Accounts.AutoDeleteIntervalMonths = 6
+
+###################################################################################################################
+#    Arena.Spectators.Enable
+#        Description: Arena spectators system state.
+#        Default:     0 - (Disabled)
+#                     1 - (Enabled)
+#
+###################################################################################################################
+
+Arena.Spectators.Enable = 0
