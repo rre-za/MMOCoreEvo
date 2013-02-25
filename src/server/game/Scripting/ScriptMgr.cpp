@@ -33,7 +33,7 @@
 #include "Player.h"
 #include "WorldPacket.h"
 //MMO Custom start
-#include "sc_npc_teleport.h
+#include "sc_npc_teleport.h"
 //MMO Custom end
 
 // This is the global static registry of scripts.
