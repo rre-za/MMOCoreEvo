@@ -32,6 +32,9 @@
 #include "CreatureAI.h"
 #include "Player.h"
 #include "WorldPacket.h"
+//MMO Custom start
+#include "sc_npc_teleport.h
+//MMO Custom end
 
 // This is the global static registry of scripts.
 template<class TScript>
@@ -176,6 +179,11 @@ void ScriptMgr::Initialize()
     uint32 oldMSTime = getMSTime();
 
     LoadDatabase();
+	
+	//MMO Custom start
+	// Load TeleNPC2 - maybe not the best place to load it ...
+	LoadNpcTele();
+	//MMO Custom end	
 
     sLog->outInfo(LOG_FILTER_SERVER_LOADING, "Loading C++ scripts");
 
