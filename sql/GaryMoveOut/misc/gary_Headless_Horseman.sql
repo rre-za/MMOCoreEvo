@@ -50,7 +50,8 @@ INSERT INTO `item_loot_template` (`entry`, `item`, `ChanceOrQuestChance`, `lootm
 (54516,37012,1,1,0,1,1);
 
 -- The Headless Horseman
-SET @GUID := 42662;
+
+SET @GUID := 600147;
 
 DELETE FROM `creature` WHERE `id`=23682;
 INSERT INTO `creature` (`guid`, `id`, `map`, `spawnMask`, `phaseMask`, `modelid`, `equipment_id`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `spawndist`, `currentwaypoint`, `curhealth`, `curmana`, `MovementType`, `npcflag`, `unit_flags`, `dynamicflags`) VALUES
