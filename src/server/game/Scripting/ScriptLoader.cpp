@@ -42,6 +42,8 @@ void AddSC_npc_maniek();
 void AddSC_npc_mmr_reset();
 // NPC Astranaar SHOP
 void AddSC_npc_shop();
+//Load MMO Commands
+void AddSC_mmowning_commandscript();
 
 // spells
 void AddSC_deathknight_spell_scripts();
@@ -1358,5 +1360,7 @@ void AddCustomScripts()
     AddSC_npc_mmr_reset();
     // NPC Astranaar SHOP
     AddSC_npc_shop();
+	//Load MMO Commands
+	AddSC_mmowning_commandscript();	
 #endif
 }
