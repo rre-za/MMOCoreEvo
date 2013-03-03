@@ -1863,7 +1863,7 @@ void World::SetInitialWorldSettings()
 
 	//MMO Custom start
     sLog->outInfo(LOG_FILTER_SERVER_LOADING,"Delete inactive accounts...");		
-	AccountMgr::DeleteInactiveAccounts();
+	//AccountMgr::DeleteInactiveAccounts();
 	//MMO Custom end	
 	
     sLog->outInfo(LOG_FILTER_SERVER_LOADING, "Calculate next daily quest reset time...");
