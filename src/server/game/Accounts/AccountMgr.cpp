@@ -545,7 +545,7 @@ RBACPermission const* AccountMgr::GetRBACPermission(uint32 permission) const
     return NULL;
 }
 
-void DeleteInactiveAccounts()
+void AccountMgr::DeleteInactiveAccounts()
 {
    // Get information from config
    int32 autoDeleteIntervalEnable = ConfigMgr::GetIntDefault("Accounts.AutoDeleteIntervalEnable", 0);   
@@ -590,7 +590,7 @@ void DeleteInactiveAccounts()
    }
 }
 
-uint32 VipDaysLeft(uint32 accountId)
+uint32 AccountMgr::VipDaysLeft(uint32 accountId)
 {
    QueryResult result = LoginDatabase.PQuery("SELECT DATEDIFF(FROM_UNIXTIME(unsetdate), NOW()) FROM account_premium WHERE id = %u AND active = 1", accountId);
    return (result) ? (*result)[0].GetUInt32() : 0;
