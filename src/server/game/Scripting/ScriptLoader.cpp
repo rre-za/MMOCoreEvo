@@ -44,6 +44,8 @@ void AddSC_npc_mmr_reset();
 void AddSC_npc_shop();
 //Load MMO Commands
 void AddSC_mmowning_commandscript();
+//Load MMO Elite Commands
+void AddSC_vip_commandscript();
 //GuildhouseNPC
 void AddSC_guildmaster();	
 //TeleNPC2
@@ -1398,6 +1400,8 @@ void AddCustomScripts()
     AddSC_npc_shop();
 	//Load MMO Commands
 	AddSC_mmowning_commandscript();	
+	//Load MMO Elite Commands
+	AddSC_vip_commandscript();	
     //GuildhouseNPC
     AddSC_guildmaster();
     //TeleNPC2
