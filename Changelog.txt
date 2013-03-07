@@ -11,6 +11,9 @@
 #                                                                                          #
 ############################################################################################
 
+[146] --> Fix duel reset cd and Bladestorm. (By iconskater) 
+[145] --> Fix Sindragosa. (By Elron103) 
+[144] --> Fix MMaps boss sindragosa and more... (Info #9083).
 [143] --> Fix crash StopCastingCharm (TEST #9293). 
 [142] --> Revert 'Fix Gargoyle haste (TEST).'
 [141] --> Small correction arena logs.
