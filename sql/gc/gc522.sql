@@ -1306,9 +1306,9 @@ UPDATE `gameobject_template` SET `ScriptName` = 'go_sw_portal' WHERE `entry` = 1
 UPDATE `gameobject` SET `phaseMask` = 384 WHERE `id` IN (193052, 193053);
 
 -- Removes Master's Call stun immunity. (author garyfisher)
-DELETE FROM `spell_linked_spell` WHERE `spell_trigger` = 54216;
-INSERT INTO `spell_linked_spell`(`spell_trigger`, `spell_effect`, `type`, `comment`) VALUES
-(54216, -56651, 1, 'Removes Master\'s Call stun immunity');
+-- DELETE FROM `spell_linked_spell` WHERE `spell_trigger` = 54216;
+-- INSERT INTO `spell_linked_spell`(`spell_trigger`, `spell_effect`, `type`, `comment`) VALUES
+-- (54216, -56651, 1, 'Removes Master\'s Call stun immunity');
 
 -- Book "Soothsaying for Dummies" script
 UPDATE `gameobject_template` SET `ScriptName`='go_soothsaying_for_dummies' WHERE `entry`=177226;

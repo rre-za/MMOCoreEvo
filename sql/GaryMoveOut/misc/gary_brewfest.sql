@@ -484,7 +484,7 @@ INSERT INTO `smart_scripts` (`entryorguid`,`source_type`,`id`,`link`,`event_type
 (-88955,0,5,0,52,1,100,0,1,@ENTRY,0,0,50,186471,15000,0,0,0,0,8,0,0,0,1216.599976,-4284.270020,21.290300,3.787360,"Gordok Brew Barker - On Text Over - Summon Super Brew Stein Trap (P1)"),
 (-88955,0,6,0,38,0,100,0,4,4,0,0,22,0,0,0,0,0,0,1,0,0,0,0,0,0,0,"Gordok Brew Barker - On Data Set - Set Phase 0"); -- Event is over, so set phase 0
 -- Text
-DELETE FROM `script_texts` WHERE `entry` BETWEEN -717 AND -719; -- Old entries used in EAI
+-- DELETE FROM `script_texts` WHERE `entry` BETWEEN -717 AND -719; -- Old entries used in EAI
 DELETE FROM `creature_text` WHERE `entry`=@ENTRY;
 INSERT INTO `creature_text` (`entry`,`groupid`,`id`,`text`,`type`,`language`,`probability`,`emote`,`duration`,`sound`,`comment`) VALUES
 (@ENTRY,0,0,"YOU TRY DA' BEST, NOW TRY DA' REST! OGRE BREW!",14,0,100,0,0,0,"Gordok Brew Barker"),
