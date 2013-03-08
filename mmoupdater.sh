@@ -204,6 +204,7 @@ KILL_RUNNING_WORLDSERVER=`ini_get_value MAIN PASSWORD`
 RESTART_SERVER_AFTER_COMPILE=`ini_get_value MAIN RESTART_SERVER_AFTER_COMPILE`
 DATABASE=`ini_get_value MAIN DATABASE`
 INCLUDE_TESTSERVER_SQL=`ini_get_value MAIN INCLUDE_TESTSERVER_SQL`
+INCLUDE_TRINITYCORE_UPDATE_SQL=`ini_get_value MAIN INCLUDE_TRINITYCORE_UPDATE_SQL`
 
 URL_GIT_CORE=`ini_get_value MAIN URL_GIT_CORE`
 URL_GIT_DATABASE=`ini_get_value MAIN URL_GIT_DATABASE`
@@ -515,6 +516,18 @@ do
 		done
 	fi
 done
+
+#-------------------------------------------------------------------------------------------------------#
+#				Import TrinityCore Updates																	#
+#-------------------------------------------------------------------------------------------------------#
+cecho "Import TrinityCore Updates" $green
+if [ "$INCLUDE_TRINITYCORE_UPDATE_SQL" = "1" ]; then
+cecho "Import TrinityCore Updates" $red
+	for file in $MAIN_PATH/$CORE_FOLDER/sql/updates/world/*.sql ; do
+		cecho Import "$file" $green
+		mysql -h localhost -u $USERNAME -p$PASSWORD $TRINITY_WORLD_REALM <"$file"
+	done
+fi
 
 #-------------------------------------------------------------------------------------------------------#
 #				Import Testserver only SQLs																#
