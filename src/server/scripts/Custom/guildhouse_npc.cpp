@@ -85,8 +85,9 @@ void teleportPlayerToGuildHouse(Player *player, Creature *_creature)
  if (player->GetGuildId() == 0)
  {
  //if player has no guild
- _creature->MonsterWhisper(MSG_NOTINGUILD, player->GetGUID());
- sprintf(str,"I am sorry %u but you must be in a guild!", player->GetName());
+ //_creature->MonsterWhisper(MSG_NOTINGUILD, player->GetGUID());
+ //sprintf(str,"I am sorry %u but you must be in a guild!", player->GetName());
+ _creature->MonsterWhisper("I am sorry %u but you must be in a guild!", player->GetGUID());
  return;
  }
 
@@ -185,10 +186,11 @@ bool isPlayerHasGuildhouse(Player *player, Creature *_creature, bool whisper = f
  if (whisper)
  {
  //whisper to player "already have etc..."
- Field *fields = result->Fetch();
- char msg[100];
- sprintf(msg, MSG_ALREADYHAVEGH, fields[0].GetString());
- _creature->MonsterWhisper(msg, player->GetGUID());
+ //Field *fields = result->Fetch();
+ //char msg[100];
+ //sprintf(msg, MSG_ALREADYHAVEGH, fields[0].GetString());
+ //_creature->MonsterWhisper(msg, player->GetGUID());
+ _creature->MonsterWhisper("I am sorry %u you already have a GuildHouse!", player->GetGUID());
  }
 
 
@@ -204,9 +206,10 @@ void buyGuildhouse(Player *player, Creature *_creature, uint32 guildhouseId)
  if (player->GetMoney() < COST_GH_BUY)
  {
  //show how much money player need to buy GH (in gold)
- char msg[100];
- sprintf(msg, MSG_NOTENOUGHMONEY, COST_GH_BUY / 10000);
- _creature->MonsterWhisper(msg, player->GetGUID());
+ //char msg[100];
+ //sprintf(msg, MSG_NOTENOUGHMONEY, COST_GH_BUY / 10000);
+ //_creature->MonsterWhisper(msg, player->GetGUID());
+ _creature->MonsterWhisper("I am sorry %u you have not enough gold!", player->GetGUID());
  return;
  }
 
