@@ -379,7 +379,8 @@ void WorldSession::HandleWhoOpcode(WorldPacket& recvData)
                uint8 gender = fields[6].GetUInt8();          // player gender
 
                // player can see member of other team only if CONFIG_ALLOW_TWO_SIDE_WHO_LIST
-               if (AccountMgr::IsPlayerAccount(security) && (Player::TeamForRace(uint8(race)) != team && !allowTwoSideWhoList))
+               //if (AccountMgr::IsPlayerAccount(security) && (Player::TeamForRace(uint8(race)) != team && !allowTwoSideWhoList))
+			   if (Player::TeamForRace(uint8(race)) != team && !allowTwoSideWhoList)
                    continue;
 
                if (displaycount < 49)
