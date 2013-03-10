@@ -379,7 +379,7 @@ void WorldSession::HandleWhoOpcode(WorldPacket& recvData)
 
                // player can see member of other team only if CONFIG_ALLOW_TWO_SIDE_WHO_LIST
                //if (AccountMgr::IsPlayerAccount(security) && (Player::TeamForRace(uint8(race)) != team && !allowTwoSideWhoList))
-			   if (Player::TeamForRace(uint8(race)) != team && !allowTwoSideWhoList)
+			   if (Player::TeamForRace(uint8(race)) != team && !HasPermission(RBAC_PERM_TWO_SIDE_WHO_LIST))
                    continue;
 
                if (displaycount < 49)
