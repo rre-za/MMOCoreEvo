@@ -23,9 +23,9 @@ INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
 (31789, 'spell_pal_righteous_defense');
 
 -- Raise dead scriptname
-DELETE FROM `spell_script_names` WHERE `spell_id`=46584;
-INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
-(46584, 'spell_dk_raise_dead');
+-- DELETE FROM `spell_script_names` WHERE `spell_id`=46584;
+-- INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
+-- (46584, 'spell_dk_raise_dead');
 
 -- making the Four Horsemen chest lootable
 UPDATE `gameobject_template` SET `flags`=`flags` &~16 WHERE `entry`=193426;
