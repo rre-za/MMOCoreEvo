@@ -468,6 +468,8 @@ void World::LoadConfigSettings(bool reload)
 	rate_values[RATE_XP_KILL_PREMIUM]    = ConfigMgr::GetFloatDefault("Rate.XP.Kill.Premium", 1.0f);
 	rate_values[RATE_XP_QUEST_PREMIUM]   = ConfigMgr::GetFloatDefault("Rate.XP.Quest.Premium", 1.0f);
 	rate_values[RATE_XP_EXPLORE_PREMIUM] = ConfigMgr::GetFloatDefault("Rate.XP.Explore.Premium", 1.0f);
+	rate_values[RATE_XP_WEEKEND] = ConfigMgr::GetFloatDefault("Rate.XP.Weekend", 1.5f);
+	m_int_configs[CONFIG_RATE_XP_WEEKEND_EVID] = ConfigMgr::GetIntDefault("Rate.XP.Weekend.EVID", 65);	
 	//MMO Custom end	
     rate_values[RATE_REPAIRCOST]  = ConfigMgr::GetFloatDefault("Rate.RepairCost", 1.0f);
     if (rate_values[RATE_REPAIRCOST] < 0.0f)

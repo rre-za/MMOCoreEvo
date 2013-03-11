@@ -3275,3 +3275,15 @@ Accounts.AutoDeleteIntervalMonths = 6
 ###################################################################################################################
 
 Arena.Spectators.Enable = 0
+
+###################################################################################################################
+#    Rate.XP.Weekend.EVID
+#        Description: Experience rates. Weekend rate actives every Saturday and Sunday.
+#  					  Weekend.EVID is the EVENT ID in the `game_events` table to use.
+#        Default:     1.5 - (Rate.XP.Weekend)
+#                     65 - (Rate.XP.Weekend.EVID)
+#
+###################################################################################################################
+
+Rate.XP.Weekend = 1.5
+Rate.XP.Weekend.EVID = 65
