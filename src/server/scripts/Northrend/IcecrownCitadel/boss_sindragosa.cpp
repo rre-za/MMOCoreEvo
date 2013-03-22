@@ -284,7 +284,7 @@ class boss_sindragosa : public CreatureScript
                     Talk(SAY_KILL);
             }
 
-            void DoAction(int32 const action)
+            void DoAction(int32 action)
             {
                 if (action == ACTION_START_FROSTWYRM)
                 {
@@ -311,7 +311,7 @@ class boss_sindragosa : public CreatureScript
                 }
             }
 
-            uint32 GetData(uint32 type)
+            uint32 GetData(uint32 type) const
             {
                 if (type == DATA_MYSTIC_BUFFET_STACK)
                     return _mysticBuffetStack;
@@ -349,7 +349,7 @@ class boss_sindragosa : public CreatureScript
                         events.ScheduleEvent(EVENT_AIR_MOVEMENT, 1);
                         break;
                     case POINT_AIR_PHASE:
-                        me->CastCustomSpell(SPELL_ICE_TOMB_TARGET, SPELLVALUE_MAX_TARGETS, RAID_MODE<int32>(2, 5, 2, 6), NULL);
+                        me->CastCustomSpell(SPELL_ICE_TOMB_TARGET, SPELLVALUE_MAX_TARGETS, RAID_MODE<int32>(2, 5, 2, 6), false);
                         me->SetFacingTo(float(M_PI));
                         events.ScheduleEvent(EVENT_AIR_MOVEMENT_FAR, 1);
                         _frostBombCounter = 0;
@@ -480,7 +480,7 @@ class boss_sindragosa : public CreatureScript
                 }
             }
 
-            void UpdateAI(uint32 const diff)
+            void UpdateAI(uint32 diff)
             {
                 if (!UpdateVictim() || !CheckInRoom())
                     return;
@@ -794,14 +794,6 @@ class npc_spinestalker : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* /*victim*/)
-            {
-                // Close this door when Rimefang or Spinestalker get infight
-                // Server crashes can be ignored in this case, since teleporter to Sindragosa is active
-                if (GameObject* sindragosaDoor = _instance->instance->GetGameObject(_instance->GetData64(GO_SINDRAGOSA_ENTRANCE_DOOR)))
-                    _instance->HandleGameObject(_instance->GetData64(GO_SINDRAGOSA_ENTRANCE_DOOR), false, sindragosaDoor);
-            }
-
             void JustRespawned()
             {
                 ScriptedAI::JustRespawned();
@@ -813,7 +805,7 @@ class npc_spinestalker : public CreatureScript
                 _events.Reset();
             }
 
-            void DoAction(int32 const action)
+            void DoAction(int32 action)
             {
                 if (action == ACTION_START_FROSTWYRM)
                 {
@@ -850,7 +842,7 @@ class npc_spinestalker : public CreatureScript
                 me->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
             }
 
-            void UpdateAI(uint32 const diff)
+            void UpdateAI(uint32 diff)
             {
                 if (!UpdateVictim())
                     return;
@@ -945,7 +937,7 @@ class npc_rimefang : public CreatureScript
                 _events.Reset();
             }
 
-            void DoAction(int32 const action)
+            void DoAction(int32 action)
             {
                 if (action == ACTION_START_FROSTWYRM)
                 {
@@ -985,14 +977,9 @@ class npc_rimefang : public CreatureScript
             void EnterCombat(Unit* /*victim*/)
             {
                 DoCast(me, SPELL_FROST_AURA_RIMEFANG, true);
-
-                // Close this door when Rimefang or Spinestalker get infight
-                // Server crashes can be ignored in this case, since teleporter to Sindragosa is active
-                if (GameObject* sindragosaDoor = _instance->instance->GetGameObject(_instance->GetData64(GO_SINDRAGOSA_ENTRANCE_DOOR)))
-                    _instance->HandleGameObject(_instance->GetData64(GO_SINDRAGOSA_ENTRANCE_DOOR), false, sindragosaDoor);
             }
 
-            void UpdateAI(uint32 const diff)
+            void UpdateAI(uint32 diff)
             {
                 if (!UpdateVictim())
                     return;
@@ -1111,7 +1098,7 @@ class npc_sindragosa_trash : public CreatureScript
                     _isTaunted = data != 0;
             }
 
-            uint32 GetData(uint32 type)
+            uint32 GetData(uint32 type) const
             {
                 if (type == DATA_FROSTWYRM_OWNER)
                     return _frostwyrmId;
@@ -1120,7 +1107,7 @@ class npc_sindragosa_trash : public CreatureScript
                 return 0;
             }
 
-            void UpdateAI(uint32 const diff)
+            void UpdateAI(uint32 diff)
             {
                 if (!UpdateVictim())
                     return;
@@ -1460,7 +1447,7 @@ class spell_sindragosa_ice_tomb : public SpellScriptLoader
                 float distance = caster->GetExactDist2d(unit) - 6.0f;
                 float summonX = caster->GetPositionX() + cos(angle) * distance;
                 float summonY = caster->GetPositionY() + sin(angle) * distance;
-                float summonZ = unit->GetPositionZ() + 1.0f;
+                float summonZ = unit->GetPositionZ() + 3.0f;
 
                 unit->UpdateGroundPositionZ(summonX, summonY, summonZ);
 
