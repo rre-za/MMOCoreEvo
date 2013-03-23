@@ -48,6 +48,10 @@
 #include "WorldSession.h"
 
 
+//bot
+#include "Config.h"
+#include "bp_mgr.h"
+
 class LoginQueryHolder : public SQLQueryHolder
 {
     private:
@@ -788,6 +792,78 @@ void WorldSession::HandlePlayerLoginOpcode(WorldPacket& recvData)
     _charLoginCallback = CharacterDatabase.DelayQueryHolder((SQLQueryHolder*)holder);
 }
 
+// Playerbot mod. Can't easily reuse HandlePlayerLoginOpcode for logging in bots because it assumes
+// a WorldSession exists for the bot. The WorldSession for a bot is created after the character is loaded.
+void PlayerbotMgr::AddPlayerBot(uint64 playerGuid)
+{
+    if (sObjectAccessor->FindPlayer(playerGuid))
+        return;
+
+    uint32 accountId = sObjectMgr->GetPlayerAccountIdByGUID(playerGuid);
+    if (accountId == 0)
+        return;
+
+    if (Group* group = m_master->GetGroup())
+    {
+        Player* leader = sObjectAccessor->FindPlayer(group->GetLeaderGUID());
+        bool isLeader = (leader == m_master || group->IsLeader(m_master->GetGUID()));
+        bool isFriend = (leader && leader->GetSocial()->HasFriend(m_master->GetGUID()));
+        if (!isLeader && !isFriend)
+        {
+            ChatHandler ch(m_master->GetSession());
+            ch.PSendSysMessage("Only group leader and his friends can summon playerbots");
+            return;
+        }
+    }
+
+    LoginQueryHolder* holder = new LoginQueryHolder(accountId, playerGuid);
+    if (!holder->Initialize())
+    {
+        delete holder;                                      // delete all unprocessed queries
+        return;
+    }
+
+    WorldSession* mSession = m_master->GetSession();
+    if (!mSession)
+    {
+        delete holder;
+        return;
+    }
+
+    mSession->_botLoginCallbackSet.push_back(CharacterDatabase.DelayQueryHolder(holder));
+
+    std::string name;
+    sObjectMgr->GetPlayerNameByGUID(playerGuid, name);
+    ChatHandler(m_master->GetSession()).PSendSysMessage("Bot %s added successfully.", name.c_str());
+}
+
+void WorldSession::HandlePlayerBotLogin(LoginQueryHolder* holder)
+{
+    WorldSession* mSession = sWorld->FindSession(holder->GetAccountId());
+    if (!mSession)
+    {
+        //sLog->outError(LOG_FILTER_PLAYER, "Failed to create bot. Session if not found!");
+        delete holder;
+        return;
+    }
+    Player* master = mSession->GetPlayer();
+    if (!master)
+    {
+        //sLog->outError(LOG_FILTER_PLAYER, "Failed to create bot. Master if not found!");
+        delete holder;
+        return;
+    }
+    //sLog->outError(LOG_FILTER_PLAYER, "Creating bot for %s...", master->GetName().c_str());
+    // The bot's WorldSession is owned by the bot's Player object
+    // The bot's WorldSession is deleted by PlayerbotMgr::LogoutPlayerBot
+    WorldSession* botSession = new WorldSession(holder->GetAccountId(), NULL, mSession->GetSecurity(), mSession->Expansion(), 0, mSession->GetSessionDbcLocale(), 0, false);
+    //botSession->SetRemoteAddress("bot");
+    botSession->m_master = master;
+    botSession->m_Address = "bot";
+    botSession->HandlePlayerLogin(holder); // will delete holder
+    master->GetPlayerbotMgr()->OnBotLogin(botSession->GetPlayer());
+}
+
 void WorldSession::HandlePlayerLogin(LoginQueryHolder* holder)
 {
     uint64 playerGuid = holder->GetGuid();
@@ -1027,6 +1103,28 @@ void WorldSession::HandlePlayerLogin(LoginQueryHolder* holder)
         pCurrChar->SetStandState(UNIT_STAND_STATE_STAND);
 
     m_playerLoading = false;
+
+    //the only place where we check if it has NPC bots
+    if (ConfigMgr::GetBoolDefault("Bot.EnableNpcBots", true))
+    {
+        if (QueryResult result = CharacterDatabase.PQuery("SELECT entry,race,class,istank FROM `character_npcbot` WHERE `owner` = '%u'", pCurrChar->GetGUIDLow()))
+        {
+            uint32 m_bot_entry = 0;
+            uint8 m_bot_race = 0;
+            uint8 m_bot_class = 0;
+            uint8 Tank = 0;
+            do
+            {
+                Field* fields = result->Fetch();
+                m_bot_entry = fields[0].GetUInt32();
+                m_bot_race = fields[1].GetUInt8();
+                m_bot_class = fields[2].GetInt8();
+                Tank = fields[3].GetInt8();
+                if (m_bot_entry && m_bot_race && m_bot_class)
+                    pCurrChar->SetBotMustBeCreated(m_bot_entry, m_bot_race, m_bot_class, bool(Tank));
+            } while (result->NextRow());
+        }
+    }
 
     sScriptMgr->OnPlayerLogin(pCurrChar);
     delete holder;

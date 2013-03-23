@@ -40,6 +40,9 @@
 #include "ScriptMgr.h"
 #include "AccountMgr.h"
 
+//Playerbot
+#include "bp_ai.h"
+
 void WorldSession::HandleMessagechatOpcode(WorldPacket& recvData)
 {
     uint32 type;
@@ -314,6 +317,16 @@ void WorldSession::HandleMessagechatOpcode(WorldPacket& recvData)
                 (HasPermission(RBAC_PERM_CAN_FILTER_WHISPERS) && !sender->isAcceptWhispers() && !sender->IsInWhisperWhiteList(receiver->GetGUID())))
                 sender->AddWhisperWhiteList(receiver->GetGUID());
 
+            // Playerbot mod: handle whispered command to bot
+            if (receiver->IsPlayerBot())
+            {
+                if (lang != LANG_ADDON)
+                    receiver->GetPlayerbotAI()->HandleCommand(msg, *GetPlayer());
+                GetPlayer()->m_speakTime = 0;
+                GetPlayer()->m_speakCount = 0;
+            }
+            else
+            // End Playerbot mod
             GetPlayer()->Whisper(msg, lang, receiver->GetGUID());
         } break;
         case CHAT_MSG_PARTY:
@@ -332,6 +345,23 @@ void WorldSession::HandleMessagechatOpcode(WorldPacket& recvData)
                 return;
 
             sScriptMgr->OnPlayerChat(GetPlayer(), type, lang, msg, group);
+
+            // Playerbot mod: broadcast message to bot members
+            for (GroupReference* itr = group->GetFirstMember(); itr != NULL; itr = itr->next())
+            {
+                Player* player = itr->getSource();
+                if (player && player->IsPlayerBot() &&
+                    ((msg.find("help",0) != std::string::npos)
+                    || (msg.find("gm",0) != std::string::npos)
+                    || (msg.find("complete",0) != std::string::npos)))
+                {
+                    player->GetPlayerbotAI()->HandleCommand(msg, *GetPlayer());
+                    GetPlayer()->m_speakTime = 0;
+                    GetPlayer()->m_speakCount = 0;
+                    break;
+                }
+            }
+            // END Playerbot mod
 
             WorldPacket data;
             ChatHandler::FillMessageData(&data, this, uint8(type), lang, NULL, 0, msg.c_str(), NULL);

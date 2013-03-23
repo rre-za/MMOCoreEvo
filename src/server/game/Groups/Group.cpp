@@ -110,6 +110,11 @@ bool Group::Create(Player* leader)
     if (m_groupType & GROUPTYPE_RAID)
         _initRaidSubGroupsCounter();
 
+    if (leader->HaveBot())//npcbots so set to free-for-all on create
+        m_lootMethod = FREE_FOR_ALL;
+    else if (leader->HavePBot())//playerbots so set master loot
+        m_lootMethod = MASTER_LOOT;
+    else
     if (!isLFGGroup())
         m_lootMethod = GROUP_LOOT;
 
@@ -366,6 +371,7 @@ bool Group::AddMember(Player* player)
     SubGroupCounterIncrease(subGroup);
 
     if (player)
+    if (IS_PLAYER_GUID(player->GetGUID()))
     {
         player->SetGroupInvite(NULL);
         if (player->GetGroup())
@@ -409,6 +415,7 @@ bool Group::AddMember(Player* player)
     sScriptMgr->OnGroupAddMember(this, player->GetGUID());
 
     if (player)
+    if (IS_PLAYER_GUID(player->GetGUID()))
     {
         if (!IsLeader(player->GetGUID()) && !isBGGroup() && !isBFGroup())
         {
@@ -609,6 +616,9 @@ bool Group::RemoveMember(uint64 guid, const RemoveMethod &method /*= GROUP_REMOV
         }
 
         if (m_memberMgr.getSize() < ((isLFGGroup() || isBGGroup()) ? 1u : 2u))
+        //npcbot
+        if (GetMembersCount() < ((isBGGroup() || isLFGGroup()) ? 1u : 2u))
+        //end npcbot
             Disband();
 
         return true;
