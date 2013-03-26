@@ -856,7 +856,7 @@ void WorldSession::HandlePlayerBotLogin(LoginQueryHolder* holder)
     //sLog->outError(LOG_FILTER_PLAYER, "Creating bot for %s...", master->GetName().c_str());
     // The bot's WorldSession is owned by the bot's Player object
     // The bot's WorldSession is deleted by PlayerbotMgr::LogoutPlayerBot
-    WorldSession* botSession = new WorldSession(holder->GetAccountId(), NULL, mSession->GetSecurity(), mSession->Expansion(), 0, mSession->GetSessionDbcLocale(), 0, false);
+    WorldSession* botSession = new WorldSession(holder->GetAccountId(), NULL, mSession->GetSecurity(), false, mSession->Expansion(), 0, mSession->GetSessionDbcLocale(), 0, false);
     //botSession->SetRemoteAddress("bot");
     botSession->m_master = master;
     botSession->m_Address = "bot";

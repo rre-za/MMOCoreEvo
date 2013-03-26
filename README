@@ -1,14 +1,34 @@
-= TrinityCore / GaryMoveOut -- General information =
-  ______                   ______                   _____             
- / _____)                 |  ___ \                 / ___ \       _    
-| /  ___  ____  ____ _   _| | _ | | ___ _   _ ____| |   | |_   _| |_  
-| | (___)/ _  |/ ___) | | | || || |/ _ \ | | / _  ) |   | | | | |  _) 
-| \____/( ( | | |   | |_| | || || | |_| \ V ( (/ /| |___| | |_| | |__ 
- \_____/ \_||_|_|    \__  |_||_||_|\___/ \_/ \____)\_____/ \____|\___)
-                    (____/                                            
+= TrinityCore / MMOCore -- General information =
+  __  __ __  __  ____   _____               ______          
+ |  \/  |  \/  |/ __ \ / ____|             |  ____|         
+ | \  / | \  / | |  | | |     ___  _ __ ___| |____   _____  
+ | |\/| | |\/| | |  | | |    / _ \| '__/ _ \  __\ \ / / _ \ 
+ | |  | | |  | | |__| | |___| (_) | | |  __/ |___\ V / (_) |
+ |_|  |_|_|  |_|\____/ \_____\___/|_|  \___|______\_/ \___/
+ 
+-----------------------------------------------------------------------
+Database is TDB: http://github.com/LORDofDOOM/MMODatabase
+-----------------------------------------------------------------------
+How to build/compile:
 
-Copyright (C) TrinityCore (http://www.trinitycore.org)
-Copyright (C) GaryFisher  (http://www.github.com/garyfisher)
+You can build the core with the mmoupdater.sh shellscript. Simply edit
+mmoconfig.ini and change username/password for the user that should run
+the core/database. I suggest to set up a user "trinity". This user 
+should also exist as mysql user. Make mmoupdater.sh executable and
+run it. Compile and database will be setup complete auto. Spawns etc.
+will be backup and batch into your new core each time you run this
+script ("TRINITY_WORLD_TEMP") - You don't need to batch database 
+manually anymore. You can use this for any future update.
+
+The Characater and Auth Database will NOT be update with this script. 
+-----------------------------------------------------------------------
+Credits & Thanks:
+
+TrinityCore (http://www.trinitycore.org)
+GaryFisher  (http://www.github.com/garyfisher)
+trickerer (http://bitbucket.org/trickerer/trinity-bots)
+
+-----------------------------------------------------------------------
 
   Trinity Core is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by

@@ -983,7 +983,7 @@ bool Guardian::InitStatsForLevel(uint8 petlevel)
                     SetBaseWeaponDamage(BASE_ATTACK, MAXDAMAGE, float(petlevel * 2.5f + (petlevel / 2) + bonusDmg));
 
                     // Brambles rank 1
-                    if (GetOwner()->HasAura(16836))
+                    /*if (GetOwner()->HasAura(16836))
                     {
                         minDmg *= 1.05f;
                         maxDmg *= 1.05f;
@@ -1002,7 +1002,7 @@ bool Guardian::InitStatsForLevel(uint8 petlevel)
                             minDmg *= 1.15f;
                             maxDmg *= 1.15f;
                         }
-                    break;
+                    break;*/
                 }
                 case 15352: //earth elemental 36213
                 {

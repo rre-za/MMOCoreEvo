@@ -13167,14 +13167,8 @@ void Player::RemoveAmmo()
         UpdateDamagePhysical(RANGED_ATTACK);
 }
 
-Item* Player::StoreNewItem(ItemPosCountVec const& dest, uint32 item, bool update, int32 randomPropertyId)
-{
-    AllowedLooterSet allowedLooters;
-    return StoreNewItem(dest, item, update, randomPropertyId, allowedLooters);
-}
-
 // Return stored item (if stored to stack, it can diff. from pItem). And pItem ca be deleted in this case.
-Item* Player::StoreNewItem(ItemPosCountVec const& dest, uint32 item, bool update, int32 randomPropertyId, AllowedLooterSet& allowedLooters)
+Item* Player::StoreNewItem(ItemPosCountVec const& dest, uint32 item, bool update, int32 randomPropertyId, AllowedLooterSet const& allowedLooters)
 {
     uint32 count = 0;
     for (ItemPosCountVec::const_iterator itr = dest.begin(); itr != dest.end(); ++itr)
