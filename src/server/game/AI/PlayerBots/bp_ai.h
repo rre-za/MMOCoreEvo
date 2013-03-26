@@ -16,7 +16,7 @@ class WorldObject;
 class WorldPacket;
 
 struct Position;
-struct InstancePlayerBind;
+//struct InstancePlayerBind;
 
 enum BotSpecial
 {
@@ -200,13 +200,13 @@ class PlayerbotAI
     private:
         inline void _doTimers(uint32 const diff);
 
-        typedef UNORDERED_MAP< uint32 /*mapId*/, InstancePlayerBind > BotBoundInstancesMap;
+        //typedef UNORDERED_MAP< uint32 /*mapId*/, InstancePlayerBind > BotBoundInstancesMap;
 
-        void _UnbindInstance(uint32 mapId, Difficulty diff);
+        //void _UnbindInstance(uint32 mapId, Difficulty diff);
         void _InviteToMastersGroup();
         void _SendDebugInfo();
 
-        BotBoundInstancesMap _botBoundInstances[MAX_DIFFICULTY];
+        //BotBoundInstancesMap _botBoundInstances[MAX_DIFFICULTY];
 
         Unit* _opponent;
 
