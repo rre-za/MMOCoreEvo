@@ -26,7 +26,7 @@ EndScriptData */
 /* ContentData
 npc_arete
 EndContentData */
-
+#pragma warning( disable : 4263 4264 )
 #include "ScriptMgr.h"
 #include "ScriptedCreature.h"
 #include "ScriptedGossip.h"
