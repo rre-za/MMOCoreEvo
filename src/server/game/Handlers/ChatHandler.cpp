@@ -276,7 +276,9 @@ void WorldSession::HandleMessagechatOpcode(WorldPacket& recvData)
             }
 
             Player* receiver = sObjectAccessor->FindPlayerByName(to);
-            if (!receiver || (!receiver->isAcceptWhispers() && receiver->GetSession()->HasPermission(RBAC_PERM_CAN_FILTER_WHISPERS) && !receiver->IsInWhisperWhiteList(sender->GetGUID())))
+            if (!receiver || (!HasPermission(RBAC_PERM_CAN_FILTER_WHISPERS) &&
+                receiver->GetSession()->HasPermission(RBAC_PERM_CAN_FILTER_WHISPERS) &&
+                !receiver->isAcceptWhispers() && !receiver->IsInWhisperWhiteList(sender->GetGUID()))) 
             {
 				//MMO Custom start
                 // If Fake WHO List system is on and the receiver is fake, we return the DND message
@@ -299,7 +301,7 @@ void WorldSession::HandleMessagechatOpcode(WorldPacket& recvData)
                 return;
             }
 
-            if (GetPlayer()->GetTeam() != receiver->GetTeam() && !HasPermission(RBAC_PERM_TWO_SIDE_INTERACTION_CHAT) && !receiver->IsInWhisperWhiteList(sender->GetGUID()))
+            if (GetPlayer()->GetTeam() != receiver->GetTeam() && !HasPermission(RBAC_PERM_TWO_SIDE_INTERACTION_CHAT) && !receiver->GetSession()->HasPermission(RBAC_PERM_TWO_SIDE_INTERACTION_CHAT))
             {
                 SendWrongFactionNotice();
                 return;

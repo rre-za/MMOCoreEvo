@@ -979,11 +979,11 @@ bool Guardian::InitStatsForLevel(uint8 petlevel)
                         SetCreateHealth(30 + 30*petlevel);
 
                     float bonusDmg = GetOwner()->SpellBaseDamageBonusDone(SPELL_SCHOOL_MASK_NATURE) * 0.15f;
-                    SetBaseWeaponDamage(BASE_ATTACK, MINDAMAGE, float(petlevel * 2.5f - (petlevel / 2) + bonusDmg));
-                    SetBaseWeaponDamage(BASE_ATTACK, MAXDAMAGE, float(petlevel * 2.5f + (petlevel / 2) + bonusDmg));
+                    float minDmg = float(petlevel * 2.5f - (petlevel / 2) + bonusDmg);
+                    float maxDmg = float(petlevel * 2.5f + (petlevel / 2) + bonusDmg);
 
                     // Brambles rank 1
-                    /*if (GetOwner()->HasAura(16836))
+                    if (GetOwner()->HasAura(16836))
                     {
                         minDmg *= 1.05f;
                         maxDmg *= 1.05f;
@@ -1002,7 +1002,10 @@ bool Guardian::InitStatsForLevel(uint8 petlevel)
                             minDmg *= 1.15f;
                             maxDmg *= 1.15f;
                         }
-                    break;*/
+
+                    SetBaseWeaponDamage(BASE_ATTACK, MINDAMAGE, minDmg);
+                    SetBaseWeaponDamage(BASE_ATTACK, MAXDAMAGE, maxDmg);
+                    break;
                 }
                 case 15352: //earth elemental 36213
                 {

@@ -704,8 +704,8 @@ class npc_memory : public CreatureScript
                 if (Unit* summoner = me->ToTempSummon()->GetSummoner())
                 {
                     if (summoner && summoner->isAlive())
-						if (Creature* creature = summoner->ToCreature())
-							creature->AI()->SetData(1, 0);
+                        if (Creature* summoner = summoner->ToCreature())
+                            summoner->AI()->SetData(1, 0);
                 }
             }
         }
