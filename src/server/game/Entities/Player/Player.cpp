@@ -6519,6 +6519,10 @@ void Player::RepopAtGraveyard()
 
 bool Player::CanJoinConstantChannelInZone(ChatChannelsEntry const* channel, AreaTableEntry const* zone)
 {
+    // Player can join LFG anywhere
+    if (channel->flags & CHANNEL_DBC_FLAG_LFG && sWorld->getBoolConfig(CONFIG_LFG_LOOKING_FOR_GROUP))
+        return true;
+
     if (channel->flags & CHANNEL_DBC_FLAG_ZONE_DEP && zone->flags & AREA_FLAG_ARENA_INSTANCE)
         return false;
 
@@ -15388,12 +15392,11 @@ void Player::PrepareGossipMenu(WorldObject* source, uint32 menuId /*= 0*/, bool 
     if (source->GetTypeId() == TYPEID_UNIT)
     {
         npcflags = source->GetUInt32Value(UNIT_NPC_FLAGS);
-        if (npcflags & UNIT_NPC_FLAG_QUESTGIVER && showQuests)
+        if (showQuests && npcflags & UNIT_NPC_FLAG_QUESTGIVER)
             PrepareQuestMenu(source->GetGUID());
     }
-
-    if (source->GetTypeId() == TYPEID_GAMEOBJECT)
-        if (source->ToGameObject()->GetGoType() == GAMEOBJECT_TYPE_QUESTGIVER)
+    else if (source->GetTypeId() == TYPEID_GAMEOBJECT)
+        if (showQuests && source->ToGameObject()->GetGoType() == GAMEOBJECT_TYPE_QUESTGIVER)
             PrepareQuestMenu(source->GetGUID());
 
     for (GossipMenuItemsContainer::const_iterator itr = menuItemBounds.first; itr != menuItemBounds.second; ++itr)

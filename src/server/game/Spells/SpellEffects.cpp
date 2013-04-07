@@ -551,7 +551,7 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
                                         unitTarget->RemoveAuraFromStack(spellId);
 
                                 damage *= doses;
-                                damage += int32(player->GetTotalAttackPowerValue(BASE_ATTACK) * 0.09f * combo);
+                                damage += int32(player->GetTotalAttackPowerValue(BASE_ATTACK) * 0.11f * combo);
                             }
 
                             // Eviscerate and Envenom Bonus Damage (item set effect)
@@ -953,7 +953,6 @@ void Spell::EffectTriggerSpell(SpellEffIndex effIndex)
     // set basepoints for trigger with value effect
     if (m_spellInfo->Effects[effIndex].Effect == SPELL_EFFECT_TRIGGER_SPELL_WITH_VALUE)
     {
-        // maybe need to set value only when basepoints == 0?
         values.AddSpellMod(SPELLVALUE_BASE_POINT0, damage);
         values.AddSpellMod(SPELLVALUE_BASE_POINT1, damage);
         values.AddSpellMod(SPELLVALUE_BASE_POINT2, damage);
@@ -1023,38 +1022,6 @@ void Spell::EffectTriggerMissileSpell(SpellEffIndex effIndex)
 
 void Spell::EffectForceCast(SpellEffIndex effIndex)
 {
-    switch (m_spellInfo->Id)
-    {
-            case 66548: //Teleports (Isle of Conquest)
-            {
-                if (Creature* TargetTeleport = m_caster->FindNearestCreature(22515, 60.0f, true))
-                {
-                    float x, y, z, o;
-                    TargetTeleport->GetPosition(x, y, z, o);
-
-                    if (m_caster->GetTypeId() != TYPEID_PLAYER)
-                        return;
-
-                    m_caster->ToPlayer()->TeleportTo(628, x, y, z, o);
-                }
-                return;
-            }
-            case 66549: //Teleports (Isle of Conquest)
-            {
-                if (Creature* TargetTeleport = m_caster->FindNearestCreature(23472, 60.0f, true))
-                {
-                    float x, y, z, o;
-                    TargetTeleport->GetPosition(x, y, z, o);
-
-                    if (m_caster->GetTypeId() != TYPEID_PLAYER)
-                        return;
-
-                    m_caster->ToPlayer()->TeleportTo(628, x, y, z, o);
-                }
-                return;
-            }
-    }
-
     if (effectHandleMode != SPELL_EFFECT_HANDLE_HIT_TARGET)
         return;
 
@@ -1183,34 +1150,24 @@ void Spell::EffectTeleportUnits(SpellEffIndex /*effIndex*/)
     // Pre effects
     switch (m_spellInfo->Id)
     {
-            case 66548: //Teleports (Isle of Conquest)
+        case 66550: // teleports outside (Isle of Conquest)
+            if (Player* target = unitTarget->ToPlayer())
             {
-                if (Creature* TargetTeleport = m_caster->FindNearestCreature(22515, 60.0f, true))
-                {
-                    float x, y, z, o;
-                    TargetTeleport->GetPosition(x, y, z, o);
-
-                    if (m_caster->GetTypeId() != TYPEID_PLAYER)
-                        return;
-
-                    m_caster->ToPlayer()->TeleportTo(628, x, y, z, o);
-                }
-                return;
+                if (target->GetTeamId() == TEAM_ALLIANCE)
+                    m_targets.SetDst(442.24f, -835.25f, 44.30f, 0.06f, 628);
+                else
+                    m_targets.SetDst(1120.43f, -762.11f, 47.92f, 2.94f, 628);
             }
-            case 66549: //Teleports (Isle of Conquest)
+            break;
+        case 66551: // teleports inside (Isle of Conquest)
+            if (Player* target = unitTarget->ToPlayer())
             {
-                if (Creature* TargetTeleport = m_caster->FindNearestCreature(23472, 60.0f, true))
-                {
-                    float x, y, z, o;
-                    TargetTeleport->GetPosition(x, y, z, o);
-
-                    if (m_caster->GetTypeId() != TYPEID_PLAYER)
-                        return;
-
-                    m_caster->ToPlayer()->TeleportTo(628, x, y, z, o);
-                }
-                return;
+                if (target->GetTeamId() == TEAM_ALLIANCE)
+                    m_targets.SetDst(389.57f, -832.38f, 48.65f, 3.00f, 628);
+                else
+                    m_targets.SetDst(1174.85f, -763.24f, 48.72f, 6.26f, 628);
             }
+            break;
     }
 
     // If not exist data for dest location - return
@@ -2046,7 +2003,7 @@ void Spell::SendLoot(uint64 guid, LootType loottype)
                 return;
 
             case GAMEOBJECT_TYPE_QUESTGIVER:
-                player->PrepareGossipMenu(gameObjTarget, gameObjTarget->GetGOInfo()->questgiver.gossipID);
+                player->PrepareGossipMenu(gameObjTarget, gameObjTarget->GetGOInfo()->questgiver.gossipID, true);
                 player->SendPreparedGossip(gameObjTarget);
                 return;
 
@@ -3356,7 +3313,7 @@ void Spell::EffectWeaponDmg(SpellEffIndex effIndex)
                 }
 
                 if (found)
-                    totalDamagePercentMod *= 1.2f;          // 120% if poisoned
+                    totalDamagePercentMod *= 1.20f;          // 120% if poisoned
             }
             break;
         }
@@ -3455,7 +3412,7 @@ void Spell::EffectWeaponDmg(SpellEffIndex effIndex)
             // Blood-Caked Strike - Blood-Caked Blade
             if (m_spellInfo->SpellIconID == 1736)
             {
-                AddPct(totalDamagePercentMod, unitTarget->GetDiseasesByCaster(m_caster->GetGUID()) * 12.5f);
+                AddPct(totalDamagePercentMod, unitTarget->GetDiseasesByCaster(m_caster->GetGUID()) * 50.0f);
                 break;
             }
             // Heart Strike

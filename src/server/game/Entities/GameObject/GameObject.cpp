@@ -1119,7 +1119,7 @@ void GameObject::Use(Unit* user)
 
             Player* player = user->ToPlayer();
 
-            player->PrepareGossipMenu(this, GetGOInfo()->questgiver.gossipID);
+            player->PrepareGossipMenu(this, GetGOInfo()->questgiver.gossipID, true);
             player->SendPreparedGossip(this);
             return;
         }
@@ -1842,6 +1842,8 @@ void GameObject::ModifyHealth(int32 change, Unit* attackerOrHealer /*= NULL*/, u
         data << uint32(-change);
         data << uint32(spellId);
         player->GetSession()->SendPacket(&data);
+        if (Battleground* bg = player->GetBattleground())
+            bg->EventPlayerDamagedGO(player, this, m_goInfo->building.damageEvent);
     }
 
     GameObjectDestructibleState newState = GetDestructibleState();

@@ -101,7 +101,6 @@ INSERT INTO spell_bonus_data (entry, direct_bonus, dot_bonus, ap_bonus, ap_dot_b
    UPDATE gameobject_template SET faction = 0 WHERE entry = 142117; -- Astranaar mailbox
 
 -- Transmogrification.
-DELETE FROM `creature_template` WHERE `entry` = 190010;
 SET
 @Entry = 190010,
 @Name = "Warpweaver";
@@ -157,16 +156,6 @@ REPLACE INTO `command` (`name`, `security`, `help`) VALUES
 REPLACE INTO `trinity_string` (`entry`, `content_default`, `content_loc1`, `content_loc2`, `content_loc3`, `content_loc4`, `content_loc5`, `content_loc6`, `content_loc7`, `content_loc8`) VALUES
 (11002, '|cFFFFFC00[ANTICHEAT]|cFF00FFFF[|cFF60FF00%s|cFF00FFFF] Banned for cheating!|r', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
--- Fix [Warrior] T10 4P Bonus.
-DELETE FROM spell_script_names WHERE spell_id = 46916;
-INSERT INTO spell_script_names VALUES (46916,'spell_warr_slam');
-
--- [Argent Tournament] Fix Npc Lake Frog.
--- UPDATE `creature_template` SET `ScriptName` = 'npc_lake_frog' WHERE `entry` IN (33211,33224);
--- UPDATE `creature_template` SET `gossip_menu_id` = 33220 WHERE `entry` = 33220;
--- REPLACE INTO `gossip_menu_option` (`menu_id`, `option_text`, `option_id`, `npc_option_npcflag`, `action_script_id`) VALUES ('33220', 'Do you know, where I can find Ashwood Brand Sword?', '1', '1', '33220');
--- REPLACE INTO `gossip_scripts` (`id`, `command`, `datalong`, `datalong2`) VALUES ('33220', '15', '62554', '3');
-
 -- Removes Master's Call stun immunity.
 INSERT INTO `spell_linked_spell`(`spell_trigger`, `spell_effect`, `type`, `comment`) VALUES (54216,-56651,1,'Removes Master''s Call stun immunity');
 
@@ -185,21 +174,9 @@ INSERT INTO `spell_proc_event` VALUES (28305, 0, 0, 0, 0, 0, 0, 65536, 0, 0, 0);
 UPDATE `creature_template_addon` SET `auras`= '28305' WHERE `entry`=19668;
 
 -- Npc Top 10 Arena Teams
-DELETE FROM `creature_template` WHERE `entry` = 600009;
+DELETE FROM `creature_template` WHERE `entry` = 500009;
 INSERT INTO `creature_template` (`entry`, `difficulty_entry_1`, `difficulty_entry_2`, `difficulty_entry_3`, `KillCredit1`, `KillCredit2`, `modelid1`, `modelid2`, `modelid3`, `modelid4`, `name`, `subname`, `IconName`, `gossip_menu_id`, `minlevel`, `maxlevel`, `exp`, `faction_A`, `faction_H`, `npcflag`, `speed_walk`, `speed_run`, `scale`, `rank`, `mindmg`, `maxdmg`, `dmgschool`, `attackpower`, `dmg_multiplier`, `baseattacktime`, `rangeattacktime`, `unit_class`, `unit_flags`, `dynamicflags`, `family`, `trainer_type`, `trainer_spell`, `trainer_class`, `trainer_race`, `minrangedmg`, `maxrangedmg`, `rangedattackpower`, `type`, `type_flags`, `lootid`, `pickpocketloot`, `skinloot`, `resistance1`, `resistance2`, `resistance3`, `resistance4`, `resistance5`, `resistance6`, `spell1`, `spell2`, `spell3`, `spell4`, `spell5`, `spell6`, `spell7`, `spell8`, `PetSpellDataId`, `VehicleId`, `mingold`, `maxgold`, `AIName`, `MovementType`, `InhabitType`, `Health_mod`, `Mana_mod`, `Armor_mod`, `RacialLeader`, `questItem1`, `questItem2`, `questItem3`, `questItem4`, `questItem5`, `questItem6`, `movementId`, `RegenHealth`, `mechanic_immune_mask`, `flags_extra`, `ScriptName`, `WDBVerified`) VALUES
-('600009', '0', '0', '0', '0', '0', '27164', '0', '0', '0', 'Top 10 Arena Teams', '', '', '0', '59', '61', '0', '35', '35', '1', '1.48', '1.14286', '0.0', '0', '655.0', '663.0', '0', '158', '1.0', '1500', '1900', '1', '0', '0', '0', '0', '0', '0', '0', '0.0', '0.0', '100', '7', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '1', '3', '1.0', '1.0', '1.0', '0', '0', '0', '0', '0', '0', '0', '0', '1', '0', '0', 'npc_arena_team_top', '1');
-
--- Fix Isle of Conquest - Teleports
-UPDATE `spell_linked_spell` SET `spell_effect` = 66551 WHERE `spell_trigger` IN (66549, 66548);
-UPDATE `spell_linked_spell` SET `spell_trigger` = 66551 WHERE `spell_effect` IN (-66548, -66549);
-
--- Fix [Warrior] T10 4P Bonus
--- Slam
-DELETE FROM spell_script_names WHERE spell_id = 46916;
-INSERT INTO spell_script_names VALUES (46916,'spell_warr_slam');
--- Execute
-DELETE FROM spell_script_names WHERE spell_id = 52437;
-INSERT INTO spell_script_names VALUES (52437,'spell_warr_execute_bonus');
+('500009', '0', '0', '0', '0', '0', '27164', '0', '0', '0', 'Top 10 Arena Teams', '', '', '0', '59', '61', '0', '35', '35', '1', '1.48', '1.14286', '0.0', '0', '655.0', '663.0', '0', '158', '1.0', '1500', '1900', '1', '0', '0', '0', '0', '0', '0', '0', '0.0', '0.0', '100', '7', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '1', '3', '1.0', '1.0', '1.0', '0', '0', '0', '0', '0', '0', '0', '0', '1', '0', '0', 'npc_arena_team_top', '1');
 
 -- Fix Rogue T10 4p bonus
 DELETE FROM spell_proc_event WHERE entry = 70803;
@@ -218,8 +195,8 @@ UPDATE `creature_template` SET `faction_A` = '14',`faction_H` = '14' WHERE `entr
 UPDATE `creature_template` SET `ScriptName` = 'npc_maniek' WHERE `entry` = 91200;
 
 -- Npc MMR Master
-INSERT INTO `creature_template` (`entry`, `difficulty_entry_1`, `difficulty_entry_2`, `difficulty_entry_3`, `KillCredit1`, `KillCredit2`, `modelid1`, `modelid2`, `modelid3`, `modelid4`, `name`, `subname`, `IconName`, `gossip_menu_id`, `minlevel`, `maxlevel`, `exp`, `faction_A`, `faction_H`, `npcflag`, `speed_walk`, `speed_run`, `scale`, `rank`, `mindmg`, `maxdmg`, `dmgschool`, `attackpower`, `dmg_multiplier`, `baseattacktime`, `rangeattacktime`, `unit_class`, `unit_flags`, `unit_flags2`, `dynamicflags`, `family`, `trainer_type`, `trainer_spell`, `trainer_class`, `trainer_race`, `minrangedmg`, `maxrangedmg`, `rangedattackpower`, `type`, `type_flags`, `lootid`, `pickpocketloot`, `skinloot`, `resistance1`, `resistance2`, `resistance3`, `resistance4`, `resistance5`, `resistance6`, `spell1`, `spell2`, `spell3`, `spell4`, `spell5`, `spell6`, `spell7`, `spell8`, `PetSpellDataId`, `VehicleId`, `mingold`, `maxgold`, `AIName`, `MovementType`, `InhabitType`, `HoverHeight`, `Health_mod`, `Mana_mod`, `Armor_mod`, `RacialLeader`, `questItem1`, `questItem2`, `questItem3`, `questItem4`, `questItem5`, `questItem6`, `movementId`, `RegenHealth`, `mechanic_immune_mask`, `flags_extra`, `ScriptName`, `WDBVerified`) VALUES ('600010', '0', '0', '0', '0', '0', '7103', '0', '7103', '0', 'Might Johny', 'MMR Master', NULL, '0', '85', '85', '2', '35', '35', '1', '1', '1.14286', '1', '3', '600000', '600000', '0', '2000', '11', '1500', '2000', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '7', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '3', '1', '50000', '1', '6740', '0', '0', '0', '0', '0', '0', '0', '0', '1', '0', '0', 'npc_mmr_reset', '500009');
-INSERT INTO `npc_text` (`ID`, `text0_0`, `text0_1`, `lang0`, `prob0`, `em0_0`, `em0_1`, `em0_2`, `em0_3`, `em0_4`, `em0_5`, `text1_0`, `text1_1`, `lang1`, `prob1`, `em1_0`, `em1_1`, `em1_2`, `em1_3`, `em1_4`, `em1_5`, `text2_0`, `text2_1`, `lang2`, `prob2`, `em2_0`, `em2_1`, `em2_2`, `em2_3`, `em2_4`, `em2_5`, `text3_0`, `text3_1`, `lang3`, `prob3`, `em3_0`, `em3_1`, `em3_2`, `em3_3`, `em3_4`, `em3_5`, `text4_0`, `text4_1`, `lang4`, `prob4`, `em4_0`, `em4_1`, `em4_2`, `em4_3`, `em4_4`, `em4_5`, `text5_0`, `text5_1`, `lang5`, `prob5`, `em5_0`, `em5_1`, `em5_2`, `em5_3`, `em5_4`, `em5_5`, `text6_0`, `text6_1`, `lang6`, `prob6`, `em6_0`, `em6_1`, `em6_2`, `em6_3`, `em6_4`, `em6_5`, `text7_0`, `text7_1`, `lang7`, `prob7`, `em7_0`, `em7_1`, `em7_2`, `em7_3`, `em7_4`, `em7_5`, `WDBVerified`) VALUES ('600010', 'Hi gladiator! I can reset your Matchmaking Rating to given values if only You are not team captain!', '', '0', '1', '0', '1', '0', '0', '0', '0', '', '', '0', '0', '0', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0', '0', '0', '0', '0', '1');
+INSERT INTO `creature_template` (`entry`, `difficulty_entry_1`, `difficulty_entry_2`, `difficulty_entry_3`, `KillCredit1`, `KillCredit2`, `modelid1`, `modelid2`, `modelid3`, `modelid4`, `name`, `subname`, `IconName`, `gossip_menu_id`, `minlevel`, `maxlevel`, `exp`, `faction_A`, `faction_H`, `npcflag`, `speed_walk`, `speed_run`, `scale`, `rank`, `mindmg`, `maxdmg`, `dmgschool`, `attackpower`, `dmg_multiplier`, `baseattacktime`, `rangeattacktime`, `unit_class`, `unit_flags`, `unit_flags2`, `dynamicflags`, `family`, `trainer_type`, `trainer_spell`, `trainer_class`, `trainer_race`, `minrangedmg`, `maxrangedmg`, `rangedattackpower`, `type`, `type_flags`, `lootid`, `pickpocketloot`, `skinloot`, `resistance1`, `resistance2`, `resistance3`, `resistance4`, `resistance5`, `resistance6`, `spell1`, `spell2`, `spell3`, `spell4`, `spell5`, `spell6`, `spell7`, `spell8`, `PetSpellDataId`, `VehicleId`, `mingold`, `maxgold`, `AIName`, `MovementType`, `InhabitType`, `HoverHeight`, `Health_mod`, `Mana_mod`, `Armor_mod`, `RacialLeader`, `questItem1`, `questItem2`, `questItem3`, `questItem4`, `questItem5`, `questItem6`, `movementId`, `RegenHealth`, `mechanic_immune_mask`, `flags_extra`, `ScriptName`, `WDBVerified`) VALUES ('500010', '0', '0', '0', '0', '0', '7103', '0', '7103', '0', 'Might Johny', 'MMR Master', NULL, '0', '85', '85', '2', '35', '35', '1', '1', '1.14286', '1', '3', '600000', '600000', '0', '2000', '11', '1500', '2000', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '7', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '3', '1', '50000', '1', '6740', '0', '0', '0', '0', '0', '0', '0', '0', '1', '0', '0', 'npc_mmr_reset', '500009');
+INSERT INTO `npc_text` (`ID`, `text0_0`, `text0_1`, `lang0`, `prob0`, `em0_0`, `em0_1`, `em0_2`, `em0_3`, `em0_4`, `em0_5`, `text1_0`, `text1_1`, `lang1`, `prob1`, `em1_0`, `em1_1`, `em1_2`, `em1_3`, `em1_4`, `em1_5`, `text2_0`, `text2_1`, `lang2`, `prob2`, `em2_0`, `em2_1`, `em2_2`, `em2_3`, `em2_4`, `em2_5`, `text3_0`, `text3_1`, `lang3`, `prob3`, `em3_0`, `em3_1`, `em3_2`, `em3_3`, `em3_4`, `em3_5`, `text4_0`, `text4_1`, `lang4`, `prob4`, `em4_0`, `em4_1`, `em4_2`, `em4_3`, `em4_4`, `em4_5`, `text5_0`, `text5_1`, `lang5`, `prob5`, `em5_0`, `em5_1`, `em5_2`, `em5_3`, `em5_4`, `em5_5`, `text6_0`, `text6_1`, `lang6`, `prob6`, `em6_0`, `em6_1`, `em6_2`, `em6_3`, `em6_4`, `em6_5`, `text7_0`, `text7_1`, `lang7`, `prob7`, `em7_0`, `em7_1`, `em7_2`, `em7_3`, `em7_4`, `em7_5`, `WDBVerified`) VALUES ('500010', 'Hi gladiator! I can reset your Matchmaking Rating to given values if only You are not team captain!', '', '0', '1', '0', '1', '0', '0', '0', '0', '', '', '0', '0', '0', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0', '0', '0', '0', '0', '1');
 
 -- Fix Val'kyr Shadowguard speed
 UPDATE `creature_template` SET `speed_walk` = '0.642857' WHERE `entry` IN (36609, 39120, 39121, 39122);
@@ -275,6 +252,7 @@ UPDATE creature_template SET InhabitType = InhabitType | 4 WHERE `entry` IN (397
 UPDATE creature_template SET InhabitType = InhabitType | 4 WHERE `entry` IN (10184,36538); -- Onyxia (Ony)
 UPDATE creature_template SET InhabitType = InhabitType | 4 WHERE `entry` IN (24068,31655); -- Annhylde the Caller (UK)
 UPDATE creature_template SET InhabitType = InhabitType | 4 WHERE `entry` IN (11583); -- Nefarian
+UPDATE creature_template SET InhabitType = InhabitType | 4 WHERE `entry` IN (27829); -- Ebon Gargyole
 
 -- Fix priest bug (kills and honour) spell_priest_spirit_of_redemption.
 -- Spell script assignment
@@ -301,3 +279,19 @@ UPDATE `creature_template` SET `flags_extra`=`flags_extra`|256 WHERE `entry` IN 
 UPDATE `creature_template` SET `speed_walk` = 0.642857, `speed_run` = 0.642857, `InhabitType` = 4 WHERE `entry` IN (36609, 39120, 39121, 39122);
 -- Set speed values to database for Vile Spirits in encounter The Lich King in instance / Instanz ICC / Eiskronenzitadelle / Icecrown Citadel
 UPDATE `creature_template` SET `speed_walk` = 0.5, `speed_run` = 0.5, `InhabitType` = 4 WHERE `entry` IN (37799, 39284, 39285, 39286);
+
+-- Fix Glyph of Succubus.
+DELETE FROM `spell_script_names` WHERE `spell_id`=6358;
+INSERT INTO `spell_script_names` (`spell_id`,`ScriptName`) VALUES
+(6358,'spell_warl_seduction');
+
+-- Revert [Warrior] T10 4P Bonus
+-- Slam
+DELETE FROM spell_script_names WHERE spell_id = 46916;
+-- Execute
+DELETE FROM spell_script_names WHERE spell_id = 52437;
+
+-- Revert 'Implement Raise ally'
+DELETE FROM creature_template WHERE entry = 30230;
+INSERT INTO `creature_template` (`entry`, `difficulty_entry_1`, `difficulty_entry_2`, `difficulty_entry_3`, `KillCredit1`, `KillCredit2`, `modelid1`, `modelid2`, `modelid3`, `modelid4`, `name`, `subname`, `IconName`, `gossip_menu_id`, `minlevel`, `maxlevel`, `exp`, `faction_A`, `faction_H`, `npcflag`, `speed_walk`, `speed_run`, `scale`, `rank`, `mindmg`, `maxdmg`, `dmgschool`, `attackpower`, `dmg_multiplier`, `baseattacktime`, `rangeattacktime`, `unit_class`, `unit_flags`, `unit_flags2`, `dynamicflags`, `family`, `trainer_type`, `trainer_spell`, `trainer_class`, `trainer_race`, `minrangedmg`, `maxrangedmg`, `rangedattackpower`, `type`, `type_flags`, `lootid`, `pickpocketloot`, `skinloot`, `resistance1`, `resistance2`, `resistance3`, `resistance4`, `resistance5`, `resistance6`, `spell1`, `spell2`, `spell3`, `spell4`, `spell5`, `spell6`, `spell7`, `spell8`, `PetSpellDataId`, `VehicleId`, `mingold`, `maxgold`, `AIName`, `MovementType`, `InhabitType`, `HoverHeight`, `Health_mod`, `Mana_mod`, `Armor_mod`, `RacialLeader`, `questItem1`, `questItem2`, `questItem3`, `questItem4`, `questItem5`, `questItem6`, `movementId`, `RegenHealth`, `mechanic_immune_mask`, `flags_extra`, `ScriptName`, `WDBVerified`) VALUES
+(30230, 0, 0, 0, 0, 0, 24994, 24993, 24992, 24995, 'Risen Ally', '', '', 0, 1, 1, 0, 35, 35, 0, 0.8, 0.99206, 1, 0, 2, 2, 0, 24, 1, 2000, 0, 1, 0, 2048, 8, 40, 0, 0, 0, 0, 1, 1, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 3, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 8388624, 0, '', 12340);

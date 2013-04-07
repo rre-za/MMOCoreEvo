@@ -870,7 +870,7 @@ void BattlegroundQueue::BattlegroundQueueUpdate(uint32 /*diff*/, BattlegroundTyp
                 front1 = m_QueuedGroups[bracket_id][BG_QUEUE_PREMADE_ALLIANCE].front();
                 arenaRating = front1->ArenaMatchmakerRating;
                 // progressive mmr
-				float timer1 = (getMSTime() - front1->JoinTime) / sWorld->getIntConfig(CONFIG_ARENA_PROGRESSIVE_MMR_TIMER);
+                float timer1 = (getMSTime() - front1->JoinTime) / sWorld->getIntConfig(CONFIG_ARENA_PROGRESSIVE_MMR_TIMER);
                 float mmrSteps = floor(timer1);
                 mmrMaxDiff = mmrSteps * sWorld->getIntConfig(CONFIG_ARENA_PROGRESSIVE_MMR_STEPSIZE);
             }
@@ -879,7 +879,7 @@ void BattlegroundQueue::BattlegroundQueueUpdate(uint32 /*diff*/, BattlegroundTyp
                 front2 = m_QueuedGroups[bracket_id][BG_QUEUE_PREMADE_HORDE].front();
                 arenaRating = front2->ArenaMatchmakerRating;
                 // progressive mmr
-				float timer2 = (getMSTime() - front2->JoinTime) / sWorld->getIntConfig(CONFIG_ARENA_PROGRESSIVE_MMR_TIMER);
+                float timer2 = (getMSTime() - front2->JoinTime) / sWorld->getIntConfig(CONFIG_ARENA_PROGRESSIVE_MMR_TIMER);
                 float mmrSteps = floor(timer2);
                 mmrMaxDiff = mmrSteps * sWorld->getIntConfig(CONFIG_ARENA_PROGRESSIVE_MMR_STEPSIZE);
             }
@@ -889,7 +889,7 @@ void BattlegroundQueue::BattlegroundQueueUpdate(uint32 /*diff*/, BattlegroundTyp
                 {
                     arenaRating = front1->ArenaMatchmakerRating;
                     // progressive mmr
-					float timer3 = (getMSTime() - front1->JoinTime) / sWorld->getIntConfig(CONFIG_ARENA_PROGRESSIVE_MMR_TIMER);
+                    float timer3 = (getMSTime() - front1->JoinTime) / sWorld->getIntConfig(CONFIG_ARENA_PROGRESSIVE_MMR_TIMER);
                     float mmrSteps = floor(timer3);
                     mmrMaxDiff = mmrSteps * sWorld->getIntConfig(CONFIG_ARENA_PROGRESSIVE_MMR_STEPSIZE);
                 }

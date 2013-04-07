@@ -5905,16 +5905,6 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
                     triggered_spell_id = 37378;
                     break;
                 }
-                // Glyph of Succubus
-                case 56250:
-                {
-                    if (!target)
-                        return false;
-                    target->RemoveAurasByType(SPELL_AURA_PERIODIC_DAMAGE, 0, target->GetAura(32409)); // SW:D shall not be removed.
-                    target->RemoveAurasByType(SPELL_AURA_PERIODIC_DAMAGE_PERCENT);
-                    target->RemoveAurasByType(SPELL_AURA_PERIODIC_LEECH);
-                    return true;
-                }
             }
             break;
         }
@@ -11763,6 +11753,12 @@ void Unit::Dismount()
         }
         else
             player->ResummonPetTemporaryUnSummonedIfAny();
+            Pet* plPet = player->GetPet();
+            if (plPet != NULL)
+            {
+                plPet->SetHealth(plPet->GetMaxHealth());
+                plPet->SetPower(plPet->getPowerType(), plPet->GetMaxPower(plPet->getPowerType()));
+            }
     }
 }
 
@@ -14284,6 +14280,15 @@ void Unit::ProcDamageAndSpellFor(bool isVictim, Unit* target, uint32 procFlag, u
 
                 switch (triggeredByAura->GetAuraType())
                 {
+                    case SPELL_AURA_ABILITY_IGNORE_AURASTATE:
+                    {
+                        // hack for Execute by Sudden Death aura
+                        if (triggeredByAura->GetId() == 52437 && !damage)
+                            takeCharges = false;
+                        else
+                            takeCharges = true;
+                        break;
+                    }
                     case SPELL_AURA_PROC_TRIGGER_SPELL:
                     {
                         sLog->outDebug(LOG_FILTER_SPELLS_AURAS, "ProcDamageAndSpell: casting spell %u (triggered by %s aura of spell %u)", spellInfo->Id, (isVictim?"a victim's":"an attacker's"), triggeredByAura->GetId());
