@@ -2998,7 +2998,12 @@ void SpellMgr::LoadDbcDataCorrections()
                 spellInfo->speed = 100;
                 break;
             case 49575: // Death Grip
-                 spellInfo->EffectMiscValueB[0] = 1;
+                spellInfo->EffectMiscValueB[0] = 1;
+                break;
+            case 49224: // Magic Suppression
+            case 49610:
+            case 49611:
+                spellInfo->procCharges = 0;
                 break;
             case 30541: // Blaze (needs conditions entry)
                 spellInfo->EffectImplicitTargetA[0] = TARGET_UNIT_TARGET_ENEMY;
@@ -3755,6 +3760,11 @@ void SpellMgr::LoadDbcDataCorrections()
 
         switch (spellInfo->SpellFamilyName)
         {
+            case SPELLFAMILY_HUNTER:
+                // Silencing Shot / Scatter Shot
+                if (spellInfo->SpellFamilyFlags[0] & 0x40000)
+                    spellInfo->speed = 0; // instant
+                break;
             case SPELLFAMILY_PALADIN:
                 // Seals of the Pure should affect Seal of Righteousness
                 if (spellInfo->SpellIconID == 25 && spellInfo->Attributes & SPELL_ATTR0_PASSIVE)
