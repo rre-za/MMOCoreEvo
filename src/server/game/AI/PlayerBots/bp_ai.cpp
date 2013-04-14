@@ -54,7 +54,12 @@ Everything but this
 //#include <iostream>
 
 const uint32 VENDOR_MASK = (UNIT_NPC_FLAG_VENDOR | UNIT_NPC_FLAG_VENDOR_AMMO | UNIT_NPC_FLAG_VENDOR_FOOD | UNIT_NPC_FLAG_VENDOR_POISON | UNIT_NPC_FLAG_VENDOR_REAGENT);
+Player::BoundInstancesMap _botBoundInstances[MAX_DIFFICULTY];
 
+AfterCast::AfterCast()
+{
+    _afterCastTarget = NULL;
+}
 inline Unit* AfterCast::GetTarget() const
 {
     return _afterCastTarget;
@@ -69,10 +74,11 @@ inline void AfterCast::SetAfterCastCommand(void (*newAfterCast)(Unit*))
 }
 inline void AfterCast::LaunchAfterCastCommand()
 {
-    if (!_afterCastTarget)
-        return;
+    ASSERT(_afterCastTarget);
+
     return (*afterCast)(_afterCastTarget);
 }
+
 class PlayerbotChatHandler : public ChatHandler
 {
 public:
@@ -261,7 +267,7 @@ private:
     }
 };
 
-PlayerbotAI::PlayerbotAI(PlayerbotMgr* const mgr, Player* const bot) : _mgr(mgr), me(bot)
+PlayerbotAI::PlayerbotAI(PlayerbotMgr* const mgr, Player* const bot) : _mgr(mgr), me(bot), _classAI(NULL)
 //m_combatOrder(ORDERS_NONE), m_ScenarioType(SCENARIO_PVE),
 //m_TimeDoneEating(0), m_TimeDoneDrinking(0),
 //m_CurrentlyCastingSpellId(0), 
@@ -323,7 +329,6 @@ PlayerbotAI::PlayerbotAI(PlayerbotMgr* const mgr, Player* const bot) : _mgr(mgr)
     _canSelfRes = false;
 
     //get class specific ai
-    _classAI = NULL;
     ReloadClassAI();
     //init motion
     AddBotState(BOTSTATE_FOLLOW);
@@ -332,24 +337,47 @@ PlayerbotAI::PlayerbotAI(PlayerbotMgr* const mgr, Player* const bot) : _mgr(mgr)
     //    me->setFaction(GetMaster()->getFaction());
     _InviteToMastersGroup();
     //save instance bounds
-    //for (uint8 i = REGULAR_DIFFICULTY; i != RAID_DIFFICULTY_25MAN_HEROIC+1; ++i)
-    //    _botBoundInstances[Difficulty(i)] = me->GetBoundInstances(Difficulty(i));
+    for (uint8 i = REGULAR_DIFFICULTY; i != MAX_DIFFICULTY; ++i)
+    {
+        for (Player::BoundInstancesMap::iterator itr = me->GetBoundInstances(Difficulty(i)).begin(); itr != me->GetBoundInstances(Difficulty(i)).end(); ++itr)
+        {
+            _botBoundInstances[Difficulty(i)][itr->first].perm = itr->second.perm;
+            //reserve current save by creating new (fake) save, any of bot's saves can become invalid in time
+            _botBoundInstances[Difficulty(i)][itr->first].save = new InstanceSave(itr->second.save->GetMapId(), itr->second.save->GetInstanceId(), Difficulty(i), itr->second.save->GetResetTime(), itr->second.save->CanReset());
+        }
+    }
 }
 
 PlayerbotAI::~PlayerbotAI()
 {
-    //restore instance bounds
-    /*for (uint8 i = REGULAR_DIFFICULTY; i != RAID_DIFFICULTY_25MAN_HEROIC+1; ++i)
+    SQLTransaction trans = CharacterDatabase.BeginTransaction();
+    for (uint8 i = REGULAR_DIFFICULTY; i != MAX_DIFFICULTY; ++i)
     {
+        Difficulty diff = Difficulty(i);
         for (Player::BoundInstancesMap::iterator itr = _botBoundInstances[i].begin(); itr != _botBoundInstances[i].end(); ++itr)
         {
-            if (me->GetBoundInstance(itr->first, Difficulty(i)))
-                me->UnbindInstance(itr->first, Difficulty(i));
-            me->BindToInstance(itr->second.save, itr->second.perm);
+            if (me->GetBoundInstance(itr->first, diff))
+                me->UnbindInstance(itr->first, diff);
+
+            PreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_INS_CHAR_INSTANCE);
+
+            stmt->setUInt32(0, me->GetGUIDLow());
+            stmt->setUInt32(1, itr->second.save->GetInstanceId());
+            stmt->setBool(2, itr->second.perm);
+
+            trans->Append(stmt);
+            //if after unbind old save is not unloaded bind to old save, else create new save and save to instance mgr
+            //if (InstanceSave* save = sInstanceSaveMgr->AddInstanceSave(itr->second.save->GetMapId(), itr->second.save->GetInstanceId(), diff, itr->second.save->GetResetTime(), itr->second.save->CanReset(), true))
+            //    me->BindToInstance(save, itr->second.perm);
+
+            delete itr->second.save; //delete our old fake save
         }
 
-        _botBoundInstances[Difficulty(i)].clear();
-    }*/
+        _botBoundInstances[diff].clear();
+    }
+
+    CharacterDatabase.CommitTransaction(trans);
+
     if (_classAI) delete _classAI;
     if (_afterCast) delete _afterCast;
 }
@@ -486,7 +514,7 @@ void PlayerbotAI::UpdateAI(uint32 diff)
     //TODO: ORDERS (opt)
 }
 
-void PlayerbotAI::UpdateDeadActions(uint32 const diff)
+void PlayerbotAI::UpdateDeadActions(uint32 diff)
 {
     if (!_canSelfRes)
     {
@@ -604,7 +632,7 @@ void PlayerbotAI::UpdateIncombatActions()
     ClearBotState(BOTSTATE_COMBAT);
 }
 
-void PlayerbotAI::UpdateFollowActions(uint32 const diff)
+void PlayerbotAI::UpdateFollowActions(uint32 diff)
 {
     if (_followTimer > diff)
         return;
@@ -692,8 +720,8 @@ void PlayerbotAI::UpdateFollowActions(uint32 const diff)
         if (fPlayer && tarmap->Instanceable() && mymap != tarmap)
         {
             Difficulty diff = fPlayer->GetDifficulty(tarmap->IsRaid());
-            /*if (me->GetBoundInstance(tarmap->GetId(), diff))
-                _UnbindInstance(tarmap->GetId(), diff);*/
+            if (InstancePlayerBind* bind = me->GetBoundInstance(tarmap->GetId(), diff))
+                _UnbindInstance(tarmap->GetId(), diff);
         }
         me->TeleportTo(*fTarget, TELE_TO_GM_MODE);
         return;
@@ -726,7 +754,7 @@ void PlayerbotAI::UpdateStandState()
         me->SetStandState(UNIT_STAND_STATE_SIT);
 }
 
-void PlayerbotAI::UpdateMountedState(uint32 const diff)
+void PlayerbotAI::UpdateMountedState(uint32 diff)
 {
     //dismount
     if (!GetMaster()->IsMounted() || ((me->isInCombat() || !me->getAttackers().empty()) && HasBotState(BOTSTATE_COMBAT)))
@@ -1677,14 +1705,14 @@ uint8 PlayerbotAI::GetManaPCT(Unit* unit)
 inline float PlayerbotAI::GetMinAttackRange(Unit* target) const
 {
     //TODO: range for ranged classes
-    return ShouldRanged() ? 19.f : target->GetMeleeReach();
+    return ShouldRanged() ? 19.f : target->GetMeleeReach() * 0.8f;
 }
 
-/*void PlayerbotAI::_UnbindInstance(uint32 mapId, Difficulty diff)
+void PlayerbotAI::_UnbindInstance(uint32 mapId, Difficulty diff)
 {
     for (uint8 i = 0; i < MAX_DIFFICULTY; ++i)
     {
-        Player::BoundInstancesMap &binds = me->GetBoundInstances(Difficulty(i));
+        Player::BoundInstancesMap& binds = me->GetBoundInstances(Difficulty(i));
         for (Player::BoundInstancesMap::iterator itr = binds.begin(); itr != binds.end();)
         {
             InstanceSave* save = itr->second.save;
@@ -1698,7 +1726,7 @@ inline float PlayerbotAI::GetMinAttackRange(Unit* target) const
                 ++itr;
         }
     }
-}*/
+}
 
 void PlayerbotAI::_InviteToMastersGroup()
 {
@@ -1828,33 +1856,29 @@ void PlayerbotAI::_SendDebugInfo()
 
     ch.PSendSysMessage("Listing classAI spells:");
     _classAI->SendClassDebugInfo();
-/*
+
     ch.PSendSysMessage("Listing bot instance binds:");
 
-    for (uint8 i = 0; i < MAX_DIFFICULTY; ++i)
+    for (uint8 i = 0; i != MAX_DIFFICULTY; ++i)
     {
         Player::BoundInstancesMap &binds = me->GetBoundInstances(Difficulty(i));
         for (Player::BoundInstancesMap::const_iterator itr = binds.begin(); itr != binds.end(); ++itr)
-        {
-            InstanceSave* save = itr->second.save;
-            ch.PSendSysMessage("map: %d inst: %d perm: %s diff: %d canReset: %s", itr->first, save->GetInstanceId(), itr->second.perm ? "yes" : "no",  save->GetDifficulty(), save->CanReset() ? "yes" : "no");
-        }
+            if (InstanceSave* save = itr->second.save)
+                ch.PSendSysMessage("map: %d inst: %d perm: %s diff: %d canReset: %s", itr->first, save->GetInstanceId(), itr->second.perm ? "yes" : "no",  save->GetDifficulty(), save->CanReset() ? "yes" : "no");
     }
 
     ch.PSendSysMessage("Listing player instance binds:");
 
-    for (uint8 i = 0; i < MAX_DIFFICULTY; ++i)
+    for (uint8 i = 0; i != MAX_DIFFICULTY; ++i)
     {
         Player::BoundInstancesMap &binds = _botBoundInstances[Difficulty(i)];
         for (Player::BoundInstancesMap::const_iterator itr = binds.begin(); itr != binds.end(); ++itr)
-        {
-            InstanceSave* save = itr->second.save;
-            ch.PSendSysMessage("map: %d inst: %d perm: %s diff: %d canReset: %s", itr->first, save->GetInstanceId(), itr->second.perm ? "yes" : "no",  save->GetDifficulty(), save->CanReset() ? "yes" : "no");
-        }
-    }*/
+            if (InstanceSave* save = itr->second.save)
+                ch.PSendSysMessage("map: %d inst: %d perm: %s diff: %d canReset: %s", itr->first, save->GetInstanceId(), itr->second.perm ? "yes" : "no",  save->GetDifficulty(), save->CanReset() ? "yes" : "no");
+    }
 }
 
-inline void PlayerbotAI::_doTimers(uint32 const diff)
+inline void PlayerbotAI::_doTimers(uint32 diff)
 {
     if (_waitTimer > diff)                              _waitTimer -= diff;
     if (_followTimer > diff)                            _followTimer -= diff;

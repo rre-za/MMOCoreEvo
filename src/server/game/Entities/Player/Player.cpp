@@ -3125,16 +3125,16 @@ void Player::CreateNPCBot(uint8 bot_class)
                 ++count;
         if (count >= m_maxClassNpcBots)
         {
+            SendBuyError(BUY_ERR_NOT_ENOUGHT_MONEY, 0, 0, 0);
             ChatHandler ch(GetSession());
-            ch.PSendSysMessage("You cannot have more bots of that class! Max: %u", m_maxClassNpcBots);
+            ch.PSendSysMessage("You cannot have more bots of that class! %u of %u", count, m_maxClassNpcBots);
             ch.SetSentErrorMessage(true);
             return;
         }
     }
 
     //check if not allowed class is chosen
-    bool allow = m_enableAllNpcBots;
-    if (!allow && 
+    if (!m_enableAllNpcBots &&
         (bot_class != CLASS_WARRIOR &&
         bot_class != CLASS_PALADIN &&
         bot_class != CLASS_PRIEST &&
@@ -3147,10 +3147,10 @@ void Player::CreateNPCBot(uint8 bot_class)
         const char* bclass;
         switch (bot_class)
         {
-            case CLASS_DEATH_KNIGHT: bclass = "DeathKnight"; break;
-            case CLASS_SHAMAN: bclass = "Shaman"; break;
-            case CLASS_HUNTER: bclass = "Hunter"; break;
-            default: bclass = "Unknown Class"; break;
+            case CLASS_DEATH_KNIGHT:    bclass = "DeathKnight"; break;
+            case CLASS_SHAMAN:          bclass = "Shaman"; break;
+            case CLASS_HUNTER:          bclass = "Hunter"; break;
+            default:                    bclass = "Unknown Class"; break;
         }
         sLog->outError(LOG_FILTER_PLAYER, "Player::CreateNPCBot(): Character %u tried to create npcbot of class %s, which is not allowed on your server!", GetGUIDLow(), bclass);
         ch.PSendSysMessage("You've tried to create npcbot of class %s, which is not allowed on this server!", bclass);
@@ -3249,18 +3249,19 @@ void Player::CreateNPCBot(uint8 bot_class)
 
     //find a bot to add
     //first check randomly selected bot, second check any bot we can add
-    std::set<std::pair<uint32, uint8> > npcBotsData;
+    typedef std::list< std::pair<uint32, uint8> > NpcBotsDataTemplate;
+    NpcBotsDataTemplate npcBotsData;
     do
     {
         Field* fields = result->Fetch();
         uint32 temp_entry = fields[0].GetUInt32();
-        uint32 temp_race = fields[1].GetUInt8();
-        npcBotsData.insert(std::make_pair<uint32, uint8>(temp_entry, temp_race));
+        uint8 temp_race = fields[1].GetUInt8();
+        npcBotsData.push_back(std::pair<uint32, uint8>(temp_entry, temp_race));
     } while (result->NextRow());
 
     uint32 m_rand = urand(1, uint32(result->GetRowCount()));
     uint32 tmp_rand = 1;
-    std::set<std::pair<uint32, uint8> >::const_iterator itr = npcBotsData.begin();
+    std::list< std::pair<uint32, uint8> >::const_iterator itr = npcBotsData.begin();
     bool haveSameBot = false;
     bool moveback = false;
     bool forcedCheck = false;
@@ -3280,7 +3281,7 @@ void Player::CreateNPCBot(uint8 bot_class)
             bool canAdd = true;
             for (uint8 i = 0; i != GetMaxNpcBots(); ++i)
             {
-                if (m_botmap[i]->m_entry == (*itr).first)
+                if (m_botmap[i]->m_entry == itr->first)
                 {
                     haveSameBot = true;
                     canAdd = false;
@@ -3292,8 +3293,8 @@ void Player::CreateNPCBot(uint8 bot_class)
             }
             if (canAdd)
             {
-                entry = (*itr).first;
-                bot_race = (*itr).second;
+                entry = itr->first;
+                bot_race = itr->second;
                 break;
             }
             if (forcedCheck)

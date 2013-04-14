@@ -15,6 +15,7 @@
 //#include "Guild.h"
 #include "Group.h"
 #include "SpellInfo.h"
+#include "Opcodes.h"
 
 PlayerbotMgr::PlayerbotMgr(Player* const master) : m_master(master)
 {
@@ -902,7 +903,11 @@ void PlayerbotMgr::LogoutPlayerBot(uint64 guid, bool uninvite)
         botWorldSession->LogoutPlayer(true);    //this will delete the bot Player object and PlayerbotAI (along with class AI) object
         delete botWorldSession;                 //finally delete the bot's WorldSession
         botWorldSession = NULL;
+        return;
     }
+    std::string name;
+    sObjectMgr->GetPlayerNameByGUID(guid, name);
+    sLog->outFatal(LOG_FILTER_PLAYER, "PlayerbotMgr:: Trying to logout playerbot (%s, guid %u) which does not exist!!!", name.c_str(), GUID_LOPART(guid));
 }
 
 // Playerbot mod: Gets a player bot Player object for this WorldSession master
@@ -916,9 +921,6 @@ void PlayerbotMgr::OnBotLogin(Player* const bot)
 {
     if (!bot)
         return;
-    // give the bot some AI, object is owned by the player class
-    PlayerbotAI* ai = new PlayerbotAI(this, bot);
-    bot->SetPlayerbotAI(ai);
 
     // tell the world session that they now manage this new bot
     m_playerBots[bot->GetGUID()] = bot;
@@ -943,6 +945,9 @@ void PlayerbotMgr::OnBotLogin(Player* const bot)
             }
         }
     }
+    // Finally, give the bot some AI, object is owned by the player class
+    PlayerbotAI* ai = new PlayerbotAI(this, bot);
+    bot->SetPlayerbotAI(ai);
 }
 
 void PlayerbotMgr::RemoveAllBotsFromGroup(bool force)

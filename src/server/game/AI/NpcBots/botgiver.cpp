@@ -422,7 +422,7 @@ private:
         player->PlayerTalkClass->SendGossipMenu(8446, creature->GetGUID());
     }
 
-    static void SendCreateNPCBot(Player* player, Creature*  /*creature*/, uint32 action)
+    static void SendCreateNPCBot(Player* player, Creature* /*creature*/, uint32 action)
     {
         uint8 bot_class = 0;
         if (action == GOSSIP_ACTION_INFO_DEF + 1)//"Back"
