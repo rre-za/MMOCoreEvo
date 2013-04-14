@@ -484,6 +484,17 @@ done
 #done
 
 #-------------------------------------------------------------------------------------------------------#
+#				Import TrinityCore Updates																	#
+#-------------------------------------------------------------------------------------------------------#
+if [ "$INCLUDE_TRINITYCORE_UPDATE_SQL" = "1" ]; then
+cecho "Import TrinityCore Updates" $green
+	for file in $MAIN_PATH/$CORE_FOLDER/sql/updates/world/*.sql ; do
+		cecho Import "$file" $green
+		mysql -h localhost -u $USERNAME -p$PASSWORD $TRINITY_WORLD_REALM <"$file"
+	done
+fi
+
+#-------------------------------------------------------------------------------------------------------#
 #				Install German GTDB		 																#
 #-------------------------------------------------------------------------------------------------------#
 if [ "$INSTALL_GTDB" = "1" ]; then
@@ -518,18 +529,6 @@ do
 done
 
 #-------------------------------------------------------------------------------------------------------#
-#				Import TrinityCore Updates																	#
-#-------------------------------------------------------------------------------------------------------#
-cecho "Import TrinityCore Updates" $green
-if [ "$INCLUDE_TRINITYCORE_UPDATE_SQL" = "1" ]; then
-cecho "Import TrinityCore Updates" $red
-	for file in $MAIN_PATH/$CORE_FOLDER/sql/updates/world/*.sql ; do
-		cecho Import "$file" $green
-		mysql -h localhost -u $USERNAME -p$PASSWORD $TRINITY_WORLD_REALM <"$file"
-	done
-fi
-
-#-------------------------------------------------------------------------------------------------------#
 #				Import Testserver only SQLs																#
 #-------------------------------------------------------------------------------------------------------#
 if [ "$INCLUDE_TESTSERVER_SQL" = "1" ]; then
@@ -539,6 +538,7 @@ cecho "Import TESTSERVER SQLs" $red
 		mysql -h localhost -u $USERNAME -p$PASSWORD $TRINITY_WORLD_REALM <"$file"
 	done
 fi
+
 
 #-------------------------------------------------------------------------------------------------------#
 #				Set AUTO_INCREMENT DB values															#
