@@ -20,6 +20,7 @@ set(scripts_STAT_SRCS
   Custom/npc_mmr_reset.cpp
   Custom/npc_shop.cpp
   Custom/npc_customize.cpp      
+  Custom/arena_fast_start.cpp
   Custom/npc_mount.cpp 
   Custom/npc_item_summon.cpp      
   Custom/dalaran_squirrel.cpp

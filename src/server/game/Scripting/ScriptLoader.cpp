@@ -42,6 +42,8 @@ void AddSC_npc_mmr_reset();
 void AddSC_npc_shop();
 //Load MMO Commands
 void AddSC_mmowning_commandscript();
+// Fast Arena Start
+void AddSC_fast_arena_start();
 //Load MMO Elite Commands
 void AddSC_vip_commandscript();
 //GuildhouseNPC
@@ -1417,6 +1419,8 @@ void AddCustomScripts()
     AddSC_npc_shop();
 	//Load MMO Commands
 	AddSC_mmowning_commandscript();	
+    // Fast Arena Start
+    AddSC_fast_arena_start();
 	//Load MMO Elite Commands
 	AddSC_vip_commandscript();	
     //GuildhouseNPC
