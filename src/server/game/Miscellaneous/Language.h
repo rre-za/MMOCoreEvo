@@ -119,7 +119,10 @@ enum TrinityStrings
     LANG_RBAC_LIST_GROUPS_HEADER        = 93,
     LANG_RBAC_LIST_ROLES_HEADER         = 94,
     LANG_RBAC_LIST_PERMISSIONS_HEADER   = 95,
-    // Room for more level 0            96-99 not used
+    LANG_GUILD_RENAME_ALREADY_EXISTS    = 96,
+    LANG_GUILD_RENAME_DONE              = 97,
+    LANG_RENAME_PLAYER_ALREADY_EXISTS   = 98,
+    LANG_RENAME_PLAYER_WITH_NEW_NAME    = 99,
 
     // level 1 chat
     LANG_GLOBAL_NOTIFY                  = 100,
@@ -196,7 +199,7 @@ enum TrinityStrings
     LANG_COMMAND_TELE_NOTFOUND          = 164,
     LANG_COMMAND_TELE_PARAMETER         = 165,
     LANG_COMMAND_TELE_NOLOCATION        = 166,
-    //                                    167               // not used
+    LANG_RESERVED_NAME                  = 167,
     LANG_COMMAND_TELE_LOCATION          = 168,
 
     LANG_MAIL_SENT                      = 169,
@@ -1197,6 +1200,9 @@ enum TrinityStrings
     LANG_SYSTEMMESSAGE_GAMEMASTER       = 11667,
     LANG_SYSTEMMESSAGE_GUARD            = 11668,
     LANG_SYSTEMMESSAGE_DEVELOPER        = 11669,
+
+    // Fake players
+    LANG_FAKE_DND                       = 12003,
 
     LANG_REM_TRANSMOGRIFICATIONS_ITEMS  = 11100,
     LANG_ERR_NO_TRANSMOGRIFICATIONS     = 11101,

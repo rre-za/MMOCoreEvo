@@ -50,6 +50,12 @@ void AddSC_vip_commandscript();
 void AddSC_guildmaster();	
 //TeleNPC2
 void AddSC_npc_teleport();
+// Fake Players
+void AddSC_fake_commandscript();
+// Arena Spectator
+void AddSC_arena_spectator_script();
+// Factions on Channel
+void AddSC_channel_factions();
 //Custom Stone
 void AddSC_item_custom_stone();
 //Item Requester
@@ -470,6 +476,7 @@ void AddSC_boss_faerlina();
 void AddSC_boss_heigan();
 void AddSC_boss_gothik();
 void AddSC_boss_thaddius();
+void AddSC_naxxramas();
 void AddSC_instance_naxxramas();
 void AddSC_boss_magus_telestra();        //The Nexus Nexus
 void AddSC_boss_anomalus();
@@ -710,6 +717,7 @@ void AddScripts()
     AddKalimdorScripts();
     AddOutlandScripts();
     AddNorthrendScripts();
+    AddEventScripts();
     AddBattlegroundScripts();
     AddOutdoorPvPScripts();
     AddCustomScripts();
@@ -1219,6 +1227,7 @@ void AddNorthrendScripts()
     AddSC_boss_heigan();
     AddSC_boss_gothik();
     AddSC_boss_thaddius();
+    AddSC_naxxramas();
     AddSC_instance_naxxramas();
     AddSC_boss_magus_telestra();        //The Nexus Nexus
     AddSC_boss_anomalus();

@@ -41,9 +41,9 @@ void WorldSession::HandleDuelAcceptedOpcode(WorldPacket& recvPacket)
     if (player == player->duel->initiator || !plTarget || player == plTarget || player->duel->startTime != 0 || plTarget->duel->startTime != 0)
         return;
 
-    //sLog->outDebug(LOG_FILTER_PACKETIO, "WORLD: Received CMSG_DUEL_ACCEPTED");
-    sLog->outDebug(LOG_FILTER_NETWORKIO, "Player 1 is: %u (%s)", player->GetGUIDLow(), player->GetName().c_str());
-    sLog->outDebug(LOG_FILTER_NETWORKIO, "Player 2 is: %u (%s)", plTarget->GetGUIDLow(), plTarget->GetName().c_str());
+    //TC_LOG_DEBUG(LOG_FILTER_PACKETIO, "WORLD: Received CMSG_DUEL_ACCEPTED");
+    TC_LOG_DEBUG(LOG_FILTER_NETWORKIO, "Player 1 is: %u (%s)", player->GetGUIDLow(), player->GetName().c_str());
+    TC_LOG_DEBUG(LOG_FILTER_NETWORKIO, "Player 2 is: %u (%s)", plTarget->GetGUIDLow(), plTarget->GetName().c_str());
 
     time_t now = time(NULL);
     player->duel->startTimer = now;
@@ -64,11 +64,15 @@ void WorldSession::HandleDuelAcceptedOpcode(WorldPacket& recvPacket)
         player->RemoveAura(25771);
         player->RemoveAura(41425);
         player->RemoveAura(61987);
+        player->RemoveAura(66233);
+        player->RemoveAura(11196);
         plTarget->RemoveAura(57723);
         plTarget->RemoveAura(57724);
         plTarget->RemoveAura(25771);
         plTarget->RemoveAura(41425);
         plTarget->RemoveAura(61987);
+        plTarget->RemoveAura(66233);
+        plTarget->RemoveAura(11196);
 
         if (player->getPowerType() == POWER_MANA)
             player->SetPower(POWER_MANA, player->GetMaxPower(POWER_MANA));
@@ -91,7 +95,7 @@ void WorldSession::HandleDuelAcceptedOpcode(WorldPacket& recvPacket)
 
 void WorldSession::HandleDuelCancelledOpcode(WorldPacket& recvPacket)
 {
-    sLog->outDebug(LOG_FILTER_NETWORKIO, "WORLD: Received CMSG_DUEL_CANCELLED");
+    TC_LOG_DEBUG(LOG_FILTER_NETWORKIO, "WORLD: Received CMSG_DUEL_CANCELLED");
     uint64 guid;
     recvPacket >> guid;
 

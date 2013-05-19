@@ -164,10 +164,11 @@ enum WorldBoolConfigs
     CONFIG_CUSTOM_ARENA_LOGS,
     CONFIG_GC_TOKEN_VENDOR,
     CONFIG_CRYPT_RUN_ENABLE,
+    CONFIG_LFG_LOOKING_FOR_GROUP,
+    CONFIG_FAKE_WHO_LIST,
     CONFIG_UI_QUESTLEVELS_IN_DIALOGS,     // Should we add quest levels to the title in the NPC dialogs?
     CONFIG_EVENT_ANNOUNCE,
 	//MMO Custom start
-	CONFIG_FAKE_WHO_LIST,
 	CONFIG_SHOW_BAN_IN_WORLD,
 	CONFIG_SHOW_MUTE_IN_WORLD,
     CONFIG_DUEL_RESET_COOLDOWN,
@@ -183,7 +184,6 @@ enum WorldBoolConfigs
     CONFIG_CHANNEL_ON_CITY_ONLY_FLAG,
 	CONFIG_ARENA_SPECTATORS_ENABLE,
 	//MMO Custom end	
-    CONFIG_LFG_LOOKING_FOR_GROUP,
     BOOL_CONFIG_VALUE_COUNT
 };
 
@@ -327,6 +327,7 @@ enum WorldIntConfigs
     CONFIG_CHARDELETE_KEEP_DAYS,
     CONFIG_CHARDELETE_METHOD,
     CONFIG_CHARDELETE_MIN_LEVEL,
+    CONFIG_CHARDELETE_HEROIC_MIN_LEVEL,
     CONFIG_AUTOBROADCAST_CENTER,
     CONFIG_AUTOBROADCAST_INTERVAL,
     CONFIG_MAX_RESULTS_LOOKUP_COMMANDS,
@@ -891,7 +892,11 @@ class World
         // used versions
         std::string m_DBVersion;
 
-        std::list<std::string> m_Autobroadcasts;
+        typedef std::map<uint8, std::string> AutobroadcastsMap;
+        AutobroadcastsMap m_Autobroadcasts;
+
+        typedef std::map<uint8, uint8> AutobroadcastsWeightMap;
+        AutobroadcastsWeightMap m_AutobroadcastsWeights;
 
         std::map<uint32, CharacterNameData> _characterNameDataMap;
         void LoadCharacterNameData();

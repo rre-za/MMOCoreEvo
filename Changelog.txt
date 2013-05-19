@@ -11,6 +11,22 @@
 #                                                                                          #
 ############################################################################################
 
+[193] --> Update Naxxramas. (Thx Shaco)
+[192] --> Update Naxxramas. (Thx Shaco)
+[191] --> Implement melee damage delay. (Thx trickerer)
+[190] --> Update Utgarde Pinnacle: Skadi. (Thx lostgenx)
+[189] --> Update Halls Of Reflection. (Thx lostgenx)
+[188] --> Fix halion Outside the scope of the fire. (Thx siley)
+[187] --> Implement Factions on Channel. (Thx MarWit)
+[186] --> Implement Arena Spectator. (Thx Demonid)
+[185] --> Implement Fake Players. (Thx LORDofDOOM)
+[184] --> Fix Master's Call. (Thx digz6666)
+[183] --> Implement - Anti-Rollback on Crash System for Items, Loot, and Quest. (Thx Demonid)
+[182] --> Custom - Revive Pets on Arena + Remove some Debuffs. (Thx Demonid)
+[181] --> Update Target Movement Generator. (Thx Quentis)
+[180] --> Update PathPoint in Blade's Edge Arena, Dalaran Sewers and Eye of the Storm. (Thx Quentis)
+[179] --> Fix SpellFamily for Redemption (Paladin) so it scales with haste rating. (Thx  mweinelt)
+[178] --> Implement Battleground Crossfraction. (Thx Quentis)
 [177] --> Implement Fast Arena Start. (Thx Demonid)
 [176] --> Fix Sylvanas Music Box.
 [175] --> Fix Shadowmeld. (Thx Hlkz)

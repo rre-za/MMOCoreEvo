@@ -21,9 +21,9 @@ set(scripts_STAT_SRCS
   Custom/npc_shop.cpp
   Custom/npc_customize.cpp      
   Custom/arena_fast_start.cpp
-  Custom/npc_mount.cpp 
-  Custom/npc_item_summon.cpp      
-  Custom/dalaran_squirrel.cpp
+  Custom/cs_fake.cpp
+  Custom/ArenaSpectate.cpp
+  Custom/channel_factions.cpp
   Custom/resetduel.cpp  
   #Custom/killstreak_pvp_system.cpp  
   Custom/item_custom_stone.cpp  
@@ -33,7 +33,6 @@ set(scripts_STAT_SRCS
   #Custom/npc_lottery.cpp
   Custom/npcs_mini_boss.cpp  
   Custom/guildhouse_npc.cpp    
-  Custom/cs_fake.cpp  
   Custom/level_rewards.cpp  
   Custom/npc_legion_master.cpp
   Custom/event_npc.cpp
