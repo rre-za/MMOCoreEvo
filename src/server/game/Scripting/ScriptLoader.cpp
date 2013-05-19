@@ -30,6 +30,8 @@ void AddSC_npc_hunterpetvendor();
 void AddSC_NPC_Transmogrify();
 //Chat Censure
 void AddSC_System_Censure();
+// Argent Tournament quest scripts
+void AddSC_ArgentTournament();
 // Npc Top 10 Arena Teams
 void AddSC_npc_arena_setup();
 // [MOD] MultiKill
@@ -556,7 +558,7 @@ void AddSC_instance_halls_of_reflection();   // Halls of Reflection
 void AddSC_halls_of_reflection();
 void AddSC_boss_falric();
 void AddSC_boss_marwyn();
-void AddSC_boss_the_lich_king_hor();
+void AddSC_boss_lich_king_hr();
 void AddSC_boss_lord_marrowgar();       // Icecrown Citadel
 void AddSC_boss_lady_deathwhisper();
 void AddSC_boss_deathbringer_saurfang();
@@ -571,7 +573,6 @@ void AddSC_boss_the_lich_king();
 void AddSC_icecrown_citadel_teleport();
 void AddSC_instance_icecrown_citadel();
 void AddSC_icecrown_citadel();
-void AddSC_icc_trash();
 void AddSC_instance_ruby_sanctum();      // Ruby Sanctum
 void AddSC_ruby_sanctum();
 void AddSC_boss_baltharus_the_warborn();
@@ -694,6 +695,10 @@ void AddSC_outdoorpvp_zm();
 
 // player
 void AddSC_chat_log();
+
+// custom
+void AddSC_custom();
+void AddSC_crypt_run();
 
 #endif
 
@@ -1305,7 +1310,7 @@ void AddNorthrendScripts()
     AddSC_halls_of_reflection();
     AddSC_boss_falric();
     AddSC_boss_marwyn();
-    AddSC_boss_the_lich_king_hor();
+    AddSC_boss_lich_king_hr();
     AddSC_boss_lord_marrowgar();        // Icecrown Citadel
     AddSC_boss_lady_deathwhisper();
     AddSC_boss_deathbringer_saurfang();
@@ -1320,7 +1325,6 @@ void AddNorthrendScripts()
     AddSC_icecrown_citadel_teleport();
     AddSC_instance_icecrown_citadel();
     AddSC_icecrown_citadel();
-    AddSC_icc_trash();
     AddSC_instance_ruby_sanctum();      // Ruby Sanctum
     AddSC_ruby_sanctum();
     AddSC_boss_baltharus_the_warborn();
@@ -1370,18 +1374,6 @@ void AddBattlegroundScripts()
 
 #ifdef SCRIPTS
 /* This is where custom scripts' loading functions should be declared. */
-//Bots
-void AddSC_druid_bot();
-void AddSC_hunter_bot();
-void AddSC_mage_bot();
-void AddSC_paladin_bot();
-void AddSC_priest_bot();
-void AddSC_rogue_bot();
-void AddSC_shaman_bot();
-void AddSC_warlock_bot();
-void AddSC_warrior_bot();
-void AddSC_script_bot_giver();
-void AddSC_script_bot_commands();
 
 #endif
 
@@ -1395,19 +1387,12 @@ void AddCustomScripts()
     AddSC_NPC_Transmogrify();
     //Chat Censure
     AddSC_System_Censure();
-    //Bots
-    AddSC_druid_bot();
-    AddSC_hunter_bot();
-    AddSC_mage_bot();
-    AddSC_paladin_bot();
-    AddSC_priest_bot();
-    AddSC_rogue_bot();
-    AddSC_shaman_bot();
-    AddSC_warlock_bot();
-    AddSC_warrior_bot();
-    AddSC_script_bot_giver();
-    AddSC_script_bot_commands();
-    // Npc Top 10 Arena Teams    
+    // Argent Tournament quest scripts
+    AddSC_ArgentTournament();
+    // GC custom
+    AddSC_custom();
+    AddSC_crypt_run();
+    // Npc Top 10 Arena Teams
     AddSC_npc_arena_setup();
     // [MOD] MultiKill
     AddSC_Mod_Multikill(); // by Codels
@@ -1419,8 +1404,6 @@ void AddCustomScripts()
     AddSC_npc_shop();
 	//Load MMO Commands
 	AddSC_mmowning_commandscript();	
-    // Fast Arena Start
-    AddSC_fast_arena_start();
 	//Load MMO Elite Commands
 	AddSC_vip_commandscript();	
     //GuildhouseNPC

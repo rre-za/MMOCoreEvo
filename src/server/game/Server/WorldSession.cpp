@@ -47,10 +47,6 @@
 #include "WardenWin.h"
 #include "WardenMac.h"
 
-// Playerbot mod
-#include "bp_mgr.h"
-#include "bp_ai.h"
-
 namespace {
 
 std::string const DefaultPlayerName = "<none>";
@@ -136,9 +132,6 @@ WorldSession::WorldSession(uint32 id, WorldSocket* sock, AccountTypes sec, bool 
     }
 
     InitializeQueryCallbackParameters();
-
-    //Playerbot mod
-    m_master = NULL;
 }
 
 /// WorldSession destructor
@@ -192,15 +185,6 @@ uint32 WorldSession::GetGuidLow() const
 /// Send a packet to the client
 void WorldSession::SendPacket(WorldPacket const* packet)
 {
-    //Playerbot mod: send packet to ai/mgr
-    if (Player* player = GetPlayer())
-    {
-        if (player->IsPlayerBot())
-            player->GetPlayerbotAI()->OnBotOutgoingPacket(*packet);
-        else if (PlayerbotMgr* mgr = player->GetPlayerbotMgr())
-            mgr->HandleMasterOutgoingPacket(*packet);
-    }
-
     if (!m_Socket)
         return;
 
@@ -274,11 +258,8 @@ bool WorldSession::Update(uint32 diff, PacketFilter& updater)
 
     ///- Before we process anything:
     /// If necessary, kick the player from the character select screen
-    //Playerbot
-    /*
     if (IsConnectionIdle())
         m_Socket->CloseSocket();
-    */
 
     ///- Retrieve packets from the receive queue and call the appropriate handlers
     /// not process packets if socket already closed
@@ -335,12 +316,6 @@ bool WorldSession::Update(uint32 diff, PacketFilter& updater)
                             LogUnprocessedTail(packet);
                         }
                         // lag can cause STATUS_LOGGEDIN opcodes to arrive after the player started a transfer
-
-                        //Playerbot mod
-                        if (_player && _player->GetPlayerbotMgr())
-                            _player->GetPlayerbotMgr()->HandleMasterIncomingPacket(*packet);
-                        //End Playerbot mod
-
                         break;
                     case STATUS_LOGGEDIN_OR_RECENTLY_LOGGOUT:
                         if (!_player && !m_playerRecentlyLogout && !m_playerLogout) // There's a short delay between _player = null and m_playerRecentlyLogout = true during logout
@@ -410,37 +385,6 @@ bool WorldSession::Update(uint32 diff, PacketFilter& updater)
 
     ProcessQueryCallbacks();
 
-    // Playerbot mod - Process player bot packets
-    // The PlayerbotAI class adds to the packet queue to simulate a real player
-    // since Playerbots are known to the World obj only by its master's WorldSession object
-    // we need to process all master's bot's packets.
-    if (GetPlayer() && GetPlayer()->GetPlayerbotMgr())
-    {
-        for (PlayerBotMap::const_iterator itr = GetPlayer()->GetPlayerbotMgr()->GetPlayerBotsBegin(); itr != GetPlayer()->GetPlayerbotMgr()->GetPlayerBotsEnd(); ++itr)
-        {
-            Player* const botPlayer = itr->second;
-            if (!botPlayer) continue;
-            WorldSession* const pBotWorldSession = botPlayer->GetSession();
-            if (!pBotWorldSession) continue;
-
-            if (botPlayer->IsBeingTeleported())
-                botPlayer->GetPlayerbotAI()->HandleTeleportAck();
-            else if (botPlayer->IsInWorld())
-            {
-                WorldPacket* packet;
-                while (!_recvQueue.empty() && _recvQueue.peek(true) != firstDelayedPacket &&
-                    pBotWorldSession->_recvQueue.next(packet, updater))
-                {
-                    OpcodeHandler& opHandle = opcodeTable[packet->GetOpcode()];
-                    //sScriptMgr->OnPacketReceive(m_Socket, WorldPacket(*packet));
-                    (pBotWorldSession->*opHandle.handler)(*packet);
-                    delete packet;
-                }
-            }
-        }
-    }
-
-
     //check if we are safe to proceed with logout
     //logout procedure should happen only in World::UpdateSessions() method!!!
     if (updater.ProcessLogout())
@@ -470,28 +414,6 @@ bool WorldSession::Update(uint32 diff, PacketFilter& updater)
 /// %Log the player out
 void WorldSession::LogoutPlayer(bool save)
 {
-    uint8 nBotCount = 0;
-    if (_player)
-    {
-        //log out all player bots owned by this toon
-        if (_player->HavePBot())
-            _player->GetPlayerbotMgr()->LogoutAllBots();
-        //logout playerbot properly (logout can be called from elsewhere)
-        //bot will be erased from botmap before second logout call
-        else if (_player->IsPlayerBot() && m_master && m_master->GetPlayerbotMgr()->GetPlayerBot(_player->GetGUID()))
-            m_master->GetPlayerbotMgr()->LogoutPlayerBot(_player->GetGUID());
-
-        //remove npcbots but do not delete from DB so it can be reaccured on next login
-        for (uint8 i = 0; i != _player->GetMaxNpcBots(); ++i)
-        {
-            if (_player->GetBotMap(i)->_Guid())
-            {
-                _player->RemoveBot(_player->GetBotMap(i)->_Guid(), true, false);
-                ++nBotCount;
-            }
-        }
-    }
-
     // finish pending transfers before starting the logout
     while (_player && _player->IsBeingTeleportedFar())
         HandleMoveWorldportAckOpcode();
@@ -585,9 +507,6 @@ void WorldSession::LogoutPlayer(bool save)
         // remove player from the group if he is:
         // a) in group; b) not in raid group; c) logging out normally (not being kicked or disconnected)
         if (_player->GetGroup() && !_player->GetGroup()->isRaidGroup() && m_Socket)
-            //bot d) if has no NpcBots or not in instance (trying to save instance)
-            if (nBotCount == 0 || !_player->GetMap()->Instanceable())
-            //end bot
             _player->RemoveFromGroup();
 
         //! Send update to group and reset stored max enchanting level
@@ -623,14 +542,9 @@ void WorldSession::LogoutPlayer(bool save)
         sLog->outDebug(LOG_FILTER_NETWORKIO, "SESSION: Sent SMSG_LOGOUT_COMPLETE Message");
 
         //! Since each account can only have one online character at any given time, ensure all characters for active account are marked as offline
-        //Playerbot mod: except playerbots
-        if (m_Address != "bot")
-        {
         PreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_UPD_ACCOUNT_ONLINE);
         stmt->setUInt32(0, GetAccountId());
         CharacterDatabase.Execute(stmt);
-        }
-        //end Playerbot mod
     }
 
     m_playerLogout = false;
@@ -1181,20 +1095,6 @@ void WorldSession::ProcessQueryCallbacks()
         _charLoginCallback.get(param);
         HandlePlayerLogin((LoginQueryHolder*)param);
         _charLoginCallback.cancel();
-    }
-
-    //! HandlePlayerBotLogin
-    if (!_botLoginCallbackSet.empty())
-    {
-        std::list<QueryResultHolderFuture>::iterator itr = _botLoginCallbackSet.begin();
-        if (itr->ready())
-        {
-            SQLQueryHolder* param;
-            itr->get(param);
-            HandlePlayerBotLogin((LoginQueryHolder*)param);
-            itr->cancel();
-            _botLoginCallbackSet.erase(itr);
-        }
     }
 
     //! HandleAddFriendOpcode
