@@ -39,6 +39,7 @@ set(scripts_STAT_SRCS
   Custom/npc_vip.cpp  
   Custom/levelnpc.cpp    
   Custom/npc_teleport.cpp
+  Custom/npc_reset_cooldown_instance.cpp
 )
 
 message("  -> Prepared: Custom")

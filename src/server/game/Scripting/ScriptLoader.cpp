@@ -88,6 +88,8 @@ void AddSC_npc_customize();
 //void AddSC_npc_item_summon();	
 //Mount rent
 //void AddSC_npc_mount();	
+//Instance/Cooldon reset NPC
+void AddSC_Useful_Master();
 	
 // spells
 void AddSC_deathknight_spell_scripts();
@@ -1444,6 +1446,8 @@ void AddCustomScripts()
 	//AddSC_npc_item_summon();	
     // Mount rent
     //AddSC_npc_mount();		
+	//Instance/Cooldon reset NPC
+	AddSC_Useful_Master();
 	
 	
 #endif
