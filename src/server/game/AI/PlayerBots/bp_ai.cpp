@@ -692,8 +692,8 @@ void PlayerbotAI::UpdateFollowActions(uint32 const diff)
         if (fPlayer && tarmap->Instanceable() && mymap != tarmap)
         {
             Difficulty diff = fPlayer->GetDifficulty(tarmap->IsRaid());
-            /*if (me->GetBoundInstance(tarmap->GetId(), diff))
-                _UnbindInstance(tarmap->GetId(), diff);*/
+            if (me->GetBoundInstance(tarmap->GetId(), diff))
+                _UnbindInstance(tarmap->GetId(), diff);
         }
         me->TeleportTo(*fTarget, TELE_TO_GM_MODE);
         return;
