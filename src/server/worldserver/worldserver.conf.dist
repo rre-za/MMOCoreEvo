@@ -3071,17 +3071,6 @@ Rate.XP.Explore.Premium = 1
 ###################################################################################################################
 
 ###################################################################################################################
-#Fake.WHO.List
-#	Add fake players to fill in WHO LIST (who is online list, "O" button) if there is less then#
-#	49 real players online (need to set online=2 in some characters to make it work)
-#	Default: 0 (disabled)
-#			 1 (enabled)
-#
-###################################################################################################################
-
-Fake.Who.List = 0
-
-###################################################################################################################
 # AllInOne custom config options
 #
 #    pryds_allinone.OnlyGMs

@@ -1178,7 +1178,6 @@ enum TrinityStrings
     LANG_BAN_CHEATER                    	= 11002,
 
 	//MMO Custom start
-    LANG_FAKE_DND                       	= 12003,	
     LANG_LOTTERY_ANNOUNCE                   = 11005,
     LANG_LOTTERY_ANNOUNCE_JACKPOT           = 11006,
     LANG_LOTTERY_ANNOUNCE_JACKPOT_M_PLAYERS = 11007,	

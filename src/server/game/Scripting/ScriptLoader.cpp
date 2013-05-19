@@ -85,9 +85,9 @@ void AddSC_levelnpc();
 //NPC Customizer
 void AddSC_npc_customize();
 //Item Summon NPC
-void AddSC_npc_item_summon();	
+//void AddSC_npc_item_summon();	
 //Mount rent
-void AddSC_npc_mount();	
+//void AddSC_npc_mount();	
 	
 // spells
 void AddSC_deathknight_spell_scripts();
@@ -1441,9 +1441,9 @@ void AddCustomScripts()
 	//NPC Customizer
 	AddSC_npc_customize();		
 	//Item Summon NPC
-	AddSC_npc_item_summon();	
+	//AddSC_npc_item_summon();	
     // Mount rent
-    AddSC_npc_mount();		
+    //AddSC_npc_mount();		
 	
 	
 #endif
