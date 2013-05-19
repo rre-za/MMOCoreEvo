@@ -332,14 +332,14 @@ PlayerbotAI::PlayerbotAI(PlayerbotMgr* const mgr, Player* const bot) : _mgr(mgr)
     //    me->setFaction(GetMaster()->getFaction());
     _InviteToMastersGroup();
     //save instance bounds
-    //for (uint8 i = REGULAR_DIFFICULTY; i != RAID_DIFFICULTY_25MAN_HEROIC+1; ++i)
-    //    _botBoundInstances[Difficulty(i)] = me->GetBoundInstances(Difficulty(i));
+    for (uint8 i = REGULAR_DIFFICULTY; i != RAID_DIFFICULTY_25MAN_HEROIC+1; ++i)
+        _botBoundInstances[Difficulty(i)] = me->GetBoundInstances(Difficulty(i));
 }
 
 PlayerbotAI::~PlayerbotAI()
 {
     //restore instance bounds
-    /*for (uint8 i = REGULAR_DIFFICULTY; i != RAID_DIFFICULTY_25MAN_HEROIC+1; ++i)
+    for (uint8 i = REGULAR_DIFFICULTY; i != RAID_DIFFICULTY_25MAN_HEROIC+1; ++i)
     {
         for (Player::BoundInstancesMap::iterator itr = _botBoundInstances[i].begin(); itr != _botBoundInstances[i].end(); ++itr)
         {
@@ -349,7 +349,7 @@ PlayerbotAI::~PlayerbotAI()
         }
 
         _botBoundInstances[Difficulty(i)].clear();
-    }*/
+    }
     if (_classAI) delete _classAI;
     if (_afterCast) delete _afterCast;
 }
@@ -1680,7 +1680,7 @@ inline float PlayerbotAI::GetMinAttackRange(Unit* target) const
     return ShouldRanged() ? 19.f : target->GetMeleeReach();
 }
 
-/*void PlayerbotAI::_UnbindInstance(uint32 mapId, Difficulty diff)
+void PlayerbotAI::_UnbindInstance(uint32 mapId, Difficulty diff)
 {
     for (uint8 i = 0; i < MAX_DIFFICULTY; ++i)
     {
@@ -1698,7 +1698,7 @@ inline float PlayerbotAI::GetMinAttackRange(Unit* target) const
                 ++itr;
         }
     }
-}*/
+}
 
 void PlayerbotAI::_InviteToMastersGroup()
 {
@@ -1828,7 +1828,7 @@ void PlayerbotAI::_SendDebugInfo()
 
     ch.PSendSysMessage("Listing classAI spells:");
     _classAI->SendClassDebugInfo();
-/*
+
     ch.PSendSysMessage("Listing bot instance binds:");
 
     for (uint8 i = 0; i < MAX_DIFFICULTY; ++i)
@@ -1851,7 +1851,7 @@ void PlayerbotAI::_SendDebugInfo()
             InstanceSave* save = itr->second.save;
             ch.PSendSysMessage("map: %d inst: %d perm: %s diff: %d canReset: %s", itr->first, save->GetInstanceId(), itr->second.perm ? "yes" : "no",  save->GetDifficulty(), save->CanReset() ? "yes" : "no");
         }
-    }*/
+    }
 }
 
 inline void PlayerbotAI::_doTimers(uint32 const diff)
