@@ -2,10 +2,9 @@
 #define _PLAYERBOTAI_H
 
 #include "Common.h"
-#include "DBCEnums.h"
 
 //class Group;
-class Item;
+//class InstanceSave;
 class Player;
 class PlayerbotClassAI;
 class PlayerbotMgr;
@@ -17,6 +16,7 @@ class WorldObject;
 class WorldPacket;
 
 struct Position;
+//struct InstancePlayerBind;
 
 enum BotSpecial
 {
@@ -32,7 +32,7 @@ enum BotStates
     BOTSTATE_LOOTING                = 0x008,    //need to perform loot sequence
     BOTSTATE_TAME                   = 0x010,    //has target to tame (deprecated?)
     BOTSTATE_DELAYED                = 0x020,    //delayed operations queued (wtf?)
-    BOTSTATE_RESET                  = 0x040     //need to reset these flags
+    BOTSTATE_RESET                  = 0x040     //need to reset there flags
 };
 
 enum BotCombatStates
@@ -77,7 +77,7 @@ enum RacialTraits
 
 struct AfterCast
 {
-        AfterCast();
+        AfterCast() {}
 
         //WorldLocation* GetTravelLocation() const { return _travelDest; }
         //void SetTravelLocation(WorldLocation* loc) { _travelDest = loc; }
@@ -103,16 +103,16 @@ class PlayerbotAI
         //inline void SetBotState(BotState state) { m_botState = state; }
 
         //on world update tick
-        void UpdateAI(uint32 diff);
+        void UpdateAI(uint32 const diff);
         void ReloadClassAI();
 
         //actions
-        void UpdateDeadActions(uint32 diff);
+        void UpdateDeadActions(uint32 const diff);
         void UpdateIncombatActions();
-        void UpdateFollowActions(uint32 diff);
+        void UpdateFollowActions(uint32 const diff);
 
         //states
-        void UpdateMountedState(uint32 diff);
+        void UpdateMountedState(uint32 const diff);
         void UpdateStandState();
 
         inline uint8 GetBotState() const { return _botStates; }
@@ -198,11 +198,15 @@ class PlayerbotAI
         static inline bool CCed(Unit* unit, bool root = false);
 
     private:
-        inline void _doTimers(uint32 diff);
+        inline void _doTimers(uint32 const diff);
 
-        void _UnbindInstance(uint32 mapId, Difficulty diff);
+        //typedef UNORDERED_MAP< uint32 /*mapId*/, InstancePlayerBind > BotBoundInstancesMap;
+
+        //void _UnbindInstance(uint32 mapId, Difficulty diff);
         void _InviteToMastersGroup();
         void _SendDebugInfo();
+
+        //BotBoundInstancesMap _botBoundInstances[MAX_DIFFICULTY];
 
         Unit* _opponent;
 

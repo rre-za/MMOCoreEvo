@@ -504,7 +504,7 @@ public:
                                     if (MIND_NUMBING_POISON)
                                     {
                                         currentSpell = MIND_NUMBING_POISON;
-                                        DoCast(victim, MIND_NUMBING_POISON, true);
+                                        DoCast(opponent, MIND_NUMBING_POISON, true);
                                     }
                                     break;
                             }

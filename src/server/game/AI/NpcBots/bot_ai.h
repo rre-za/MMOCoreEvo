@@ -208,7 +208,7 @@ class bot_ai : public ScriptedAI
 
     private:
         static Unit* _GetBotGroupMainTank(Group* group);
-        static inline float _getAttackDistance(float distance) { return distance > 0.f ? distance*0.72 : 0.f; }
+        inline float _getAttackDistance(float distance) const { return distance > 0.f ? distance*0.72 : 0.f; }
         Unit* extank;
         float dmgmult_melee, dmgmult_spell;
         float dmgmod_melee, dmgmod_spell;
