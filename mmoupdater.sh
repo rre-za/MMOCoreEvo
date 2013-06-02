@@ -224,6 +224,8 @@ REMOVE_CORE_BEFORE_UPDATE=`ini_get_value MAIN REMOVE_CORE_BEFORE_UPDATE`
 DOWNLOAD_DATABASE_FROM_GIT=`ini_get_value MAIN DOWNLOAD_DATABASE_FROM_GIT`
 ADDITIONAL_SQLS_INI=`ini_get_value MAIN ADDITIONAL_SQLS`
 ADDITIONAL_SQLS=($ADDITIONAL_SQLS_INI);
+ADDITIONAL_SQLS_OPTIONAL_INI=`ini_get_value MAIN ADDITIONAL_SQLS_OPTIONAL`
+ADDITIONAL_SQLS_OPTIONAL=($ADDITIONAL_SQLS_OPTIONAL_INI);
 INSTALL_GTDB=`ini_get_value MAIN INSTALL_GTDB`
 REMOVE_DATABASE_BEFORE_UPDATE=`ini_get_value MAIN REMOVE_DATABASE_BEFORE_UPDATE`
 BACKUP_CURRENT_WORLD_DATABASE=`ini_get_value MAIN BACKUP_CURRENT_WORLD_DATABASE`
@@ -521,6 +523,22 @@ do
 	if [ "${ADDITIONAL_SQLS[$i]}" != "" ]; then
 		echo ${ADDITIONAL_SQLS[$i]}
 		for file in $MAIN_PATH/$CORE_FOLDER/${ADDITIONAL_SQLS[$i]}/*.sql
+		do
+			echo Import "$file"
+			mysql -h localhost -u $USERNAME -p$PASSWORD $TRINITY_WORLD_REALM <"$file"
+		done
+	fi
+done
+
+#-------------------------------------------------------------------------------------------------------#
+#				Import additional SQLs (Optional)														#
+#-------------------------------------------------------------------------------------------------------#
+cecho "Import additional optional SQLs" $green
+for((i=0;i<${#ADDITIONAL_SQLS_OPTIONAL};i++))
+do 
+	if [ "${ADDITIONAL_SQLS_OPTIONAL[$i]}" != "" ]; then
+		echo ${ADDITIONAL_SQLS_OPTIONAL[$i]}
+		for file in $MAIN_PATH/$CORE_FOLDER/${ADDITIONAL_SQLS_OPTIONAL[$i]}/*.sql
 		do
 			echo Import "$file"
 			mysql -h localhost -u $USERNAME -p$PASSWORD $TRINITY_WORLD_REALM <"$file"
