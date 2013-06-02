@@ -2583,7 +2583,8 @@ SpellMissInfo Spell::DoSpellHitOnUnit(Unit* unit, uint32 effectMask, bool scaleA
         {
             // for delayed spells ignore negative spells (after duel end) for friendly targets
             /// @todo this cause soul transfer bugged
-            if (m_spellInfo->Speed > 0.0f && unit->GetTypeId() == TYPEID_PLAYER && !m_spellInfo->IsPositive())
+            // 63881 - Malady of the Mind jump spell (Yogg-Saron)
+            if (m_spellInfo->Speed > 0.0f && unit->GetTypeId() == TYPEID_PLAYER && !m_spellInfo->IsPositive() && m_spellInfo->Id != 63881)
                 return SPELL_MISS_EVADE;
 
             // assisting case, healing and resurrection
@@ -3025,16 +3026,6 @@ void Spell::prepare(SpellCastTargets const* targets, AuraEffect const* triggered
 
     TC_LOG_DEBUG(LOG_FILTER_SPELLS_AURAS, "Spell::prepare: spell id %u source %u caster %d customCastFlags %u mask %u", m_spellInfo->Id, m_caster->GetEntry(), m_originalCaster ? m_originalCaster->GetEntry() : -1, _triggeredCastFlags, m_targets.GetTargetMask());
 
-    if (GetCaster() && GetSpellInfo())
-        if (Player *tmpPlayer = GetCaster()->ToPlayer())
-            if (tmpPlayer->HaveSpectators())
-            {
-                SpectatorAddonMsg msg;
-                msg.SetPlayer(tmpPlayer->GetName());
-                msg.CastSpell(GetSpellInfo()->Id, GetSpellInfo()->CastTimeEntry->CastTime);
-                tmpPlayer->SendSpectatorAddonMsgToBG(msg);
-            }
-
     //Containers for channeled spells have to be set
     /// @todoApply this to all casted spells if needed
     // Why check duration? 29350: channelled triggers channelled
@@ -3337,7 +3328,7 @@ void Spell::handle_immediate()
     if (m_spellInfo->IsChanneled())
     {
         int32 duration = m_spellInfo->GetDuration();
-        if (duration)
+        if (duration > 0)
         {
             // First mod_duration then haste - see Missile Barrage
             // Apply duration mod
@@ -4760,10 +4751,6 @@ SpellCastResult Spell::CheckCast(bool strict)
                 m_caster->GetMap()->IsOutdoors(m_caster->GetPositionX(), m_caster->GetPositionY(), m_caster->GetPositionZ()))
             return SPELL_FAILED_ONLY_INDOORS;
     }
-
-    if (Player *tmpPlayer = m_caster->ToPlayer())
-        if (tmpPlayer->isSpectator())
-            return SPELL_FAILED_SPELL_UNAVAILABLE;
 
     // only check at first call, Stealth auras are already removed at second call
     // for now, ignore triggered spells

@@ -869,10 +869,6 @@ Player::Player(WorldSession* session): Unit(true)
 
     m_SeasonalQuestChanged = false;
 
-    spectatorFlag = false;
-    spectateCanceled = false;
-    spectateFrom = NULL;
-
     SetPendingBind(0, 0);
 
     _activeCheats = CHEAT_NONE;
@@ -1763,14 +1759,7 @@ void Player::Update(uint32 p_time)
             // m_nextSave reset in SaveToDB call
             sScriptMgr->OnPlayerSave(this);
             SaveToDB();
-
             TC_LOG_DEBUG(LOG_FILTER_PLAYER, "Player '%s' (GUID: %u) saved", GetName().c_str(), GetGUIDLow());
-            // If Fake WHO List system is on then change player position with every SavePlayer Interval (usually 15min)
-            if (sWorld->getBoolConfig(CONFIG_FAKE_WHO_LIST))
-            {
-                CharacterDatabase.PExecute("UPDATE characters SET zone = (FLOOR(50 * RAND()) + 1) WHERE online > 1");
-                CharacterDatabase.PExecute("UPDATE characters SET level = level + 1 WHERE online > 1 AND level < 10");
-            }
         }
         else
             m_nextSave -= p_time;
@@ -1896,20 +1885,6 @@ void Player::setDeathState(DeathState s)
     if (isAlive() && !cur)
         //clear aura case after resurrection by another way (spells will be applied before next death)
         SetUInt32Value(PLAYER_SELF_RES_SPELL, 0);
-}
-
-void Player::SetSelection(uint64 guid)
-{
-    m_curSelection = guid;
-    SetUInt64Value(UNIT_FIELD_TARGET, guid);
-    if (Player *target = ObjectAccessor::FindPlayer(guid))
-        if (HaveSpectators())
-        {
-            SpectatorAddonMsg msg;
-            msg.SetPlayer(GetName());
-            msg.SetTarget(target->GetName());
-            SendSpectatorAddonMsgToBG(msg);
-        }
 }
 
 void Player::InnEnter(time_t time, uint32 mapid, float x, float y, float z)
@@ -2380,17 +2355,7 @@ bool Player::TeleportToBGEntryPoint()
     ScheduleDelayedOperation(DELAYED_BG_MOUNT_RESTORE);
     ScheduleDelayedOperation(DELAYED_BG_TAXI_RESTORE);
     ScheduleDelayedOperation(DELAYED_BG_GROUP_RESTORE);
-    Battleground *oldBg = GetBattleground();
-    bool result = TeleportTo(m_bgData.joinPos);
-
-    if (isSpectator() && result)
-    {
-        SetSpectate(false);
-        if (oldBg)
-            oldBg->RemoveSpectator(GetGUID());
-    }
-
-    return result;
+    return TeleportTo(m_bgData.joinPos);
 }
 
 void Player::ProcessDelayedOperations()
@@ -2592,8 +2557,9 @@ void Player::Regenerate(Powers power)
         case POWER_RUNE:
         case POWER_FOCUS:
         case POWER_HAPPINESS:
-        case POWER_HEALTH:
             break;
+        case POWER_HEALTH:
+            return;
         default:
             break;
     }
@@ -2851,100 +2817,6 @@ void Player::SetInWater(bool apply)
     RemoveAurasWithInterruptFlags(apply ? AURA_INTERRUPT_FLAG_NOT_ABOVEWATER : AURA_INTERRUPT_FLAG_NOT_UNDERWATER);
 
     getHostileRefManager().updateThreatTables();
-}
-
-void Player::SetSpectate(bool on)
-{
-    if (on)
-    {
-        SetSpeed(MOVE_RUN, 3.0);
-        spectatorFlag = true;
-
-        m_ExtraFlags |= PLAYER_EXTRA_GM_ON;
-        setFaction(35);
-        SetGMVisible(false);
-        SetGameMaster(true);
-
-        if (Pet* pet = GetPet())
-            RemovePet(pet, PET_SAVE_NOT_IN_SLOT, true);
-
-        UnsummonPetTemporaryIfAny();
-
-        RemoveByteFlag(UNIT_FIELD_BYTES_2, 1, UNIT_BYTE2_FLAG_FFA_PVP);
-        ResetContestedPvP();
-
-        getHostileRefManager().setOnlineOfflineState(false);
-        CombatStopWithPets();
-
-        /* random dispay id`s
-        uint32 morphs[8] = {25900, 18718, 29348, 22235, 30414, 736, 20582, 28213};
-        SetDisplayId(morphs[urand(0, 7)]);*/
-        SetDisplayId(20582);
-
-        m_serverSideVisibility.SetValue(SERVERSIDE_VISIBILITY_GM, SEC_ADMINISTRATOR);
-    }
-    else
-    {
-        uint32 newPhase = 0;
-        AuraEffectList const& phases = GetAuraEffectsByType(SPELL_AURA_PHASE);
-        if (!phases.empty())
-            for (AuraEffectList::const_iterator itr = phases.begin(); itr != phases.end(); ++itr)
-                 newPhase |= (*itr)->GetMiscValue();
-
-        if (!newPhase)
-            newPhase = PHASEMASK_NORMAL;
-
-        SetPhaseMask(newPhase, false);
-
-        m_ExtraFlags &= ~ PLAYER_EXTRA_GM_ON;
-        setFactionForRace(getRace());
-        RemoveFlag(PLAYER_FLAGS, PLAYER_FLAGS_GM);
-        RemoveFlag(UNIT_FIELD_FLAGS_2, UNIT_FLAG2_ALLOW_CHEAT_SPELLS);
-        SetGMVisible(true);
-        SetGameMaster(false);
-
-        if (spectateFrom)
-            SetViewpoint(spectateFrom, false);
-
-        // restore FFA PvP Server state
-        if (sWorld->IsFFAPvPRealm())
-            SetByteFlag(UNIT_FIELD_BYTES_2, 1, UNIT_BYTE2_FLAG_FFA_PVP);
-
-        // restore FFA PvP area state, remove not allowed for GM mounts
-        UpdateArea(m_areaUpdateId);
-        getHostileRefManager().setOnlineOfflineState(true);
-        m_serverSideVisibility.SetValue(SERVERSIDE_VISIBILITY_GM, SEC_PLAYER);
-        spectateCanceled = false;
-        spectatorFlag = false;
-        RestoreDisplayId();
-        UpdateSpeed(MOVE_RUN, true);
-    }
-    UpdateObjectVisibility();
-}
-
-bool Player::HaveSpectators()
-{
-    if (isSpectator())
-        return false;
-
-    if (Battleground *bg = GetBattleground())
-        if (bg->isArena())
-        {
-            if (bg->GetStatus() != STATUS_IN_PROGRESS)
-                return false;
-
-            return bg->HaveSpectators();
-        }
-
-    return false;
-}
-
-void Player::SendSpectatorAddonMsgToBG(SpectatorAddonMsg msg)
-{
-    if (!HaveSpectators())
-        return;
-
-    GetBattleground()->SendSpectateAddonsMsg(msg);
 }
 
 void Player::SetGameMaster(bool on)
@@ -4294,6 +4166,7 @@ void Player::removeSpell(uint32 spell_id, bool disabled, bool learn_low_rank)
             //    learnSpell(prev_id, false);
         }
         // if ranked non-stackable spell: need activate lesser rank and update dendence state
+        /// No need to check for spellInfo != NULL here because if cur_active is true, then that means that the spell was already in m_spells, and only valid spells can be pushed there.
         else if (cur_active && !spellInfo->IsStackableWithRanks() && spellInfo->IsRanked())
         {
             // need manually update dependence state (learn spell ignore like attempts)
@@ -4619,8 +4492,6 @@ bool Player::resetTalents(bool no_cost)
             const SpellInfo* _spellEntry = sSpellMgr->GetSpellInfo(talentInfo->RankID[rank]);
             if (!_spellEntry)
                 continue;
-            if (talentInfo->RankID[rank] == 20473)
-                continue;
             removeSpell(talentInfo->RankID[rank], true);
             // search for spells that the talent teaches and unlearn them
             for (uint8 i = 0; i < MAX_SPELL_EFFECTS; ++i)
@@ -4852,12 +4723,6 @@ void Player::DeleteFromDB(uint64 playerguid, uint32 accountId, bool updateRealmC
         charDelete_method = CHAR_DELETE_REMOVE;
     else if (CharacterNameData const* nameData = sWorld->GetCharacterNameData(guid))    // To avoid a query, we select loaded data. If it doesn't exist, return.
     {
-        if (!nameData)
-        {
-            TC_LOG_ERROR(LOG_FILTER_PLAYER, "Cannot find CharacterNameData entry for player %u from account %u. Could not delete character.", guid, accountId);
-            return;
-        }
-
         // Define the required variables
         uint32 charDelete_minLvl = sWorld->getIntConfig(nameData->m_class != CLASS_DEATH_KNIGHT ? CONFIG_CHARDELETE_MIN_LEVEL : CONFIG_CHARDELETE_HEROIC_MIN_LEVEL);
 
@@ -7934,6 +7799,10 @@ void Player::DuelComplete(DuelCompleteType type)
             if (getClass() == CLASS_DEATH_KNIGHT && duel->opponent->GetQuestStatus(12733) == QUEST_STATUS_INCOMPLETE)
                 duel->opponent->CastSpell(duel->opponent, 52994, true);
 
+            // Honor points after duel (the winner) - ImpConfig
+            if (uint32 amount = sWorld->getIntConfig(CONFIG_HONOR_AFTER_DUEL))
+                duel->opponent->RewardHonor(NULL, 1, amount);
+
             break;
         default:
             break;
@@ -7979,10 +7848,6 @@ void Player::DuelComplete(DuelCompleteType type)
         duel->opponent->ClearComboPoints();
     else if (duel->opponent->GetComboTarget() == GetPetGUID())
         duel->opponent->ClearComboPoints();
-
-    // Honor points after duel (the winner) - ImpConfig
-    if (uint32 amount = sWorld->getIntConfig(CONFIG_HONOR_AFTER_DUEL))
-        duel->opponent->RewardHonor(NULL, 1, amount);
 
     //cleanups
     SetUInt64Value(PLAYER_DUEL_ARBITER, 0);
@@ -9914,6 +9779,16 @@ void Player::SendInitWorldStates(uint32 zoneid, uint32 areaid)
                 bf->FillInitialWorldStates(data);
                 break;
             }
+        case 4820:
+            if (instance && mapid == 668)
+                instance->FillInitialWorldStates(data);
+            else
+            {
+                data << uint32(4884) << uint32(0);              // 9  WORLD_STATE_HOR_WAVES_ENABLED
+                data << uint32(4882) << uint32(0);              // 10 WORLD_STATE_HOR_WAVE_COUNT
+            }
+            break;
+
             // No break here, intended.
         default:
             data << uint32(0x914) << uint32(0x0);           // 7
@@ -22435,9 +22310,6 @@ bool Player::IsVisibleGloballyFor(Player const* u) const
     if (!IsVisible())
         return false;
 
-    if (isSpectator())
-        return false; 
-
     // non-gm stealth/invisibility not hide from global player lists
     return true;
 }
@@ -23197,31 +23069,6 @@ void Player::SendAurasForTarget(Unit* target)
         AuraApplication * auraApp = itr->second;
         auraApp->BuildUpdatePacket(data, false);
     }
-
-    if (Player *stream = target->ToPlayer())
-        if (stream->HaveSpectators() && isSpectator())
-        {
-            for (Unit::VisibleAuraMap::const_iterator itr = visibleAuras->begin(); itr != visibleAuras->end(); ++itr)
-            {
-                AuraApplication * auraApp = itr->second;
-                auraApp->BuildUpdatePacket(data, false);
-                if (Aura* aura = auraApp->GetBase())
-                {
-                    SpectatorAddonMsg msg;
-                    uint64 casterID = 0;
-                    if (aura->GetCaster())
-                        casterID = (aura->GetCaster()->ToPlayer()) ? aura->GetCaster()->GetGUID() : 0;
-                    msg.SetPlayer(stream->GetName());
-                    msg.CreateAura(casterID, aura->GetSpellInfo()->Id,
-                                   aura->GetSpellInfo()->IsPositive(), aura->GetSpellInfo()->Dispel,
-                                   aura->GetDuration(), aura->GetMaxDuration(),
-                                   aura->GetStackAmount(), false);
-                    msg.SendPacket(GetGUID());
-                }
-
-            }
-
-        }
 
     GetSession()->SendPacket(&data);
 }
@@ -24362,16 +24209,6 @@ void Player::SetViewpoint(WorldObject* target, bool apply)
 {
     if (apply)
     {
-        if (target->ToPlayer() == this)
-            return;
-
-        //remove Viewpoint if already have
-        if (isSpectator() && spectateFrom)
-        {
-            SetViewpoint(spectateFrom, false);
-            spectateFrom = NULL;
-        }
-
         TC_LOG_DEBUG(LOG_FILTER_MAPS, "Player::CreateViewpoint: Player %s create seer %u (TypeId: %u).", GetName().c_str(), target->GetEntry(), target->GetTypeId());
 
         if (!AddUInt64Value(PLAYER_FARSIGHT, target->GetGUID()))
@@ -24384,18 +24221,10 @@ void Player::SetViewpoint(WorldObject* target, bool apply)
         UpdateVisibilityOf(target);
 
         if (target->isType(TYPEMASK_UNIT) && !GetVehicle())
-        {
-            if (isSpectator())
-                spectateFrom = (Unit*)target;
-
             ((Unit*)target)->AddPlayerToVision(this);
-        }
     }
     else
     {
-        if (isSpectator() && !spectateFrom)
-            return;
-
         TC_LOG_DEBUG(LOG_FILTER_MAPS, "Player::CreateViewpoint: Player %s remove seer", GetName().c_str());
 
         if (!RemoveUInt64Value(PLAYER_FARSIGHT, target->GetGUID()))
@@ -24406,9 +24235,6 @@ void Player::SetViewpoint(WorldObject* target, bool apply)
 
         if (target->isType(TYPEMASK_UNIT) && !GetVehicle())
             ((Unit*)target)->RemovePlayerFromVision(this);
-
-        if (isSpectator())
-            spectateFrom = NULL;
 
         //must immediately set seer back otherwise may crash
         m_seer = this;

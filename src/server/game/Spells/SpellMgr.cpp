@@ -84,6 +84,9 @@ DiminishingGroup GetDiminishingReturnsGroupForSpell(SpellInfo const* spellproto,
             // ToC Icehowl Arctic Breath
             else if (spellproto->SpellVisual[0] == 14153)
                 return DIMINISHING_NONE;
+            // Black Plague
+            else if (spellproto->Id == 64155)
+                return DIMINISHING_NONE;
             break;
         }
         // Event spells
@@ -2823,6 +2826,7 @@ void SpellMgr::LoadSpellCustomAttr()
             case 73788: // Pain and Suffering
             case 73789: // Pain and Suffering
             case 73790: // Pain and Suffering
+            case 63293: // Mimiron - P3Wx2 Laser Barrage
                 spellInfo->AttributesCu |= SPELL_ATTR0_CU_CONE_LINE;
                 break;
             case 24340: // Meteor
@@ -3411,6 +3415,14 @@ void SpellMgr::LoadDbcDataCorrections()
                 // that will be clear if we get more spells with problem like this
                 spellInfo->AttributesEx |= SPELL_ATTR1_DISPEL_AURAS_ON_IMMUNITY;
                 break;
+            case 61791: // Ride Vehicle (Yogg-Saron)
+                // TODO: remove this when basepoints of all Ride Vehicle auras are calculated correctly
+                spellInfo->EffectBasePoints[0] = 1;
+                break;
+            case 64468: // Empowering Shadows (Yogg-Saron)
+            case 64486: // Empowering Shadows (Yogg-Saron)
+                spellInfo->MaxAffectedTargets = 3;  // same for both modes?
+                break;
             case 62301: // Cosmic Smash (Algalon the Observer)
                 spellInfo->MaxAffectedTargets = 1;
                 break;
@@ -3662,6 +3674,11 @@ void SpellMgr::LoadDbcDataCorrections()
                 break;
             case 72405: // Broken Frostmourne
                 spellInfo->EffectRadiusIndex[1] = EFFECT_RADIUS_200_YARDS; // 200yd
+                break;
+            case 68645: // Rocket Pack! Hack untill movejump will be implemented properly.
+                spellInfo->Effect[0] = SPELL_EFFECT_KNOCK_BACK_DEST;
+                spellInfo->EffectMiscValue[0] = -250;
+                spellInfo->EffectBasePoints[0] = 150;
                 break;
             // ENDOF ICECROWN CITADEL SPELLS
             //

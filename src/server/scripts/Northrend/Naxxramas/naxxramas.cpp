@@ -46,7 +46,7 @@ class at_millitary_quarter : public AreaTriggerScript
 class go_naxxramas_portal : public GameObjectScript
 {
     public:
-        go_naxxramas_portal() : GameObjectScript("go_naxxramas_portal") {}
+        go_naxxramas_portal() : GameObjectScript("go_naxxramas_portal") { }
 
         bool OnGossipHello(Player* player, GameObject* go)
         {
@@ -59,23 +59,23 @@ class go_naxxramas_portal : public GameObjectScript
                 Spell::SendCastResult(player, spell, 0, SPELL_FAILED_AFFECTING_COMBAT);
                 return true;
             }
-            player->CastSpell(player, SPELL_PORTAL, true);
 
+            player->CastSpell(player, SPELL_PORTAL, true);
             return true;
-         }
+        }
  };
 
 class go_orb_of_naxxramas : public GameObjectScript
 {
     public:
-        go_orb_of_naxxramas() : GameObjectScript("go_orb_of_naxxramas") {}
+        go_orb_of_naxxramas() : GameObjectScript("go_orb_of_naxxramas") { }
 
         bool OnGossipHello(Player* player, GameObject* go)
         {
-             SpellInfo const* spell = sSpellMgr->GetSpellInfo(SPELL_ORB_TELEPORT_1);
-             SpellInfo const* spell2 = sSpellMgr->GetSpellInfo(SPELL_ORB_TELEPORT_2);
-             switch (go->GetEntry())
-             {
+            SpellInfo const* spell = sSpellMgr->GetSpellInfo(SPELL_ORB_TELEPORT_1);
+            SpellInfo const* spell2 = sSpellMgr->GetSpellInfo(SPELL_ORB_TELEPORT_2);
+            switch (go->GetEntry())
+            {
                 case 202278:
                     if (player->isInCombat())
                     {
@@ -92,9 +92,9 @@ class go_orb_of_naxxramas : public GameObjectScript
                     }
                     player->CastSpell(player, SPELL_ORB_TELEPORT_2, true);
                     break;
-             }
-             return true;
-         }
+            }
+            return true;
+        }
  };
 
 void AddSC_naxxramas()

@@ -25,6 +25,7 @@ set(scripts_STAT_SRCS
   Custom/ArenaSpectate.cpp
   Custom/channel_factions.cpp
   Custom/resetduel.cpp  
+  Custom/top5_killers.cpp
   #Custom/killstreak_pvp_system.cpp  
   Custom/item_custom_stone.cpp  
   #Custom/item_requester.cpp

@@ -303,19 +303,6 @@ Unit::~Unit()
 
     _DeleteRemovedAuras();
 
-    // remove veiw point for spectator
-    if (!m_sharedVision.empty())
-    {
-        for (SharedVisionList::iterator itr = m_sharedVision.begin(); itr != m_sharedVision.end(); ++itr)
-            if ((*itr)->isSpectator() && (*itr)->getSpectateFrom())
-            {
-                (*itr)->SetViewpoint((*itr)->getSpectateFrom(), false);
-                if (m_sharedVision.empty())
-                    break;
-                --itr;
-            }
-    }
-
     delete m_charmInfo;
     delete movespline;
 
@@ -533,48 +520,12 @@ AuraApplication * Unit::GetVisibleAura(uint8 slot) const
 
 void Unit::SetVisibleAura(uint8 slot, AuraApplication * aur)
 {
-    if (Aura* aura = aur->GetBase())
-        if (Player *player = ToPlayer())
-            if (player->HaveSpectators() && slot < MAX_AURAS)
-            {
-                SpectatorAddonMsg msg;
-                uint64 casterID = 0;
-                if (aura->GetCaster())
-                    casterID = (aura->GetCaster()->ToPlayer()) ? aura->GetCaster()->GetGUID() : 0;
-                msg.SetPlayer(player->GetName());
-                msg.CreateAura(casterID, aura->GetSpellInfo()->Id,
-                               aura->GetSpellInfo()->IsPositive(), aura->GetSpellInfo()->Dispel,
-                               aura->GetDuration(), aura->GetMaxDuration(),
-                               aura->GetStackAmount(), false);
-                player->SendSpectatorAddonMsgToBG(msg);
-            }
-
-    m_visibleAuras[slot] = aur;
+    m_visibleAuras[slot]=aur;
     UpdateAuraForGroup(slot);
 }
 
 void Unit::RemoveVisibleAura(uint8 slot)
 {
-    AuraApplication *aurApp = GetVisibleAura(slot);
-    if (aurApp && slot < MAX_AURAS)
-    {
-        if (Aura* aura = aurApp->GetBase())
-            if (Player *player = ToPlayer())
-                if (player->HaveSpectators())
-                {
-                    SpectatorAddonMsg msg;
-                    uint64 casterID = 0;
-                    if (aura->GetCaster())
-                        casterID = (aura->GetCaster()->ToPlayer()) ? aura->GetCaster()->GetGUID() : 0;
-                    msg.SetPlayer(player->GetName());
-                    msg.CreateAura(casterID, aura->GetSpellInfo()->Id,
-                                   aurApp->IsPositive(), aura->GetSpellInfo()->Dispel,
-                                   aura->GetDuration(), aura->GetMaxDuration(),
-                                   aura->GetStackAmount(), true);
-                    player->SendSpectatorAddonMsgToBG(msg);
-                }
-    }
-
     m_visibleAuras.erase(slot);
     UpdateAuraForGroup(slot);
 }
@@ -7662,7 +7613,7 @@ bool Unit::HandleAuraProc(Unit* victim, uint32 damage, Aura* triggeredByAura, Sp
         case SPELLFAMILY_PALADIN:
         {
             // Infusion of Light
-            if (dummySpell->SpellIconID == 3021)
+            if (procSpell && dummySpell->SpellIconID == 3021)
             {
                 // Flash of Light HoT on Flash of Light when Sacred Shield active
                 if (procSpell->SpellFamilyFlags[0] & 0x40000000 && procSpell->SpellIconID == 242)
@@ -7693,6 +7644,8 @@ bool Unit::HandleAuraProc(Unit* victim, uint32 damage, Aura* triggeredByAura, Sp
             // Glyph of Divinity
             else if (dummySpell->Id == 54939)
             {
+                if (!procSpell)
+                    return false;
                 *handled = true;
                 // Check if we are the target and prevent mana gain
                 if (victim && triggeredByAura->GetCasterGUID() == victim->GetGUID())
@@ -7957,6 +7910,7 @@ bool Unit::HandleProcTriggerSpell(Unit* victim, uint32 damage, AuraEffect* trigg
                         Aura* charge = GetAura(50241);
                         if (charge && charge->ModStackAmount(-1, AURA_REMOVE_BY_ENEMY_SPELL))
                             RemoveAurasDueToSpell(50240);
+                        break;
                     }
                 }
                 break;
@@ -10666,6 +10620,7 @@ bool Unit::isSpellCrit(Unit* victim, SpellInfo const* spellProto, SpellSchoolMas
                 default:
                     return false;
             }
+            break;
         case SPELL_DAMAGE_CLASS_MAGIC:
         {
             if (schoolMask & SPELL_SCHOOL_MASK_NORMAL)
@@ -10812,6 +10767,7 @@ bool Unit::isSpellCrit(Unit* victim, SpellInfo const* spellProto, SpellSchoolMas
                     break;
                 }
             }
+        /// Intentional fallback. Calculate critical strike chance for both Ranged and Melee spells
         case SPELL_DAMAGE_CLASS_RANGED:
         {
             if (victim)
@@ -12668,7 +12624,7 @@ void Unit::setDeathState(DeathState s)
         SetPower(getPowerType(), 0);
 
         // players in instance don't have ZoneScript, but they have InstanceScript
-        if (ZoneScript* zoneScript = GetZoneScript() ? GetZoneScript() : (ZoneScript*)GetInstanceScript())
+        if (ZoneScript* zoneScript = GetZoneScript() ? GetZoneScript() : GetInstanceScript())
             zoneScript->OnUnitDeath(this);
     }
     else if (s == JUST_RESPAWNED)
@@ -13529,14 +13485,6 @@ void Unit::SetHealth(uint32 val)
     // group update
     if (Player* player = ToPlayer())
     {
-        if (player->HaveSpectators())
-        {
-            SpectatorAddonMsg msg;
-            msg.SetPlayer(player->GetName());
-            msg.SetCurrentHP(val);
-            player->SendSpectatorAddonMsgToBG(msg);
-        }
-
         if (player->GetGroup())
             player->SetGroupUpdateFlag(GROUP_UPDATE_FLAG_CUR_HP);
     }
@@ -13562,14 +13510,6 @@ void Unit::SetMaxHealth(uint32 val)
     // group update
     if (GetTypeId() == TYPEID_PLAYER)
     {
-        if (ToPlayer()->HaveSpectators())
-        {
-            SpectatorAddonMsg msg;
-            msg.SetPlayer(ToPlayer()->GetName());
-            msg.SetMaxHP(val);
-            ToPlayer()->SendSpectatorAddonMsgToBG(msg);
-        }
-
         if (ToPlayer()->GetGroup())
             ToPlayer()->SetGroupUpdateFlag(GROUP_UPDATE_FLAG_MAX_HP);
     }
@@ -13607,15 +13547,6 @@ void Unit::SetPower(Powers power, uint32 val)
     // group update
     if (Player* player = ToPlayer())
     {
-        if (player->HaveSpectators())
-        {
-            SpectatorAddonMsg msg;
-            msg.SetPlayer(player->GetName());
-            msg.SetCurrentPower(val);
-            msg.SetPowerType(power);
-            player->SendSpectatorAddonMsgToBG(msg);
-        }
-
         if (player->GetGroup())
             player->SetGroupUpdateFlag(GROUP_UPDATE_FLAG_CUR_POWER);
     }
@@ -13749,7 +13680,7 @@ void Unit::CleanupBeforeRemoveFromMap(bool finalCleanup)
     if (finalCleanup)
         m_cleanupDone = true;
 
-    m_Events.KillAllEvents(false); // non-delatable (currently casted spells) will not deleted now but it will deleted at call in Map::RemoveAllObjectsInRemoveList
+    m_Events.KillAllEvents(false);                      // non-delatable (currently casted spells) will not deleted now but it will deleted at call in Map::RemoveAllObjectsInRemoveList
     CombatStop(false, true);
     ClearComboPointHolders();
     DeleteThreatList();
@@ -17105,7 +17036,7 @@ void Unit::_EnterVehicle(Vehicle* vehicle, int8 seatId, AuraApplication const* a
         }
     }
 
-    if (aurApp && aurApp->GetRemoveMode())
+    if (!aurApp || aurApp->GetRemoveMode())
         return;
 
     if (Player* player = ToPlayer())
