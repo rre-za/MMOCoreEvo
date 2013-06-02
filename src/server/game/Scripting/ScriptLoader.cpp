@@ -52,8 +52,6 @@ void AddSC_guildmaster();
 void AddSC_npc_teleport();
 // Fake Players
 void AddSC_fake_commandscript();
-// Arena Spectator
-void AddSC_arena_spectator_script();
 // Factions on Channel
 void AddSC_channel_factions();
 //Custom Stone

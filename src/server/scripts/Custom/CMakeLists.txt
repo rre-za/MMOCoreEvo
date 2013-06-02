@@ -22,7 +22,6 @@ set(scripts_STAT_SRCS
   Custom/npc_customize.cpp      
   Custom/arena_fast_start.cpp
   Custom/cs_fake.cpp
-  Custom/ArenaSpectate.cpp
   Custom/channel_factions.cpp
   Custom/resetduel.cpp  
   Custom/top5_killers.cpp
