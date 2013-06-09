@@ -168,7 +168,6 @@ enum WorldBoolConfigs
     CONFIG_FAKE_WHO_LIST,
     CONFIG_UI_QUESTLEVELS_IN_DIALOGS,     // Should we add quest levels to the title in the NPC dialogs?
     CONFIG_EVENT_ANNOUNCE,
-    CONFIG_LFG_LOOKING_FOR_GROUP,
     CONFIG_STATS_LIMITS_ENABLE,    
 	//MMO Custom start
 	CONFIG_SHOW_BAN_IN_WORLD,
