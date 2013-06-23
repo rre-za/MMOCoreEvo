@@ -204,7 +204,7 @@ public:
             // Ogni 5 sec applica uno stack di wound che riduce del 5% le cure (max 15 stack)
             if (WoundTimer <= uiDiff)
             {
-                DoCast(me->getVictim(), MORTAL_WOUND);
+                DoCast(me->GetVictim(), MORTAL_WOUND);
                 WoundTimer = 5000;
             } else WoundTimer -= uiDiff;
 
@@ -308,7 +308,7 @@ public:
             if (ChainTimer <= uiDiff)
             {
                 me->InterruptNonMeleeSpells(false);
-                DoCast(me->getVictim(), CHAIN_LIGHTNING);
+                DoCast(me->GetVictim(), CHAIN_LIGHTNING);
                 ChainTimer = urand(10000,15000);
             } else ChainTimer -= uiDiff;
 
@@ -336,7 +336,7 @@ public:
             if (FlameTimer <= uiDiff)
             {
                 me->InterruptNonMeleeSpells(false);
-                DoCast(me->getVictim(), FLAME_SHOCK);
+                DoCast(me->GetVictim(), FLAME_SHOCK);
                 FlameTimer = 12000;
             } else FlameTimer -= uiDiff;
 
@@ -600,7 +600,7 @@ public:
             if (TrapTimer <= uiDiff)
             {
                 me->MonsterYell(SAY_SYLVANAS_ICE, LANG_UNIVERSAL, 0);
-                DoCast(me->getVictim(), SPELL_ICE_TRAP);
+                DoCast(me->GetVictim(), SPELL_ICE_TRAP);
                 TrapTimer = 20000;
             } else TrapTimer -= uiDiff;
 
@@ -673,7 +673,7 @@ public:
             // Ogni 5 sec fa Cleave
             if (CleaveTimer <= uiDiff)
             {
-                DoCast(me->getVictim(), SPELL_CLEAVE);
+                DoCast(me->GetVictim(), SPELL_CLEAVE);
                 CleaveTimer = 5000;
             } else CleaveTimer -= uiDiff;
 
@@ -765,7 +765,7 @@ public:
             {
                 me->InterruptNonMeleeSpells(false);
                 me->DeleteThreatList();
-                DoCast(me->getVictim(), SHADOW_BURST);
+                DoCast(me->GetVictim(), SHADOW_BURST);
                 BurstTimer = urand(25000,35000);
             } else BurstTimer -= uiDiff;
 

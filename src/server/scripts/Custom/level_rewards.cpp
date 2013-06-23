@@ -12,7 +12,7 @@ public:
 
     void OnLevelChanged(Player* player, uint8 oldLevel)
     {
-        if (player->isGameMaster())
+        if (player->IsGameMaster())
             return;
 
         uint32 money = 0;

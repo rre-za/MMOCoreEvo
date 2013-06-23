@@ -41,7 +41,7 @@ class ItemUse_item_custom_stone : public ItemScript
 
 	bool OnUse(Player* pPlayer, Item* pItem, const SpellCastTargets &pTargets)
   	{
-    	if ((pPlayer->isInCombat()) || (pPlayer->isInFlight()) || (pPlayer->isDead()))
+    	if ((pPlayer->IsInCombat()) || (pPlayer->IsInFlight()) || (pPlayer->isDead()))
     	{
       	pPlayer->SendEquipError(EQUIP_ERR_NOT_IN_COMBAT, pItem, NULL);
         return false;

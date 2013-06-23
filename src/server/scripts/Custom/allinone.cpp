@@ -105,7 +105,7 @@ void SendDefaultMenu_pryds_allinone(Player  *player, Creature* pCreature, uint32
 {
 
 // Not allow in combat
-if (player->isInCombat())
+if (player->IsInCombat())
 {
     player->CLOSE_GOSSIP_MENU();
     pCreature->MonsterSay("You are in combat!", LANG_UNIVERSAL, NULL);

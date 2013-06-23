@@ -8,21 +8,21 @@ public:
 
     bool OnGossipHello(Player* player, Creature* creature)
     {
-        if (!player->GetSession()->IsPremium() && !player->isGameMaster())
+        if (!player->GetSession()->IsPremium() && !player->IsGameMaster())
         {
             player->CLOSE_GOSSIP_MENU();
             creature->MonsterWhisper("Es tut mir leid $N, Du bist kein MMO Elite Mitglied.", player->GetGUID(), false);
             return true;
         }
 
-        if (creature->isVendor())
+        if (creature->IsVendor())
         {
             player->CLOSE_GOSSIP_MENU();
             player->GetSession()->SendListInventory(creature->GetGUID());
             return true;
         }
 
-        if (creature->isQuestGiver())
+        if (creature->IsQuestGiver())
             player->PrepareQuestMenu(creature->GetGUID());
 
 		player->ADD_GOSSIP_ITEM(7, "[Morphs - Famous] ->"               , GOSSIP_SENDER_MAIN, 1204);	

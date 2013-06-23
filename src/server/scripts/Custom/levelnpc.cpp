@@ -63,7 +63,7 @@ void SendDefaultMenu(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
 
 // Not allow in combat
-if (pPlayer->isInCombat())
+if (pPlayer->IsInCombat())
 {
     pPlayer->CLOSE_GOSSIP_MENU();
     pCreature->MonsterSay("Du befindest dich im Kampf!", LANG_UNIVERSAL, NULL);

@@ -145,13 +145,13 @@ static bool HandleMallCommand(ChatHandler* handler, const char* /*args*/)
         
         Player *chr = handler->GetSession()->GetPlayer();
 
-        if (chr->isInCombat())
+        if (chr->IsInCombat())
         {
         handler->PSendSysMessage(LANG_YOU_IN_COMBAT);
         //SetSentErrorMessage(true);
         return false;
         }
-        if (chr->isInFlight())
+        if (chr->IsInFlight())
         {
         handler->PSendSysMessage(LANG_YOU_IN_FLIGHT);
         //SetSentErrorMessage(true);
@@ -180,13 +180,13 @@ static bool HandleDalaCommand(ChatHandler* handler, const char* /*args*/)
         
         Player *chr = handler->GetSession()->GetPlayer();
 
-        if (chr->isInCombat())
+        if (chr->IsInCombat())
         {
         handler->PSendSysMessage(LANG_YOU_IN_COMBAT);
         //SetSentErrorMessage(true);
         return false;
         }
-        if (chr->isInFlight())
+        if (chr->IsInFlight())
         {
         handler->PSendSysMessage(LANG_YOU_IN_FLIGHT);
         //SetSentErrorMessage(true);
@@ -205,13 +205,13 @@ static bool HandleBuffsCommand(ChatHandler* handler, const char* /*args*/)
 {
                                 Player *chr = handler->GetSession()->GetPlayer();
                                 
-        if (chr->isInCombat())
+        if (chr->IsInCombat())
         {
         handler->PSendSysMessage("Du kannst dich nicht waehrend eines Kampfes buffen");
         //SetSentErrorMessage(true);
         return false;
         }
-        if (chr->isInFlight())
+        if (chr->IsInFlight())
         {
         handler->PSendSysMessage("Du kannste dich nicht waehrend des Fliegens buffen");
         //SetSentErrorMessage(true);
@@ -248,7 +248,7 @@ static bool HandleGHCommand(ChatHandler* handler, const char* args)
 {
         Player *chr = handler->GetSession()->GetPlayer();
 
-        if(chr->isInFlight())
+        if(chr->IsInFlight())
         {
                 //pokud hrac leti
                 handler->PSendSysMessage(LANG_YOU_IN_FLIGHT);
@@ -256,7 +256,7 @@ static bool HandleGHCommand(ChatHandler* handler, const char* args)
                 return false;
         }
 
-        if(chr->isInCombat())
+        if(chr->IsInCombat())
         {
                 //pokud je hrac v combatu
                 handler->PSendSysMessage(LANG_YOU_IN_COMBAT);
@@ -291,7 +291,7 @@ static bool HandleGHCommand(ChatHandler* handler, const char* args)
         
 
         chr->SaveRecallPosition();
-        chr->TeleportTo(map, x, y, z, 0);
+        chr->TeleportTo(map, x, y, z, 1.276612f);
         chr->SaveToDB();
         return true;
 }

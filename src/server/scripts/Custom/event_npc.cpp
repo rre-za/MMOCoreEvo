@@ -157,7 +157,7 @@ class event_npc_firelord : public CreatureScript
                 if (me->HasUnitState(UNIT_STATE_CASTING))
                     return;
 
-                if (!me->getVictim())
+                if (!me->GetVictim())
                 {
                     me->CombatStop(true);
                     EnterEvadeMode();
@@ -168,7 +168,7 @@ class event_npc_firelord : public CreatureScript
                     //Jets Timer
                     if (m_uiJetsTimer <= uiDiff)
                     {
-                        DoCast(me->getVictim(), SPELL_JETS_FIRE);
+                        DoCast(me->GetVictim(), SPELL_JETS_FIRE);
 
                         m_uiJetsTimer = urand(10000, 30000);
                     }
@@ -189,7 +189,7 @@ class event_npc_firelord : public CreatureScript
                     //Scorch Timer
                     if (m_uiScorchTimer <= uiDiff)
                     {
-                        DoCast(me->getVictim(), SPELL_SCORCH_FIRE);
+                        DoCast(me->GetVictim(), SPELL_SCORCH_FIRE);
                         m_uiScorchTimer = urand(10000, 30000);
                     }
                     else
@@ -198,7 +198,7 @@ class event_npc_firelord : public CreatureScript
                     //Fireball Timer
                     if (m_uiFireballTimer <= uiDiff)
                     {
-                        DoCast(me->getVictim(), SPELL_FIREBALL_FIRE);
+                        DoCast(me->GetVictim(), SPELL_FIREBALL_FIRE);
                         m_uiFireballTimer = urand(10000, 25000);
                     }
                     else
@@ -241,7 +241,7 @@ class event_npc_firelord : public CreatureScript
                     //Sunbeam Timer
                     if (m_uiSunbeamTimer <= uiDiff)
                     {
-                        DoCast(me->getVictim(), SPELL_SUNBEAM_FIRE);
+                        DoCast(me->GetVictim(), SPELL_SUNBEAM_FIRE);
 
                         m_uiSunbeamTimer = urand(10000, 30000);
                     }
@@ -251,7 +251,7 @@ class event_npc_firelord : public CreatureScript
                     //Scorch Timer
                     if (m_uiScorchTimer <= uiDiff)
                     {
-                        DoCast(me->getVictim(), SPELL_SCORCH_FIRE);
+                        DoCast(me->GetVictim(), SPELL_SCORCH_FIRE);
                         m_uiScorchTimer = urand(10000, 35000);
                     }
                     else
@@ -395,7 +395,7 @@ class event_npc_icelord : public CreatureScript
                 if (me->HasUnitState(UNIT_STATE_CASTING))
                     return;
 
-                if (!me->getVictim())
+                if (!me->GetVictim())
                 {
                     me->CombatStop(true);
                     EnterEvadeMode();
@@ -560,7 +560,7 @@ class event_npc_earthlord : public CreatureScript
                 if (me->HasUnitState(UNIT_STATE_CASTING))
                     return;
 
-                if (!me->getVictim())
+                if (!me->GetVictim())
                 {
                     me->CombatStop(true);
                     EnterEvadeMode();
@@ -632,7 +632,7 @@ class event_npc_earthlord : public CreatureScript
                 //Petrifying Breath Timer
                 if (m_uiPetrifyingBreathTimer <= uiDiff)
                 {
-                    me->CastSpell(me->getVictim(), SPELL_PETRIFYING_BREATH_EARTH, true);
+                    me->CastSpell(me->GetVictim(), SPELL_PETRIFYING_BREATH_EARTH, true);
 
                     m_uiPetrifyingBreathTimer = urand(10000,  20000);
                 }
@@ -744,7 +744,7 @@ class event_npc_darklord : public CreatureScript
                 if (me->HasUnitState(UNIT_STATE_CASTING))
                     return;
 
-                if (!me->getVictim())
+                if (!me->GetVictim())
                 {
                     me->CombatStop(true);
                     EnterEvadeMode();
@@ -1160,7 +1160,7 @@ class event_dk : public CreatureScript
                 //Frost Strike Timer
                 if (m_uiFrostStrikeTimer <= uiDiff)
                 {
-                    DoCast(me->getVictim(), SPELL_FROST_STRIKE);
+                    DoCast(me->GetVictim(), SPELL_FROST_STRIKE);
 
                     m_uiFrostStrikeTimer = urand(7000, 10000);
                 }
@@ -1265,7 +1265,7 @@ class event_warrior : public CreatureScript
                 //Bloddthrist Timer
                 if (m_uiBloodthristTimer <= uiDiff)
                 {
-                    DoCast(me->getVictim(), SPELL_BLOODTHRIST);
+                    DoCast(me->GetVictim(), SPELL_BLOODTHRIST);
 
                     m_uiBloodthristTimer = urand(5000, 9000);
                 }

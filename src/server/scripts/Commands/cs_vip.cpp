@@ -75,7 +75,7 @@ bool static HandleVipAddCommand(ChatHandler* handler, char const* args)
 
     Player *chr = handler->GetSession()->GetPlayer();
 
-	if (!chr->GetSession()->IsPremium() && !chr->isGameMaster())
+	if (!chr->GetSession()->IsPremium() && !chr->IsGameMaster())
 	{
         handler->SendSysMessage(VIP_DONT_HAVE);
         handler->SetSentErrorMessage(true);
@@ -149,14 +149,14 @@ static bool HandleVipDebuffCommand(ChatHandler* handler, const char* /*args*/)
     Player *chr = handler->GetSession()->GetPlayer();
 
     //Different Checks
-    if( chr->isInCombat() || chr->isInFlight() || chr->GetMap()->IsBattlegroundOrArena() || chr->HasStealthAura() || chr->HasFlag(UNIT_FIELD_FLAGS_2, UNIT_FLAG2_FEIGN_DEATH) || chr->isDead())
+    if( chr->IsInCombat() || chr->IsInFlight() || chr->GetMap()->IsBattlegroundOrArena() || chr->HasStealthAura() || chr->HasFlag(UNIT_FIELD_FLAGS_2, UNIT_FLAG2_FEIGN_DEATH) || chr->isDead())
     {
         handler->SendSysMessage(VIP_CANT_DO);
         handler->SetSentErrorMessage(true);
         return false;
     }
 	
-	if (!chr->GetSession()->IsPremium() && !chr->isGameMaster())
+	if (!chr->GetSession()->IsPremium() && !chr->IsGameMaster())
 	{
         handler->SendSysMessage(VIP_DONT_HAVE);
         handler->SetSentErrorMessage(true);
@@ -174,14 +174,14 @@ static bool HandleVipMapCommand(ChatHandler* handler, const char* /*args*/)
     Player *chr = handler->GetSession()->GetPlayer();
 
     //Different Checks
-    if( chr->isInCombat() || chr->isInFlight() || chr->GetMap()->IsBattlegroundOrArena() || chr->HasStealthAura() || chr->HasFlag(UNIT_FIELD_FLAGS_2, UNIT_FLAG2_FEIGN_DEATH) || chr->isDead())
+    if( chr->IsInCombat() || chr->IsInFlight() || chr->GetMap()->IsBattlegroundOrArena() || chr->HasStealthAura() || chr->HasFlag(UNIT_FIELD_FLAGS_2, UNIT_FLAG2_FEIGN_DEATH) || chr->isDead())
     {
         handler->SendSysMessage(VIP_CANT_DO);
         handler->SetSentErrorMessage(true);
         return false;
     }
 	
-	if (!chr->GetSession()->IsPremium() && !chr->isGameMaster())
+	if (!chr->GetSession()->IsPremium() && !chr->IsGameMaster())
 	{
         handler->SendSysMessage(VIP_DONT_HAVE);
         handler->SetSentErrorMessage(true);
@@ -202,14 +202,14 @@ static bool HandleVipBankCommand(ChatHandler* handler, const char* /*args*/)
     Player *chr = handler->GetSession()->GetPlayer();
 
     //Different Checks
-    if( chr->isInCombat() || chr->isInFlight() || chr->GetMap()->IsBattlegroundOrArena() || chr->HasStealthAura() || chr->HasFlag(UNIT_FIELD_FLAGS_2, UNIT_FLAG2_FEIGN_DEATH) || chr->isDead())
+    if( chr->IsInCombat() || chr->IsInFlight() || chr->GetMap()->IsBattlegroundOrArena() || chr->HasStealthAura() || chr->HasFlag(UNIT_FIELD_FLAGS_2, UNIT_FLAG2_FEIGN_DEATH) || chr->isDead())
     {
         handler->SendSysMessage(VIP_CANT_DO);
         handler->SetSentErrorMessage(true);
         return false;
     }
 	
-	if (!chr->GetSession()->IsPremium() && !chr->isGameMaster())
+	if (!chr->GetSession()->IsPremium() && !chr->IsGameMaster())
 	{
         handler->SendSysMessage(VIP_DONT_HAVE);
         handler->SetSentErrorMessage(true);
@@ -226,14 +226,14 @@ static bool HandleVipRepairCommand(ChatHandler* handler, const char* /*args*/)
     Player *chr = handler->GetSession()->GetPlayer();
 
     //Different Checks
-    if( chr->isInCombat() || chr->isInFlight() || chr->GetMap()->IsBattlegroundOrArena() || chr->HasStealthAura() || chr->HasFlag(UNIT_FIELD_FLAGS_2, UNIT_FLAG2_FEIGN_DEATH) || chr->isDead())
+    if( chr->IsInCombat() || chr->IsInFlight() || chr->GetMap()->IsBattlegroundOrArena() || chr->HasStealthAura() || chr->HasFlag(UNIT_FIELD_FLAGS_2, UNIT_FLAG2_FEIGN_DEATH) || chr->isDead())
     {
         handler->SendSysMessage(VIP_CANT_DO);
         handler->SetSentErrorMessage(true);
         return false;
     }
 	
-	if (!chr->GetSession()->IsPremium() && !chr->isGameMaster())
+	if (!chr->GetSession()->IsPremium() && !chr->IsGameMaster())
 	{
         handler->SendSysMessage(VIP_DONT_HAVE);
         handler->SetSentErrorMessage(true);
@@ -252,14 +252,14 @@ static bool HandleVipAuctionCommand(ChatHandler* handler, const char* args)
     Player *chr = handler->GetSession()->GetPlayer();
 
     //Different Checks
-    if( chr->isInCombat() || chr->isInFlight() || chr->GetMap()->IsBattlegroundOrArena() || chr->HasStealthAura() || chr->HasFlag(UNIT_FIELD_FLAGS_2, UNIT_FLAG2_FEIGN_DEATH) || chr->isDead())
+    if( chr->IsInCombat() || chr->IsInFlight() || chr->GetMap()->IsBattlegroundOrArena() || chr->HasStealthAura() || chr->HasFlag(UNIT_FIELD_FLAGS_2, UNIT_FLAG2_FEIGN_DEATH) || chr->isDead())
     {
         handler->SendSysMessage(VIP_CANT_DO);
         handler->SetSentErrorMessage(true);
         return false;
     }
 	
-	if (!chr->GetSession()->IsPremium() && !chr->isGameMaster())
+	if (!chr->GetSession()->IsPremium() && !chr->IsGameMaster())
 	{
         handler->SendSysMessage(VIP_DONT_HAVE);
         handler->SetSentErrorMessage(true);
@@ -282,14 +282,14 @@ static bool HandleVipResetTalentsCommand(ChatHandler* handler, const char* /*arg
     Player *chr = handler->GetSession()->GetPlayer();
 
     //Different Checks
-    if( chr->isInCombat() || chr->isInFlight() || chr->GetMap()->IsBattlegroundOrArena() || chr->HasStealthAura() || chr->HasFlag(UNIT_FIELD_FLAGS_2, UNIT_FLAG2_FEIGN_DEATH) || chr->isDead())
+    if( chr->IsInCombat() || chr->IsInFlight() || chr->GetMap()->IsBattlegroundOrArena() || chr->HasStealthAura() || chr->HasFlag(UNIT_FIELD_FLAGS_2, UNIT_FLAG2_FEIGN_DEATH) || chr->isDead())
     {
         handler->SendSysMessage(VIP_CANT_DO);
         handler->SetSentErrorMessage(true);
         return false;
     }
 	
-	if (!chr->GetSession()->IsPremium() && !chr->isGameMaster())
+	if (!chr->GetSession()->IsPremium() && !chr->IsGameMaster())
 	{
         handler->SendSysMessage(VIP_DONT_HAVE);
         handler->SetSentErrorMessage(true);
@@ -315,7 +315,7 @@ static bool HandleVipWhispersCommand(ChatHandler* handler, const char* args)
         return true;
     }
 	
-	if (!chr->GetSession()->IsPremium() && !chr->isGameMaster())
+	if (!chr->GetSession()->IsPremium() && !chr->IsGameMaster())
 	{
         handler->SendSysMessage(VIP_DONT_HAVE);
         handler->SetSentErrorMessage(true);
@@ -349,14 +349,14 @@ static bool HandleVipTaxiCommand(ChatHandler* handler, const char* /*args*/)
     Player *chr = handler->GetSession()->GetPlayer();
 
     //Different Checks
-    if( chr->isInCombat() || chr->isInFlight() || chr->GetMap()->IsBattlegroundOrArena() || chr->HasStealthAura() || chr->HasFlag(UNIT_FIELD_FLAGS_2, UNIT_FLAG2_FEIGN_DEATH) || chr->isDead())
+    if( chr->IsInCombat() || chr->IsInFlight() || chr->GetMap()->IsBattlegroundOrArena() || chr->HasStealthAura() || chr->HasFlag(UNIT_FIELD_FLAGS_2, UNIT_FLAG2_FEIGN_DEATH) || chr->isDead())
     {
         handler->SendSysMessage(VIP_CANT_DO_2);
         handler->SetSentErrorMessage(true);
         return false;
     }
 	
-	if (!chr->GetSession()->IsPremium() && !chr->isGameMaster())
+	if (!chr->GetSession()->IsPremium() && !chr->IsGameMaster())
 	{
         handler->SendSysMessage(VIP_DONT_HAVE);
         handler->SetSentErrorMessage(true);
@@ -375,14 +375,14 @@ static bool HandleVipHomeCommand(ChatHandler* handler, const char* /*args*/)
     Player *chr = handler->GetSession()->GetPlayer();
 
     //Different Checks
-    if( chr->isInCombat() || chr->isInFlight() || chr->GetMap()->IsBattlegroundOrArena() || chr->HasStealthAura() || chr->HasFlag(UNIT_FIELD_FLAGS_2, UNIT_FLAG2_FEIGN_DEATH) || chr->isDead())
+    if( chr->IsInCombat() || chr->IsInFlight() || chr->GetMap()->IsBattlegroundOrArena() || chr->HasStealthAura() || chr->HasFlag(UNIT_FIELD_FLAGS_2, UNIT_FLAG2_FEIGN_DEATH) || chr->isDead())
     {
         handler->SendSysMessage(VIP_CANT_DO);
         handler->SetSentErrorMessage(true);
         return false;
     }
 	
-	if (!chr->GetSession()->IsPremium() && !chr->isGameMaster())
+	if (!chr->GetSession()->IsPremium() && !chr->IsGameMaster())
 	{
         handler->SendSysMessage(VIP_DONT_HAVE);
         handler->SetSentErrorMessage(true);
@@ -401,14 +401,14 @@ static bool HandleVipCapitalCommand(ChatHandler* handler, const char* /*args*/)
     Player *chr = handler->GetSession()->GetPlayer();
 
     //Different Checks
-    if( chr->isInCombat() || chr->isInFlight() || chr->GetMap()->IsBattlegroundOrArena() || chr->HasStealthAura() || chr->HasFlag(UNIT_FIELD_FLAGS_2, UNIT_FLAG2_FEIGN_DEATH) || chr->isDead())
+    if( chr->IsInCombat() || chr->IsInFlight() || chr->GetMap()->IsBattlegroundOrArena() || chr->HasStealthAura() || chr->HasFlag(UNIT_FIELD_FLAGS_2, UNIT_FLAG2_FEIGN_DEATH) || chr->isDead())
     {
         handler->SendSysMessage(VIP_CANT_DO);
         handler->SetSentErrorMessage(true);
         return false;
     }
 	
-	if (!chr->GetSession()->IsPremium() && !chr->isGameMaster())
+	if (!chr->GetSession()->IsPremium() && !chr->IsGameMaster())
 	{
         handler->SendSysMessage(VIP_DONT_HAVE);
         handler->SetSentErrorMessage(true);
