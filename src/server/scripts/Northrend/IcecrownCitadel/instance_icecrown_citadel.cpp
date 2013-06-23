@@ -31,6 +31,7 @@
 #include "WorldSession.h"
 #include "MapManager.h"
 #include "Transport.h"
+#include "Config.h"
 
 enum EventIds
 {
@@ -190,6 +191,7 @@ class instance_icecrown_citadel : public InstanceMapScript
             {
                 if (!TeamInInstance)
                     TeamInInstance = player->GetTeam();
+				if (sWorld->getBoolConfig(CONFIG_ICC_GUNSHIP))					
                     PrepareGunshipEvent(player); // Spawn Gunship Event
 
                 if (instance->IsHeroic())
@@ -786,7 +788,10 @@ class instance_icecrown_citadel : public InstanceMapScript
                 switch (type)
                 {
                     case DATA_LADY_DEATHWHISPER:
-                        // SetBossState(DATA_GUNSHIP_EVENT, state);    // TEMP HACK UNTIL GUNSHIP SCRIPTED
+
+						if (!sWorld->getBoolConfig(CONFIG_ICC_GUNSHIP)) 
+							SetBossState(DATA_GUNSHIP_EVENT, state);
+						
                         if (state == DONE)
                         {
                             if (GameObject* elevator = instance->GetGameObject(LadyDeathwisperElevatorGUID))

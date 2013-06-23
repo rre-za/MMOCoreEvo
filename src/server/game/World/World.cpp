@@ -693,6 +693,8 @@ void World::LoadConfigSettings(bool reload)
 	m_bool_configs[CONFIG_LEVELNPC_USETOKENS]		=	ConfigMgr::GetBoolDefault("LevelNPC.UseTokens", true);
 	m_int_configs[CONFIG_LEVELNPC_ITEMENTRYNUM]		=	ConfigMgr::GetIntDefault("LevelNPC.ItemEntryNum",0);
 	m_int_configs[CONFIG_LEVELNPC_SKILLGOLDCOST]	=	ConfigMgr::GetIntDefault("LevelNPC.SkillGoldCost",0);	
+	//Disable Gunship
+	m_bool_configs[CONFIG_ICC_GUNSHIP]			=	ConfigMgr::GetBoolDefault("ICCGunship.Enable", true);
 	//MMO Custom end	
 
     m_int_configs[CONFIG_MIN_PLAYER_NAME]                     = ConfigMgr::GetIntDefault ("MinPlayerName",  2);

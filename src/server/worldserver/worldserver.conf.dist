@@ -3328,3 +3328,13 @@ Arena.Spectators.Enable = 0
 
 Rate.XP.Weekend = 1.5
 Rate.XP.Weekend.EVID = 65
+
+###################################################################################################################
+#    ICCGunship.Enable
+#        Description: Enable/Disable Gunship Event until its stable
+#        Default:     0 - (Disabled)
+#                     1 - (Enabled)
+#
+###################################################################################################################
+
+ICCGunship.Enable = 1
