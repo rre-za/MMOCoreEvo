@@ -3,9 +3,9 @@
 CREATE TABLE IF NOT EXISTS `guildhouses` (
   `id` int(16) unsigned NOT NULL AUTO_INCREMENT,
   `guildId` bigint(20) NOT NULL DEFAULT '0',
-  `x` double NOT NULL,
-  `y` double NOT NULL,
-  `z` double NOT NULL,
+  `x` float NOT NULL,
+  `y` float NOT NULL,
+  `z` float NOT NULL,
   `map` int(16) NOT NULL,
   `comment` varchar(255) NOT NULL DEFAULT '',
   `price` bigint(20) NOT NULL DEFAULT '1000000000',

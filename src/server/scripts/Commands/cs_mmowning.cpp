@@ -291,7 +291,7 @@ static bool HandleGHCommand(ChatHandler* handler, const char* args)
         
 
         chr->SaveRecallPosition();
-        chr->TeleportTo(map, x, y, z, 1.276612f);
+        chr->TeleportTo(map, x, y, z, 0);
         chr->SaveToDB();
         return true;
 }
