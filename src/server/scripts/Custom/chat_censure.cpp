@@ -66,18 +66,18 @@ class System_Censure : public PlayerScript
         checks[7] ="wow-";
         checks[8] ="-wow";
         checks[9] =".pl";
-        // Polskie przekleñstwa (Polish curses)
-        checks[10] ="chuj";
-        checks[11] ="huj";
-        checks[12] ="kurw";
-        checks[13] ="jeba";
-        checks[14] ="cipa";
-        checks[15] ="gej";
-        checks[16] ="cwel";
-        checks[17] ="pizd";
-        checks[18] ="pierdo";
-        checks[19] ="spierd";
-        checks[20] ="zjeb";
+        // Persian ( farsi )
+        checks[10] ="kir";
+        checks[11] ="kos";
+        checks[12] ="k0s";
+        checks[13] ="madar";
+        checks[14] ="jende";
+        checks[15] ="kooni";
+        checks[16] ="kosde";
+        checks[17] ="k0sde";
+        checks[18] ="nanat";
+        checks[19] ="koskesh";
+        checks[20] ="k0skesh";
         checks[21] ="wypierdalaj";
         checks[22] ="kutas";
         // English curses
@@ -101,7 +101,7 @@ class System_Censure : public PlayerScript
              if (lower.find(checks[i]) != std::string::npos)
              {
                  msg = "";
-                 ChatHandler(player->GetSession()).PSendSysMessage("Advertising and vulgar behavior is not allowed!");
+                 ChatHandler(player->GetSession()).PSendSysMessage("Tablighat Va Fahashi Mamnoo Mibashad!!!");
                  return;
              }
     }

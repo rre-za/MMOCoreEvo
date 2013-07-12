@@ -67,11 +67,11 @@ enum Models
     MODEL_MONSTER               = 20736
 };
 
-#define LM_YELL_AGGRO       "Sendet sie zur Hölle!"
-#define LM_YELL_KILL        "Stirb!!"
-#define LM_YELL_DIE         "Oh nein... ich... sterbe..."
-#define LM_YELL_BERSERK     "Spürt meine Wut!"
-#define LM_YELL_ENFURECIDO  "Genug ist genug!!"
+#define LM_YELL_AGGRO       "Sends them to hell!"
+#define LM_YELL_KILL        "Die!!"
+#define LM_YELL_DIE         "Oh no ... I ... die..."
+#define LM_YELL_BERSERK     "Feel my anger!"
+#define LM_YELL_ENFURECIDO  "Enough is enough!!"
 
 class npc_legion_master : public CreatureScript
 {

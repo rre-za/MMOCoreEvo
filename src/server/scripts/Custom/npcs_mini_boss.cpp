@@ -26,10 +26,10 @@ enum LikantropoSpells
 };
 
 // Likantropo yells
-#define SAY_LIKANTROPO_AGGRO "Eindringlinge ! Ihr sollt meine Sklaven werden"
-#define SAY_LIKANTROPO_SLAY "Ich werde langsam wütend"
-#define SAY_LIKANTROPO_DEATH "Neeeein! Das ist unmöglich..."
-#define SAY_LIKANTROPO_MORPH "Das werdet ihr bereuen"
+#define SAY_LIKANTROPO_AGGRO "Invaders! You shall be my slave"
+#define SAY_LIKANTROPO_SLAY "I'm getting angry"
+#define SAY_LIKANTROPO_DEATH "Nooooooooooo! That's impossible ..."
+#define SAY_LIKANTROPO_MORPH "That you will regret"
 
 enum LavaBoostSpells
 {
@@ -46,9 +46,9 @@ enum LavaBoostSpells
 };
 
 // Lava Boost yells
-#define SAY_LAVA_AGGRO "Ihr wagt es der Wut der Elemente zu trotzen ?!"
-#define SAY_LAVA_SLAY "Schockierend!"
-#define SAY_LAVA_DEATH "Natur - Warum hast du mich verlassen ?"
+#define SAY_LAVA_AGGRO "You dare to brave the fury of the elements ?!"
+#define SAY_LAVA_SLAY "shocking!"
+#define SAY_LAVA_DEATH "Nature - Why did you leave me ?"
 #define SAY_LAVA_BLOOD "Bloodlust!"
 
 enum QuelNagasSpells
@@ -63,9 +63,9 @@ enum QuelNagasSpells
 };
 
 // Quel'Nagas yells
-#define SAY_NAGAS_AGGRO "Ihr werdet dem Abgrund entgegenblicken!"
-#define SAY_NAGAS_SLAY "Könnt ihr mithalten?!"
-#define SAY_NAGAS_DEATH "Ich kann es nicht glauben!"
+#define SAY_NAGAS_AGGRO "You will look towards the abyss!"
+#define SAY_NAGAS_SLAY "Knnt keep their?!"
+#define SAY_NAGAS_DEATH "I can not believe it!"
 #define SAY_NAGAS_SUMMON "Murlocs!"
 
 enum SylvanasSpells
@@ -81,10 +81,10 @@ enum SylvanasSpells
 };
 
 // Might of Sylvanas yells
-#define SAY_SYLVANAS_AGGRO "Die Quel'Dorei werden niemals untergehen!"
+#define SAY_SYLVANAS_AGGRO "The Quel'dorei will never go down!"
 #define SAY_SYLVANAS_SLAY "Shorel'aran!"
-#define SAY_SYLVANAS_DEATH "Ich werde zurückkehren"
-#define SAY_SYLVANAS_ICE "Ein wenig Tod gefällig?"
+#define SAY_SYLVANAS_DEATH "I will return"
+#define SAY_SYLVANAS_ICE "A little death feeling totally ?"
 
 enum TrollzillaSpells
 {
@@ -96,10 +96,10 @@ enum TrollzillaSpells
 };
 
 // Trollzilla yells
-#define SAY_TROLLZILLA_AGGRO "Ich... euch... zerstören..."
-#define SAY_TROLLZILLA_SLAY "Hakkar... Für euch..."
+#define SAY_TROLLZILLA_AGGRO "I ... you ... destroy..."
+#define SAY_TROLLZILLA_SLAY "Hakkar ... For you ..."
 #define SAY_TROLLZILLA_DEATH "Hakk... aaaa...rrr...."
-#define SAY_TROLLZILLA_FRENZY "Ich... langsam... WÜTEND!"
+#define SAY_TROLLZILLA_FRENZY "I ... slow ... angry!"
 
 enum PerotharnSpells
 {
@@ -112,10 +112,10 @@ enum PerotharnSpells
 };
 
 // Perotharn yells
-#define SAY_PEROTHARN_AGGRO "Ich werde euch als Geschenk ansehen und töten!"
-#define SAY_PEROTHARN_SLAY "Bald wirst du einer von uns sein!"
-#define SAY_PEROTHARN_DEATH "Meister... vergib mir..."
-#define SAY_PEROTHARN_SOUL "Meister, hier kommen eure Seelen!"
+#define SAY_PEROTHARN_AGGRO "I will watch as a gift and kill!"
+#define SAY_PEROTHARN_SLAY "Soon you'll be one of us!"
+#define SAY_PEROTHARN_DEATH "Master ... forgive me..."
+#define SAY_PEROTHARN_SOUL "Master, here come your souls!"
 
 enum UznamSpells
 {
@@ -127,11 +127,11 @@ enum UznamSpells
 };
 
 // Uznam yells
-#define SAY_UZNAM_AGGRO "Wer entweiht mein Heiligtum?"
-#define SAY_UZNAM_SLAY "Ihr währt eine würdige Trophäe."
-#define SAY_UZNAM_DEATH "Auferstanden? Mir dürstet nach Blut"
-#define SAY_UZNAM_SPECIAL "Ich werde etwas müde."
-#define EMOTE_WHIRL "Mögen die Stürme beginnen!"
+#define SAY_UZNAM_AGGRO "Who defiled my sanctuary?"
+#define SAY_UZNAM_SLAY "Your ws leads a worthy Troph."
+#define SAY_UZNAM_DEATH "Resurrected? I thirst for blood"
+#define SAY_UZNAM_SPECIAL "I'm getting a little tired."
+#define EMOTE_WHIRL "Stomachs begin the storms!"
 
 
 /*#########

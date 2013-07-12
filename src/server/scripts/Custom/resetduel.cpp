@@ -8,7 +8,7 @@ class Reset_OnDuelEnd : public PlayerScript
     void OnDuelEnd(Player *winner, Player *looser, DuelCompleteType type)
     {
         // reset cooldowns in zone 0, 41 and 616
-                if (winner->GetZoneId() == 0 || winner->GetZoneId() == 41 || winner->GetZoneId() == 616)
+                if (winner->GetZoneId() == 0 || winner->GetZoneId() == 41 || winner->GetZoneId() == 440)
                 {
                         winner->RemoveArenaSpellCooldowns();
                         looser->RemoveArenaSpellCooldowns();

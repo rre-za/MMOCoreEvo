@@ -1,7 +1,7 @@
 #include "ScriptPCH.h"
 #include "Config.h"
 
-#define GOSSIP_BUY_TICKET           "Ticket kaufen."
+#define GOSSIP_BUY_TICKET           "Buy a ticket."
 #define EVENT_LOTTERY               132
 
 
@@ -16,14 +16,14 @@ public:
         {
             if (player->getLevel() >= uint32(sWorld->getIntConfig(CONFIG_LOTTERY_MINLVL)) && player->GetMoney() >= uint32(sWorld->getIntConfig(CONFIG_LOTTERY_BETCOST)))
             {
-				pCreature->MonsterWhisper("Hallo MMOler. Möchtest du dein Glück versuchen? Es ist ganz einfach - Gib mir 5 Zahlen von 1 bis 30 (durch Leerzeichen getrennt), sowie die Kosten für die Teilnahme und warten auf die Ziehung.");
+				pCreature->MonsterWhisper("Hello JustWoWer. Do you want to try your luck? It's simple - Give me 5 numbers from 1 to 30 (separated by spaces), as well as the cost of attendance and wait for the draw.");
                 player->PrepareGossipMenu(pCreature);
                 player->ADD_GOSSIP_ITEM_EXTENDED(0, GOSSIP_BUY_TICKET, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF, "", 0, true);
                 player->SEND_GOSSIP_MENU(player->GetGossipTextId(pCreature), pCreature->GetGUID());
             }
             else
             {
-                std::string wh = ("Du hast nicht genug Gold (erfordert 80 Gold oder dein Level ist noch nicht hoch genug (erfordert Level 60");
+                std::string wh = ("You do not have enough gold (requires 80 gold, or your level is not high enough (requires level 60");
                 pCreature->MonsterWhisper(wh.c_str(), player->GetGUID());
             }
         }
@@ -43,9 +43,9 @@ public:
                     std::string strCode = (char*)code;
                     char * tmp;
                     int32 number[5];
-                    std::string error = ("Du hast eine ungültige Zahl eingegeben. Die Zahlen müssen im Bereich von 1 bis 30");
-                    std::string errordub = ("Du hast bereits auf die nächste Ziehung gesetzt");
-                    std::string numbers = ("Du hast auf folgende Zahlen getippt " + std::string(strCode));
+                    std::string error = ("You have entered an invalid number. The numbers have the range 1 to 30");
+                    std::string errordub = ("You have already added to the next draw");
+                    std::string numbers = ("You have typed on the following numbers " + std::string(strCode));
 
                     tmp = strtok (charCode," ");
                     for (int8 n = 0; n < 5; ++n)
@@ -211,7 +211,7 @@ public:
 
                             Player *pWinner = sObjectMgr->GetPlayerByLowGUID(guid);
                             SQLTransaction trans = CharacterDatabase.BeginTransaction();
-                            MailDraft("Gewonnen", "Herzlichen Glückwunsch! Du hast auf die richtigen Zahlen gesetzt!")
+                            MailDraft("Won "," Congratulations! You have chosen the right numbers!")
                                 .AddMoney(cash)
                                 .SendMailTo(trans, MailReceiver(pWinner, GUID_LOPART(guid)), MailSender(MAIL_NORMAL, 0, MAIL_STATIONERY_GM));
                             CharacterDatabase.CommitTransaction(trans);
@@ -246,7 +246,7 @@ public:
 
                                     Player *pJPWinner = sObjectMgr->GetPlayerByLowGUID(JPguid);
                                     SQLTransaction trans = CharacterDatabase.BeginTransaction();
-                                    MailDraft("Jackpot!", "WoW! Du hast einfach massig Glück! Herzlichen Glückwunsch")
+                                    MailDraft("Jackpot!", "WoW! You just moderately lucky! Congratulations")
                                         .AddMoney(jackpot = 0 ? uint64(betMaxID * sWorld->getIntConfig(CONFIG_LOTTERY_BETCOST) * 0.7f) : jackpot)
                                         .SendMailTo(trans, MailReceiver(pJPWinner, GUID_LOPART(JPguid)), MailSender(MAIL_NORMAL, 0, MAIL_STATIONERY_GM));
                                     CharacterDatabase.CommitTransaction(trans);

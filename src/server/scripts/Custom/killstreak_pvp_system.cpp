@@ -6,7 +6,7 @@
 
 float Version = 2.50f; //Don't touch this.
 bool PvPSystemEnabled = true; //Set to false if you want to disable the PvP System
-bool OnlyInBattlegrounds = false; //Set to true if you want to enable this only in battlegrounds.
+bool OnlyInBattlegrounds = true; //Set to true if you want to enable this only in battlegrounds.
 bool LooseTokenOnPvPDeath = false; //Set to true if you want the victim to loose tokens when the victim dies.
 int32 AmountOfItemsYouWantTheVictimToLoose = 1; //Amount of items you want the victim to loose when victim dies.
 bool AddTokenOnPvPKill = true; //Set to false if you don't want the killer to be rewarded.

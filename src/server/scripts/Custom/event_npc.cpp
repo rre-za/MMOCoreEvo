@@ -65,11 +65,11 @@ enum eEnums
     GO_ICE_DOOR_2                                    =201911,
 };
 
-#define FIRE_SAY_AGGRO                                "Ihr habt hier nichts zu suchen!"
-#define FIRE_SAY_FRENZY                               "Wur macht mich stärker!"
-#define FIRE_SAY_SUMMON_TITAN                         "Helft mir, Diener!"
-#define FIRE_SAY_KILL                                 "Euer Ende"
-#define FIRE_SAY_DIE                                  "Dieser Moment... Ihr hattet Glück..."
+#define FIRE_SAY_AGGRO                                "U Have No Bussiness here!!"
+#define FIRE_SAY_FRENZY                               "Were makes me stronger!"
+#define FIRE_SAY_SUMMON_TITAN                         "Help me, servant!"
+#define FIRE_SAY_KILL                                 "Your end"
+#define FIRE_SAY_DIE                                  "This time ... You were lucky..."
 
 class event_npc_firelord : public CreatureScript
 {
@@ -317,11 +317,11 @@ class event_npc_firelord : public CreatureScript
 
 };
 
-#define ICE_SAY_AGGRO                                "Ihr seid sicher, dass ihr mich bekämpfen wollt?"
-#define ICE_SAY_KILL                                 "Ein nutzloses Stück Eis seid ihr!"
-#define ICE_SAY_DIE                                  "Niemals! Ich war unsterblich..."
+#define ICE_SAY_AGGRO                                "Are you sure you want to fight me?"
+#define ICE_SAY_KILL                                 "A useless piece of ice you are!"
+#define ICE_SAY_DIE                                  "Never! I was immortal..."
 
-#define EMOTE_ICE_SHIELD_ICE                         "Eine Kruste aus Eis schützt Alcides"
+#define EMOTE_ICE_SHIELD_ICE                         "A crust of ice protects Alcides"
 
 class event_npc_icelord : public CreatureScript
 {
@@ -486,10 +486,10 @@ class event_npc_icelord : public CreatureScript
 
 };
 
-#define EARTH_SAY_AGGRO                               "Ihr hättet nichthierher kommen sollen! Dieser Ort wird euer Grab sein!"
-#define EARTH_EMOTE_NATURE                            "Acrylic füllt sich mit der Macht der Erde"
-#define EARTH_SAY_KILL                                "Zurück in den Boden mit euch!"
-#define EARTH_SAY_DIE                                 "Erde... Hilf mir..."
+#define EARTH_SAY_AGGRO                               "You would not have come here! This place will be your grave!"
+#define EARTH_EMOTE_NATURE                            "Acrylic filled with the power of the earth"
+#define EARTH_SAY_KILL                                "Back into the ground with you!"
+#define EARTH_SAY_DIE                                 "Earth ... Help me ..."
 
 class event_npc_earthlord : public CreatureScript
 {
@@ -661,11 +661,11 @@ class event_npc_earthlord : public CreatureScript
 
 };
 
-#define DARK_SAY_AGGRO                                "Besucher? So unerwartet..."
-#define DARK_SAY_FRENZY                               "Ja! Eure Wut gibt mir Kraft!"
-#define DARK_SAY_SUMMON                               "Achtet auf die Seelen, die hier vor euch gewesen sind."
-#define DARK_SAY_KILL                                 "Deine Seele wird zu meiner Armee gehören!"
-#define DARK_SAY_DIE                                  "Ich bin zu alt für Schlachten wie diese..."
+#define DARK_SAY_AGGRO                                "Visitors? So unexpected ..."
+#define DARK_SAY_FRENZY                               "Yes! Your anger gives me strength!"
+#define DARK_SAY_SUMMON                               "Watch out for the souls who have been here before you."
+#define DARK_SAY_KILL                                 "Your soul will belong to my army!"
+#define DARK_SAY_DIE                                  "I'm too old for battles like this..."
 
 class event_npc_darklord : public CreatureScript
 {
@@ -1305,5 +1305,3 @@ void AddSC_event_npc()
     new event_dk();
     new event_warrior();
 }
-
-// © gmlt.A [worldofwarcraft.by]

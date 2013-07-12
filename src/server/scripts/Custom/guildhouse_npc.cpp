@@ -3,23 +3,23 @@
 
 extern CharacterDatabaseWorkerPool CharacterDatabase;
 
-#define MSG_GOSSIP_TELE          "Zum Gildenhaus teleportieren"
-#define MSG_GOSSIP_BUY           "Gildenhaus Kaufen (100.000 gold)"
-#define MSG_GOSSIP_SELL          "Gildenhaus Verkaufen (50.000 gold)"
-#define MSG_GOSSIP_NEXTPAGE      "Weiter -->"
-#define MSG_INCOMBAT             "Bitte beende vorher deinen Kampf!"
-#define MSG_NOGUILDHOUSE         "Deine Gilde besitzt kein Gildenhaus"
-#define MSG_NOFREEGH             "Momentan sind leider keine Gildenhaeuser mehr frei"
-#define MSG_ALREADYHAVEGH        "Deine Gilde hat bereits ein Gildenhaus (%s)."
-#define MSG_NOTENOUGHMONEY       "Du hast die benoetigten %u gold um ein Gildenhaus zu kaufen."
-#define MSG_GHOCCUPIED           "Leider ist das Gildenhaus bereits belegt"
-#define MSG_CONGRATULATIONS      "Gratulation! Das Gildenhaus wurde erstellt"
-#define MSG_SOLD                 "Dein Gildenhaus wurde verkauft, du kannst jetzt ein neues kaufen!"
-#define MSG_NOTINGUILD           "Du bist in keiner Gilde"
-#define MSG_NO_TOKEN                 "Du brauchst einen Gildenhaus Token um dir Liste anzusehen."
+#define MSG_GOSSIP_TELE          "Teleport to Guild Hall"
+#define MSG_GOSSIP_BUY           "Guild House For Sale (100.000 gold)"
+#define MSG_GOSSIP_SELL          "Guild House Sale (50.000 gold)"
+#define MSG_GOSSIP_NEXTPAGE      "more -->"
+#define MSG_INCOMBAT             "Please finish before your fight!"
+#define MSG_NOGUILDHOUSE         "Your guild does not have a guild house"
+#define MSG_NOFREEGH             "We currently have no more free Guild Houses"
+#define MSG_ALREADYHAVEGH        "Your guild has a guild house (%s)."
+#define MSG_NOTENOUGHMONEY       "You have the needed %u gold to buy a guild hall."
+#define MSG_GHOCCUPIED           "Unfortunately, the guild house is already occupied"
+#define MSG_CONGRATULATIONS      "Congratulations! The Guildhall was created"
+#define MSG_SOLD                 "Your guild house was sold, you can now buy a new!"
+#define MSG_NOTINGUILD           "You are not in a guild"
+#define MSG_NO_TOKEN             "You need a guild house to see some token list view."
 
 #define CODE_SELL "SELL"
-#define MSG_CODEBOX_SELL "Tippe \"" CODE_SELL "\" wenn du dein Gildenhaus WIRKLICH verkaufen moechtest.."
+#define MSG_CODEBOX_SELL "Type \"" CODE_SELL "\" if you would like your guild house REALLY sell.."
 
 #define OFFSET_GH_ID_TO_ACTION 1500
 #define OFFSET_SHOWBUY_FROM 10000

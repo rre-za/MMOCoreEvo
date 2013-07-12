@@ -38,7 +38,7 @@ public:
 
 		void EnterCombat(Unit* /*who*/)
         {
-			me->MonsterSay("I would not have done that if I was in your place...", LANG_UNIVERSAL, 0);
+			me->MonsterSay("Age Man Jaye To Budam iNkaro nemikardam...!", LANG_UNIVERSAL, 0);
 			for(int i = 0; i < 19; i++)
 				{
 					me->SummonCreature(NPC_DALARAN_SQUIRREL_SUMMON, me->GetPositionX(), me->GetPositionY(), me->GetPositionZ());
