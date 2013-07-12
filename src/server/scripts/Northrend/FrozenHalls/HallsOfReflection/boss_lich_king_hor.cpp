@@ -53,13 +53,13 @@ enum
    SPELL_VOMIT_SPRAY                  = 70176,
    H_SPELL_VOMIT_SPRAY                = 70181,
 
-   SAY_LICH_KING_WALL_01              = -1594486,
-   SAY_LICH_KING_WALL_02              = -1594491,
-   SAY_LICH_KING_GNOUL                = -1594482,
-   SAY_LICH_KING_ABON                 = -1594483,
-   SAY_LICH_KING_WINTER               = -1594481,
-   SAY_LICH_KING_END_DUN              = -1594504,
-   SAY_LICH_KING_WIN                  = -1594485,
+   SAY_LICH_KING_WALL_01              = 0,
+   SAY_LICH_KING_WALL_02              = 1,
+   SAY_LICH_KING_GNOUL                = 2,
+   SAY_LICH_KING_ABON                 = 3,
+   SAY_LICH_KING_WINTER               = 4,
+   SAY_LICH_KING_END_DUN              = 5,
+   SAY_LICH_KING_WIN                  = 6,
 };
 
 class boss_lich_king_hor : public CreatureScript
@@ -425,7 +425,7 @@ public:
            ScriptedAI::AttackStart(who);
        }
 
-       void UpdateAI(const uint32 diff)
+       void UpdateAI(uint32 diff)
        {
            if(!pInstance)
                return;
@@ -529,7 +529,7 @@ public:
            ScriptedAI::AttackStart(who);
        }
 
-       void UpdateAI(const uint32 diff)
+       void UpdateAI(uint32 diff)
        {
            if(!pInstance)
                return;
@@ -617,7 +617,7 @@ public:
            uiStrikeTimer = 6000;
        }
 
-       void UpdateAI(const uint32 diff)
+       void UpdateAI(uint32 diff)
        {
            if(!pInstance) return;
 

@@ -62,8 +62,8 @@ void AddSC_top5_killers();
 //void AddSC_ItemRequester();
 //Profession NPC
 void AddSC_professionnpc();
-//Pryds All-in-One
-void AddSC_pryds_allinone();
+//JustWoW All-in-One
+void AddSC_JustWoW_allinone();
 //Mini Boss
 void AddSC_npcs_mini_boss();
 //Fake Players
@@ -1418,8 +1418,8 @@ void AddCustomScripts()
 	//AddSC_ItemRequester();
 	//Profession NPC
 	AddSC_professionnpc();
-	//Pryds All-in-One
-	AddSC_pryds_allinone();
+	//JustWoW All-in-One
+	AddSC_JustWoW_allinone();
 	//Mini Boss
 	AddSC_npcs_mini_boss();
 	//Fake Players

@@ -3096,52 +3096,52 @@ Rate.XP.Explore.Premium = 1
 ###################################################################################################################
 # AllInOne custom config options
 #
-#    pryds_allinone.OnlyGMs
+#    JustWoW_allinone.OnlyGMs
 #        players are not allowed to use the NPC if this is enabled
 #        Default: 0 - disable
 #                 1 - enable
 #
-#    pryds_allinone.EnableAllInOneSmallBuff
+#    JustWoW_allinone.EnableAllInOneSmallBuff
 #        An option will be added to the gossip menu to Buff Players with SmallBuff
 #        Default: 1 - enable
 #                 0 - disable
 #
-#    pryds_allinone.EnableAllInOneGreatBuff
+#    JustWoW_allinone.EnableAllInOneGreatBuff
 #        An option will be added to the gossip menu to Buff Players with GreatBuff
 #        Default: 1 - enable
 #                 0 - disable
 #
-#    pryds_allinone.EnableAllInOneGMBuff
+#    JustWoW_allinone.EnableAllInOneGMBuff
 #        An option will be added to the gossip menu to Buff GM whit GMBuff
 #        Default: 1 - enable
 #                 0 - disable
 #
-#    pryds_allinone.EnableTrainers
+#    JustWoW_allinone.EnableTrainers
 #        An option will be added to the gossip menu for Trainers
 #        Default: 1 - enable
 #                 0 - disable
 #
-#    pryds_allinone.EnableMorph
+#    JustWoW_allinone.EnableMorph
 #        An option will be added to the gossip menu for Morph, 13 Famous and 13 Funny
 #        Default: 1 - enable
 #                 0 - disable
 #
-#    pryds_allinone.EnableBots CURRENTLY UNDER DEVELOPMENT NOT USED
+#    JustWoW_allinone.EnableBots CURRENTLY UNDER DEVELOPMENT NOT USED
 #        An option will be added to the gossip menu for the bot system
 #        Default: 1 - enable
 #                 0 - disable
 #
-#    pryds_allinone.EnableAllInOnePlayerTools
+#    JustWoW_allinone.EnableAllInOnePlayerTools
 #        An option will be added to the gossip menu for Player to give heal, food, mana gem
 #        Default: 1 - enable
 #                 0 - disable
 #
-#    pryds_allinone.EnableAllInOneGivemeGold
+#    JustWoW_allinone.EnableAllInOneGivemeGold
 #        An option will be added to the gossip menu for Player to get 5000g gold
 #        Default: 0 - disable
 #                 1 - enable
 #
-#    pryds_allinone.EnableAllInOneRemoveResSickness
+#    JustWoW_allinone.EnableAllInOneRemoveResSickness
 #        An option will be added to the gossip menu for removing resurrect sickness
 #        Default: 1 - enable
 #                 0 - disable
@@ -3150,69 +3150,69 @@ Rate.XP.Explore.Premium = 1
 #        An option will be added to the gossip menu for Buff Cost. Make sure to change the GoldCost whit the GoldCost you wanna pay.
 #        Default: 2 - GoldCost = 20000 Copper
 #
-#    pryds_allinone.EnableAllInOneProfessions
+#    JustWoW_allinone.EnableAllInOneProfessions
 #        An option will be added to the gossip menu to up your Professions
 #        Default: 1 - enable
 #                 0 - disable
 #
-#    pryds_allinone.EnableAllInOneSecondarySkills
+#    JustWoW_allinone.EnableAllInOneSecondarySkills
 #        An option will be added to the gossip menu to up your SecondarySkills
 #        Default: 1 - enable
 #                 0 - disable
 #
 #
-#    pryds_allinone.EnableClassTrainers
+#    JustWoW_allinone.EnableClassTrainers
 #        An option will be added to the gossip menu to up your ClassTrainers
 #        Default: 1 - enable
 #                 0 - disable
 #
-#    pryds_allinone.EnableProfessionsTrainers
+#    JustWoW_allinone.EnableProfessionsTrainers
 #        An option will be added to the gossip menu to up your ProfessionsTrainers
 #        Default: 1 - enable
 #                 0 - disable
 #
-#    pryds_AllInOneSkillPoints
+#    JustWoW_AllInOneSkillPoints
 #        An option will be added to the gossip menu for SkillPoints you get from npc. Make sure to change the SkillPoints with the skillpoints you wanna get.
 #        Default: 5 - SkillPoints
 #
-#    pryds_AllInOneSkillGoldCost
+#    JustWoW_AllInOneSkillGoldCost
 #        An option will be added to the gossip menu for SkillPoints Cost. Make sure to change the GoldCost whit the GoldCost you wanna pay.
 #        Default: 2 - GoldCost = 20000 Copper
 #
 ###################################################################################################################
 
 #For GMs Only?
-pryds_allinone.OnlyGMs = 0
+JustWoW_allinone.OnlyGMs = 0
 
 #Main Menu Can be changed while server is online
-pryds_allinone.EnableBuffs = 1
-pryds_allinone.EnableProfessionsSkillUp = 1
-pryds_allinone.EnableTrainers = 1
-pryds_allinone.EnableMorph = 1
-pryds_allinone.EnableBots = 0 #CURRENTLY UNDER DEVELOPMENT NOT USED
-pryds_allinone.EnablePlayerTools = 1
-pryds_allinone.EnableRemoveResSickness = 1
+JustWoW_allinone.EnableBuffs = 1
+JustWoW_allinone.EnableProfessionsSkillUp = 1
+JustWoW_allinone.EnableTrainers = 1
+JustWoW_allinone.EnableMorph = 1
+JustWoW_allinone.EnableBots = 0 #CURRENTLY UNDER DEVELOPMENT NOT USED
+JustWoW_allinone.EnablePlayerTools = 1
+JustWoW_allinone.EnableRemoveResSickness = 1
 
 #Sub Menu Can be changed while server is online
-pryds_allinone.EnableSmallBuff = 1
-pryds_allinone.EnableGreatBuff = 1
-pryds_allinone.EnableGMBuff = 1
+JustWoW_allinone.EnableSmallBuff = 1
+JustWoW_allinone.EnableGreatBuff = 1
+JustWoW_allinone.EnableGMBuff = 1
 
 #Sub Menu Can be changed while server is online
-pryds_allinone.EnableProfessions = 1
-pryds_allinone.EnableSecondarySkills = 1
+JustWoW_allinone.EnableProfessions = 1
+JustWoW_allinone.EnableSecondarySkills = 1
 
 #Sub Menu Can be changed while server is online
-pryds_allinone.EnableClassTrainers = 1
-pryds_allinone.EnableProfessionsTrainers = 1
+JustWoW_allinone.EnableClassTrainers = 1
+JustWoW_allinone.EnableProfessionsTrainers = 1
 
 #Sub Menu Can be changed while server is online
-pryds_allinone.EnableGivemeGold = 1
+JustWoW_allinone.EnableGivemeGold = 1
 
 #Cost Can be changed while server is online
-pryds_AllInOneBuffGoldCost = 20000
-pryds_AllInOneSkillGoldCost = 20000
-pryds_AllInOneSkillPoints = 5
+JustWoW_AllInOneBuffGoldCost = 20000
+JustWoW_AllInOneSkillGoldCost = 20000
+JustWoW_AllInOneSkillPoints = 5
 
 ###################################################################################################################
 #     LevelNPC.OnlyGMs
